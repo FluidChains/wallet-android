@@ -26,9 +26,22 @@ public class AddIssuerActivity extends LMSingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        String issuerUrlString = getIntent().getStringExtra(EXTRA_ISSUER_URL);
-        String nonce = getIntent().getStringExtra(EXTRA_ISSUER_NONCE);
+
+        String issuerUrlString;
+        String nonce;
+
+        Uri data = getIntent().getData();
+
+        if (data == null) {
+            issuerUrlString = getIntent().getStringExtra(EXTRA_ISSUER_URL);
+            nonce = getIntent().getStringExtra(EXTRA_ISSUER_NONCE);
+        } else {
+            issuerUrlString = data.getScheme() +"://" + data.getHost();
+            nonce = data.getQueryParameter("otc");
+        }
+
         mLastFragment = AddIssuerFragment.newInstance(issuerUrlString, nonce);
+
         return mLastFragment;
     }
 
