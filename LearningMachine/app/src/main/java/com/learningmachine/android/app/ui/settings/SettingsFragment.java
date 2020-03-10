@@ -18,6 +18,7 @@ import com.learningmachine.android.app.data.inject.Injector;
 import com.learningmachine.android.app.databinding.FragmentSettingsBinding;
 import com.learningmachine.android.app.ui.LMFragment;
 import com.learningmachine.android.app.ui.LMWebActivity;
+import com.learningmachine.android.app.ui.home.AboutActivity;
 import com.learningmachine.android.app.ui.cert.AddCertificateActivity;
 import com.learningmachine.android.app.ui.issuer.AddIssuerActivity;
 import com.learningmachine.android.app.ui.onboarding.OnboardingActivity;
@@ -138,6 +139,13 @@ public class SettingsFragment extends LMFragment {
             String actionBarTitle = getString(R.string.settings_privacy_policy);
             String endPoint = getString(R.string.settings_privacy_policy_endpoint);
             Intent intent = LMWebActivity.newIntent(getContext(), actionBarTitle, endPoint);
+            startActivity(intent);
+        });
+
+        binding.settingsAbout.setOnClickListener(v -> {
+            Timber.i("About tapped in settings");
+            String actionBarTitle = getString(R.string.settings_about);
+            Intent intent = AboutActivity.newIntent(getContext(), actionBarTitle);
             startActivity(intent);
         });
 

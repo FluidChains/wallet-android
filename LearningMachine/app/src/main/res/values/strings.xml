@@ -105,6 +105,7 @@
     <string name="certificate_delete_button">Delete Credential</string>
 
     <!-- Settings -->
+    <string name="settings_about" translatable="false">About Fluidcerts</string>
     <string name="settings_add_issuer">Add Issuer</string>
     <string name="settings_add_credential">Add Credential</string>
     <string name="settings_reveal_passphrase">My Passphrase</string>
@@ -116,7 +117,6 @@
     <string name="settings_logout_title">Log out and Clear Device</string>
     <string name="settings_logout_message">Logging out will remove all of your credentials and any stored passphrases on this device.</string>
     <string name="settings_logout_button_title">Log out</string>
-
 
 
     <!-- Add Issuer / Add Certificate -->
@@ -133,7 +133,6 @@
     <!-- Share certificate -->
     <string name="fragment_certificate_share_url_button_title">Share Link</string>
     <string name="fragment_certificate_share_file_button_title">Share File</string>
-
 
 
     <!-- Dialog Error Messages -->
@@ -228,5 +227,8 @@
 
     <!--SAML login title-->
     <string name="login_to_issuer">Log In To Issuer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

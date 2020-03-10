@@ -15,7 +15,6 @@
             tools:context="com.learningmachine.android.app.ui.settings.SettingsActivity">
 
 
-
             <TextView
                 android:id="@+id/settings_add_issuer_text_view"
                 android:layout_width="match_parent"
@@ -124,6 +123,20 @@
                 android:layout_height="1dp"
                 android:background="@color/off_white_background"/>
 
+            <TextView
+                android:id="@+id/settings_about"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/settings_about"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
+                style="@style/Text.Title.2"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white_background"/>
 
         </LinearLayout>
 
