@@ -13,7 +13,7 @@ import static com.learningmachine.android.app.data.url.LaunchType.ADD_ISSUER;
 
 public class SplashUrlDecoder {
     private static final String ADD_ISSUER_PATH = "add-issuer";
-    private static final String ADD_CERT_PATH = "import-certificate/";
+    private static final String ADD_CERT_PATH = "import-certificate";
 
     public static LaunchData getLaunchType(String launchUri) {
 
