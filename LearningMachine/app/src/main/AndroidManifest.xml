@@ -33,7 +33,6 @@
             <intent-filter>
                 <data
                     android:host="certs-test.exos.to"
-                    android:pathPrefix="/client-links/add-issuer"
                     android:scheme="https" />
 
                 <action android:name="android.intent.action.VIEW" />
