@@ -28,7 +28,7 @@ public class SplashUrlDecoder {
                 return data;
             }
         } else if (launchUri.contains(ADD_CERT_PATH)) {
-            data = handleAddCertificateUri(launchUri);
+            data = new LaunchData(ADD_CERTIFICATE, launchUri);
             if (data != null) {
                 return data;
             }
