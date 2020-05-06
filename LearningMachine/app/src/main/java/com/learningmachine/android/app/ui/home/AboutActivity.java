@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.learningmachine.android.app.R;
-
 import com.learningmachine.android.app.ui.LMSingleFragmentActivity;
 
 public class AboutActivity extends LMSingleFragmentActivity {
 
     private static final String EXTRA_ACTION_BAR_TITLE = "LMWebActivity.ActionBarTitle";
-    private static final String EXTRA_END_POINT = "LMWebActivity.EndPoint";
 
     public static Intent newIntent(Context context, String actionBarTitle) {
         Intent intent = new Intent(context, AboutActivity.class);
