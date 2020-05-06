@@ -177,8 +177,6 @@
 
 
     <string name="onboarding_passphrase_cancel">Rechazar</string>
-    <string name="onboarding_passphrase_ok">Aceptar</string>
-
 
     <!-- Settings -->
     <string name="settings_fragment">Emisores</string>
@@ -212,7 +210,6 @@
     <string name="check_version_title">Favor de Actualizar Bockcerts Wallet</string>
     <string name="check_version_message">Para poder añadir un emisor o una credencial, es necesario instalar la nueva versión de Fluidcerts Wallet.</string>
     <string name="check_version_message_cancel_title">Cancelar</string>
-    <string name="check_version_message_confirm_title">Aceptar</string>
 
     <!-- Certificate Verification -->
 

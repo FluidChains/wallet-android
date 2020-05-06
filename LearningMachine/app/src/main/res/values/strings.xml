@@ -111,6 +111,7 @@
     <string name="settings_reveal_passphrase">My Passphrase</string>
     <string name="settings_about_passphrases">About Passphrases</string>
     <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_backup_wallet">Backup Wallet</string>
     <string name="settings_email_logs">Email Logs</string>
 
     <string name="settings_logout">Log out and Reset</string>
@@ -176,7 +177,6 @@
 
     <string name="onboarding_passphrase_cancel">Cancel</string>
     <string name="ok_button">Okay</string>
-
 
     <!-- Settings -->
     <string name="settings_fragment">Settings</string>

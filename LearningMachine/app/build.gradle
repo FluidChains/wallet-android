@@ -169,6 +169,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
     implementation "net.danlew:android.joda:$JODATIMEANDROID_VERSION"
