@@ -1,4 +1,4 @@
-package com.learningmachine.android.app.data.inject;
+package com.fluidcerts.android.app.data.inject;
 
 import android.app.Application;
 

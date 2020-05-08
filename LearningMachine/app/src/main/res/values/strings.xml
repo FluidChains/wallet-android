@@ -230,8 +230,8 @@
 
     <!--Drive SyncAdapter-->
     <string name="sync_authenticator_label" translatable="false">FluidCertsSyncAdapter</string>
-    <string name="sync_authority" translatable="false">com.learningmachine.android.app.ui.drive.DriveRestoreActivity</string>
+    <string name="sync_authority" translatable="false">com.fluidcerts.android.app.ui.drive.DriveRestoreActivity</string>
     <string name="sync_account_type" translatable="false">com.google</string>
-    <string name="server_client_id" translatable="false">604716184940-n20uirpitcq6lul4qvlan03qnj3mvk28.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">604716184940-hsttu3epmr317vhlnmjd8tefui45g15f.apps.googleusercontent.com</string>
 
 </resources>

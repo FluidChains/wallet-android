@@ -6,10 +6,10 @@ android {
         javaMaxHeapSize "4g"
     }
     defaultConfig {
-        applicationId "com.learningmachine.android.app"
+        applicationId "com.fluidcerts.android.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionName "3.2.19"
+        versionName "3.2.20"
         def buildNumber = System.getenv("BUILD_NUMBER")
         if (buildNumber != null) {
             versionCode buildNumber.toInteger()
@@ -58,7 +58,7 @@ android {
 
     productFlavors {
         dev {
-            applicationId "com.learningmachine.android.app.dev"
+            applicationId "com.fluidcerts.android.app.dev"
             dimension "env"
             if (project.hasProperty("devBuild")) {
                 // don't package all resources for dev builds
@@ -69,7 +69,7 @@ android {
             }
         }
         staging {
-            applicationId "com.learningmachine.android.app.staging"
+            applicationId "com.fluidcerts.android.app.staging"
             dimension "env"
         }
         production {

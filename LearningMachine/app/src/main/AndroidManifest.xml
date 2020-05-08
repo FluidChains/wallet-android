@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.learningmachine.android.app">
+    package="com.fluidcerts.android.app">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -27,7 +27,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.googleusercontent.apps.604716184940-n20uirpitcq6lul4qvlan03qnj3mvk28" />
+                <data android:scheme="com.googleusercontent.apps.604716184940-hsttu3epmr317vhlnmjd8tefui45g15f" />
             </intent-filter>
         </activity>
         <activity
@@ -122,7 +122,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.learningmachine.android.app.fileprovider"
+            android:authorities="com.fluidcerts.android.app.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -132,8 +132,7 @@
 
         <service
             android:name=".data.backup.DriveSyncAdapterService"
-            android:exported="true"
-            android:process=":sync">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -146,15 +145,15 @@
             android:authorities="@string/sync_authority"
             android:exported="false"
             android:syncable="true" />
-        <service android:name=".data.backup.DriveAuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
+<!--        <service android:name=".data.backup.DriveAuthenticatorService">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.accounts.AccountAuthenticator" />-->
+<!--            </intent-filter>-->
 
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
+<!--            <meta-data-->
+<!--                android:name="android.accounts.AccountAuthenticator"-->
+<!--                android:resource="@xml/authenticator" />-->
+<!--        </service>-->
     </application>
 
 </manifest>

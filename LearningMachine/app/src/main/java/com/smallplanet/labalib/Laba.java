@@ -48,10 +48,6 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.*;
-
-import com.learningmachine.android.app.LMApplication;
-import com.learningmachine.android.app.R;
 
 import java.util.HashMap;
 import java.util.Locale;
