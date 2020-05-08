@@ -4,15 +4,21 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.Scope;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.learningmachine.android.app.data.bitcoin.BitcoinManager;
 import com.learningmachine.android.app.data.inject.Injector;
 import com.learningmachine.android.app.data.preferences.SharedPreferencesManager;
 import com.learningmachine.android.app.data.url.LaunchData;
 import com.learningmachine.android.app.data.url.SplashUrlDecoder;
 import com.learningmachine.android.app.ui.LMActivity;
-import com.learningmachine.android.app.ui.cert.AddCertificateActivity;
 import com.learningmachine.android.app.ui.home.HomeActivity;
 import com.learningmachine.android.app.ui.onboarding.OnboardingActivity;
+import com.learningmachine.android.app.ui.home.AboutActivity;
+import com.learningmachine.android.app.ui.drive.DriveRestoreActivity;
 
 import javax.inject.Inject;
 
@@ -31,6 +37,16 @@ public class SplashActivity extends LMActivity {
         super.onCreate(savedInstanceState);
         Injector.obtain(this)
                 .inject(this);
+
+        // Google Account Sign-In and Initialize Sync
+        if (!GoogleSignIn.hasPermissions(
+                GoogleSignIn.getLastSignedInAccount(this),
+                new Scope(DriveScopes.DRIVE_FILE),
+                new Scope(Scopes.EMAIL))) {
+            Timber.i("Sync.SplashActivity account not found");
+            startActivityAndFinish(new Intent(this, DriveRestoreActivity.class));
+            return;
+        }
 
         Intent intent = getIntent();
         Uri data = intent.getData();

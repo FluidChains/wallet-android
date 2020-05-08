@@ -111,7 +111,7 @@
     <string name="settings_reveal_passphrase">My Passphrase</string>
     <string name="settings_about_passphrases">About Passphrases</string>
     <string name="settings_privacy_policy">Privacy Policy</string>
-    <string name="settings_backup_wallet">Backup Wallet</string>
+    <string name="settings_backup_wallet" translatable="false">Backup Wallet</string>
     <string name="settings_email_logs">Email Logs</string>
 
     <string name="settings_logout">Log out and Reset</string>
@@ -227,5 +227,11 @@
 
     <!--SAML login title-->
     <string name="login_to_issuer">Log In To Issuer</string>
+
+    <!--Drive SyncAdapter-->
+    <string name="sync_authenticator_label" translatable="false">FluidCertsSyncAdapter</string>
+    <string name="sync_authority" translatable="false">com.learningmachine.android.app.ui.drive.DriveRestoreActivity</string>
+    <string name="sync_account_type" translatable="false">com.google</string>
+    <string name="server_client_id" translatable="false">604716184940-n20uirpitcq6lul4qvlan03qnj3mvk28.apps.googleusercontent.com</string>
 
 </resources>

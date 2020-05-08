@@ -4,9 +4,14 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:name=".LMApplication"
@@ -16,15 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.settings.backup.BackupWalletActivity"
-            android:label="@string/settings_backup_wallet"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.home.AboutActivity"
-            android:label="@string/settings_about"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:name=".ui.drive.DriveRestoreActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.googleusercontent.apps.604716184940-n20uirpitcq6lul4qvlan03qnj3mvk28" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:launchMode="singleTask"
@@ -109,6 +114,11 @@
             android:name=".ui.cert.VerifyCertificateActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.home.AboutActivity"
+            android:label="@string/settings_about"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -119,6 +129,32 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/files" />
         </provider>
+
+        <service
+            android:name=".data.backup.DriveSyncAdapterService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+        <provider
+            android:name=".data.backup.DriveContentProvider"
+            android:authorities="@string/sync_authority"
+            android:exported="false"
+            android:syncable="true" />
+        <service android:name=".data.backup.DriveAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
     </application>
 
 </manifest>

@@ -84,6 +84,7 @@ public class HomeFragment extends LMIssuerBaseFragment {
         Injector.obtain(getContext())
                 .inject(this);
 
+        Timber.i("Sync.HomeFragment onCreate()");
         mIssuerList = new ArrayList<>();
     }
 

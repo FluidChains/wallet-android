@@ -10,6 +10,8 @@ import com.learningmachine.android.app.ui.LMSingleFragmentActivity;
 import com.learningmachine.android.app.util.FileLoggingTree;
 import com.learningmachine.android.app.util.FileUtils;
 
+import timber.log.Timber;
+
 public class HomeActivity extends LMSingleFragmentActivity {
 
     private static final String EXTRA_ISSUER_URL = "HomeActivity.IssuerUrl";
@@ -39,6 +41,7 @@ public class HomeActivity extends LMSingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
+        Timber.i("Sync.HomeActivity createFragment()");
         String linkType = getIntent().getStringExtra(EXTRA_LINK_TYPE);
         if (LINK_TYPE_ISSUER.equals(linkType)) {
             String issuerUrlString = getIntent().getStringExtra(EXTRA_ISSUER_URL);

@@ -1,6 +1,10 @@
 package com.learningmachine.android.app;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SyncContext;
 import android.content.pm.ApplicationInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,8 +13,14 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 import android.webkit.WebView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.Scope;
+import com.google.api.services.drive.DriveScopes;
 import com.learningmachine.android.app.data.CertificateManager;
 import com.learningmachine.android.app.data.IssuerManager;
+import com.learningmachine.android.app.data.backup.SyncConstants;
 import com.learningmachine.android.app.data.inject.Injector;
 import com.learningmachine.android.app.data.inject.LMComponent;
 import com.learningmachine.android.app.data.inject.LMGraph;
@@ -141,4 +151,71 @@ public class LMApplication extends MultiDexApplication {
     private void setupMnemonicCode() {
         BitcoinUtils.init(getApplicationContext());
     }
+
+    public static Account CreateSyncAccount(Context context) {
+        boolean isNew = false;
+        // Create the account type and default account
+        Account newAccount = new Account(SyncConstants.ACCOUNT_NAME, SyncConstants.ACCOUNT_TYPE);
+        // Get an instance of the Android account manager
+        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+        Timber.i("Karim Just before addACcountExpclitity");
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            Timber.i("Karim Account Created");
+            /*
+             * If you don't set android:syncable="true" in
+             * in your <provider> element in the manifest,
+             * then call context.setIsSyncable(account, AUTHORITY, 1)
+             * here.
+             */
+            isNew = true;
+        } else {
+            Timber.i("Karim Account Can't Created Some Error Occurred");
+            /*
+             * The account exists or some other error occurred. Log this, report it,
+             * or handle it internally.
+             */
+            Account[] accounts = accountManager.getAccountsByType("com.google");
+            Timber.i("Karim all accounts" + accounts);
+            if (accounts.length > 0) {
+                Timber.i("Karim " + accounts[0]);
+                return accounts[0];
+            }
+        }
+        if (isNew) {
+            ContentResolver.requestSync(newAccount, SyncConstants.AUTHORITY, null);
+        }
+        return null;
+    }
+
+    public static String getGoogleAccount(Context context){
+        String acc = null;
+        try{
+            AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+            Account accounts[] = accountManager.getAccounts();
+            if(accounts ==null){
+                acc = "emulator@test.com";
+            }
+            else{
+                for(Account account: accounts){
+                    if(account.type.equals("com.google")){
+                        Timber.i("Karim Account: " + account.name);
+                        acc = account.name;
+                    }
+                }
+            }
+            if(acc==null)
+                acc = "emulator@test.com";
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return acc;
+    }
+
 }
