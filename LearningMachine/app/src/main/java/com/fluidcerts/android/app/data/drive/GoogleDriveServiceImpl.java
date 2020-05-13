@@ -219,10 +219,14 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         return null;
     }
 
+    private String writeSeedsToDrive(String parents, String encrypted) {
+        List<File> fl = queryFiles(parents);
         try {
             fl.get(0);
         } catch (IndexOutOfBoundsException | NullPointerException e) {
-            return createFile(GoogleDriveHelper.SEED_BACKUP_FILENAME, encrypted);
+            return createFile(parents,
+                        GoogleDriveHelper.SEED_BACKUP_FILENAME,
+                        encrypted);
         }
         File lastBackup = fl.get(0);
         return updateFile(lastBackup.getId(), encrypted);
