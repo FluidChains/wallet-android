@@ -285,13 +285,15 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         return file.getId();
     }
 
-    private List<File> queryFiles() {
-        Timber.i(TAG + "queryFiles() <- ");
+    private List<File> queryFiles(String folderId) {
+        Timber.d(TAG + "queryFiles() <- ");
         FileList fl = null;
         try {
-            fl = mDriveService.files().list().setSpaces("appDataFolder").execute();
+            fl = mDriveService.files().list().setSpaces("appDataFolder")
+                    .setFields("files(id, name, parents)")
+                    .execute();
         } catch (UserRecoverableAuthIOException e) {
-            Timber.i(TAG + e + " Should recover after this point");
+            Timber.d(TAG + e + " Should recover after this point");
             recoverFromGoogleAuthExecption();
         } catch (IOException e) {
             Timber.e(e, TAG);
@@ -299,6 +301,17 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         if (fl == null) {
             return new FileList().getFiles();
         }
+        Timber.d(TAG + "queryFiles() -> ");
+        List<File> filterFiles = new ArrayList<>();
+        for (File file : fl.getFiles()) {
+            if (file.getParents().contains(folderId)) {
+                Timber.d(TAG + "             -> " + file);
+                filterFiles.add(file);
+            }
+        }
+        return filterFiles;
+    }
+
     private String createFolder(String name) {
         Timber.d(TAG + "createFolder() <- " + name);
         File metadata = new File()
