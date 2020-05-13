@@ -9,7 +9,7 @@ android {
         applicationId "com.fluidcerts.android.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionName "3.2.37"
+        versionName "3.2.38"
         def buildNumber = System.getenv("BUILD_NUMBER")
         if (buildNumber != null) {
             versionCode buildNumber.toInteger()
