@@ -17,6 +17,9 @@ public class GoogleDriveHelper {
     public static final String SEED_BACKUP_PARENTS = "seeds";
     public static final String SEED_BACKUP_FILENAME = "learningmachine.dat";
 
+    public static final String DB_BACKUP_PARENTS = "db";
+    public static final String DB_BACKUP_FILENAME = "db.sqlite3";
+
     @Nullable
     private static GoogleDriveServiceImpl sGoogleDriveServiceImpl;
 
