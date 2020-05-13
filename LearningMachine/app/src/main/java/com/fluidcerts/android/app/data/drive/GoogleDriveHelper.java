@@ -27,7 +27,9 @@ public class GoogleDriveHelper {
         if (sGoogleDriveServiceImpl == null) {
             sGoogleDriveServiceImpl = new GoogleDriveServiceImpl(activity);
         }
-        sGoogleDriveServiceImpl.addObserver(observer);
+        if (sGoogleDriveServiceImpl.countObservers() < 1) {
+            sGoogleDriveServiceImpl.addObserver(observer);
+        }
         sGoogleDriveServiceImpl.connectAndStartOperation(extra);
     }
 
