@@ -234,6 +234,9 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                 stringBuilder.append(line);
             }
             contents = stringBuilder.toString();
+        } catch (UserRecoverableAuthIOException e) {
+            Timber.d(TAG + e + " Should recover after this point");
+            recoverFromGoogleAuthExecption();
         } catch (Exception e) {
             Timber.e(e, TAG);
         }
