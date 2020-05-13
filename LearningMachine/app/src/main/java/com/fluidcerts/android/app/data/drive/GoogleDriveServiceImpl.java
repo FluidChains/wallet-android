@@ -184,8 +184,11 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         final AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... parameters) {
-                String result = writeSeedsToDrive(encrypted);
-                setmAsyncResult(result);
+                String folderId = createFolderIfNotExists(GoogleDriveHelper.SEED_BACKUP_PARENTS);
+                if (folderId != null) {
+                    String result = writeSeedsToDrive(folderId, encrypted);
+                    setmAsyncResult(result);
+                }
                 return null;
             }
         };
