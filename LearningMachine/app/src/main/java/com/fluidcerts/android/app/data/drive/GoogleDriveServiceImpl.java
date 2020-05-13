@@ -299,6 +299,27 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         if (fl == null) {
             return new FileList().getFiles();
         }
+    private List<File> queryFolders() {
+        Timber.d(TAG + "queryFolders() <- ");
+        FileList fl = null;
+        try {
+            fl = mDriveService.files().list().setSpaces("appDataFolder")
+                    .setQ("mimeType='application/vnd.google-apps.folder'")
+                    .setFields("files(id, name)")
+                    .execute();
+        } catch (UserRecoverableAuthIOException e) {
+            Timber.d(TAG + e + " Should recover after this point");
+            recoverFromGoogleAuthExecption();
+        } catch (IOException e) {
+            Timber.e(e, TAG);
+        }
+        if (fl == null) {
+            return null;
+        }
+        Timber.d(TAG + "queryFolders() -> ");
+        for (File folder : fl.getFiles()) {
+            Timber.d(TAG + "             -> /%s %s", folder.getName(), folder.getId());
+        }
         return fl.getFiles();
     }
 
