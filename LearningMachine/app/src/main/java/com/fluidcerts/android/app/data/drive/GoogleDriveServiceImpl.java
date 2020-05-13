@@ -250,7 +250,9 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
 
         try {
             ByteArrayContent contentStream = ByteArrayContent.fromString("text/plain", content);
-            file = mDriveService.files().create(metadata, contentStream).execute();
+            file = mDriveService.files().create(metadata, contentStream)
+                    .setFields("id, name, parents")
+                    .execute();
         } catch (UserRecoverableAuthIOException e) {
             Timber.i(TAG + e + " Should recover after this point");
             recoverFromGoogleAuthExecption();
@@ -270,7 +272,9 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         File file = null;
         try {
             ByteArrayContent contentStream = ByteArrayContent.fromString("text/plain", content);
-            file = mDriveService.files().update(fileId, null, contentStream).execute();
+            file = mDriveService.files().update(fileId, null, contentStream)
+                    .setFields("id, name, parents")
+                    .execute();
         } catch (UserRecoverableAuthIOException e) {
             Timber.i(TAG + e + " Should recover after this point");
             recoverFromGoogleAuthExecption();
