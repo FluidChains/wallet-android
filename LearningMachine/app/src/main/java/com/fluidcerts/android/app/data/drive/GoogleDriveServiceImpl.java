@@ -240,10 +240,9 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         return contents;
     }
 
-    private String createFile(String filename, String content) {
-        Timber.i(TAG + "createFile() <- " + content);
+    private String createFile(String parents, String filename, String content) {
         File metadata = new File()
-                .setParents(Collections.singletonList("appDataFolder"))
+                .setParents(Collections.singletonList(parents))
                 .setMimeType("text/plain")
                 .setName(filename);
 
