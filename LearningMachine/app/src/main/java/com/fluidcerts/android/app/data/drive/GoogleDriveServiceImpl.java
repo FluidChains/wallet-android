@@ -47,7 +47,6 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     private Drive mDriveService;
 
     private int mRecovered = 0;
-    public boolean mInterrupted;
     public String mAsyncResult;
 
     private int mNextGoogleApiOperation = INVALID;
@@ -64,7 +63,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     }
 
     public final void connectAndStartOperation(final Pair<Integer, Bundle> extra) {
-        Timber.i(TAG + "connectAndStartOperation() -> " + extra.first);
+        Timber.d(TAG + "connectAndStartOperation() -> " + extra.first);
         unpackExtras(extra);
 
         if (!isAuthenticated() || !hasPermissions()) {
@@ -119,19 +118,20 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     }
 
     private void onGoogleDriveConnected(final int operation) {
+        Timber.d(TAG + "number of observers: " + this.countObservers());
         switch (operation) {
             case GoogleDriveHelper.BACKUP_CODE:
-                Timber.i(TAG + "onGoogleDriveConnected() -> BACKUP");
+                Timber.d(TAG + "onGoogleDriveConnected() -> BACKUP");
                 onBackupToDriveAsync(mNextGoogleApiOperationBundle.getString("encrypted"));
                 break;
 
             case GoogleDriveHelper.RESTORE_CODE:
-                Timber.i(TAG + "onGoogleDriveConnected() -> RESTORE");
+                Timber.d(TAG + "onGoogleDriveConnected() -> RESTORE");
                 onRestoreFromDriveAsync();
                 break;
 
             default:
-                Timber.i(TAG + "onGoogleDriveConnected() -> INVALID");
+                Timber.d(TAG + "onGoogleDriveConnected() -> INVALID");
         }
     }
 
@@ -160,16 +160,15 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     }
 
     private void setmAsyncResult(String result) {
-        Timber.i(TAG + "setmAsyncResult() <- " + result);
+        Timber.d(TAG + "setmAsyncResult() <- " + result);
         mAsyncResult = result;
         setChanged();
         notifyObservers();
     }
 
     private void recoverFromGoogleAuthExecption() {
-        mInterrupted = true;
         if (mRecovered >= 1) {
-            Timber.i(TAG + "recoverFromGoogleAuthException() -> already recovered once");
+            Timber.d(TAG + "recoverFromGoogleAuthException() -> already recovered once");
             return;
         }
         mRecovered += 1;
@@ -241,6 +240,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
 //--------------------------------------------------------------------------------------------------
 
     private String readFile(String fileId) {
+        Timber.d(TAG + "readFile() <- " + fileId);
         String contents = null;
         try {
             InputStream is = mDriveService.files().get(fileId).executeMediaAsInputStream();
@@ -257,10 +257,12 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         } catch (Exception e) {
             Timber.e(e, TAG);
         }
+
         return contents;
     }
 
     private String createFile(String parents, String filename, String content) {
+        Timber.d(TAG + "createFile() <- " + content);
         File metadata = new File()
                 .setParents(Collections.singletonList(parents))
                 .setMimeType("text/plain")
@@ -274,7 +276,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                     .setFields("id, name, parents")
                     .execute();
         } catch (UserRecoverableAuthIOException e) {
-            Timber.i(TAG + e + " Should recover after this point");
+            Timber.d(TAG + e + " Should recover after this point");
             recoverFromGoogleAuthExecption();
         } catch (NullPointerException | IOException e) {
             Timber.e(TAG + e);
@@ -283,12 +285,12 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         if (file == null) {
             return null;
         }
-        Timber.i(TAG + "createFile() -> " + file.getId());
+        Timber.d(TAG + "createFile() -> %s %s %s", file.getId(), file.getName(), file.getParents());
         return file.getId();
     }
 
     private String updateFile(String fileId, String content) {
-        Timber.i(TAG + "updateFile() <- " + content);
+        Timber.d(TAG + "updateFile() <- " + content);
         File file = null;
         try {
             ByteArrayContent contentStream = ByteArrayContent.fromString("text/plain", content);
@@ -296,7 +298,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                     .setFields("id, name, parents")
                     .execute();
         } catch (UserRecoverableAuthIOException e) {
-            Timber.i(TAG + e + " Should recover after this point");
+            Timber.d(TAG + e + " Should recover after this point");
             recoverFromGoogleAuthExecption();
         } catch (IOException e) {
             e.printStackTrace();
@@ -305,7 +307,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         if (file == null) {
             return null;
         }
-        Timber.i(TAG + "updateFile() -> " + file.getId());
+        Timber.d(TAG + "updateFile() -> " + file.getId());
         return file.getId();
     }
 
