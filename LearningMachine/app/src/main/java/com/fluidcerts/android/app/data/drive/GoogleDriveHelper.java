@@ -14,6 +14,7 @@ public class GoogleDriveHelper {
     public static final int RESTORE_CODE = 2;
     public static final int RESOLVE_SIGN_IN_CODE = 3;
 
+    public static final String SEED_BACKUP_PARENTS = "seeds";
     public static final String SEED_BACKUP_FILENAME = "learningmachine.dat";
 
     @Nullable
