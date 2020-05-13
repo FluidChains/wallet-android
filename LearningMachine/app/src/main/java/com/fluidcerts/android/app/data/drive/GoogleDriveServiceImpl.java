@@ -204,8 +204,21 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         asyncTask.execute();
     }
 
-    private String writeSeedsToDrive(String encrypted) {
-        List<File> fl = queryFiles();
+    private String createFolderIfNotExists(String name) {
+        List<File> fl = queryFolders();
+        try {
+            fl.get(0);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            return createFolder(name);
+        }
+        for (File folder : fl) {
+            if (folder.getName().equals(name)) {
+                return folder.getId();
+            }
+        }
+        return null;
+    }
+
         try {
             fl.get(0);
         } catch (IndexOutOfBoundsException | NullPointerException e) {
