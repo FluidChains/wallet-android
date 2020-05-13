@@ -162,11 +162,8 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     private void setmAsyncResult(String result) {
         Timber.i(TAG + "setmAsyncResult() <- " + result);
         mAsyncResult = result;
-        if (!mInterrupted) {
-            setChanged();
-            notifyObservers();
-        }
-        mInterrupted = false;
+        setChanged();
+        notifyObservers();
     }
 
     private void recoverFromGoogleAuthExecption() {
