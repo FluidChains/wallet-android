@@ -12,9 +12,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+import com.fluidcerts.android.app.data.drive.GoogleDriveHelper;
+import com.fluidcerts.android.app.data.drive.GoogleDriveServiceImpl;
 import com.fluidcerts.android.app.ui.home.HomeActivity;
 import com.fluidcerts.android.app.ui.issuer.IssuerActivity;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingActivity;
@@ -30,6 +33,7 @@ import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 import java.io.File;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
+import java.util.Observer;
 import java.util.Scanner;
 
 import javax.annotation.Nonnull;
@@ -97,7 +101,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     protected void onResume() {
         super.onResume();
         mLifecycleSubject.onNext(ActivityEvent.RESUME);
-
+        Timber.i("Sync.LMActivity onResume() Resumed");
 
         if(didReceivePermissionsCallback){
             if(tempPassphrase != null && passphraseCallback != null) {
@@ -223,11 +227,6 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         return false;
     }
 
-
-
-
-
-
     /* Saving passphrases to device */
 
     @FunctionalInterface
@@ -237,7 +236,6 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
     private String tempPassphrase = null;
     private Callback passphraseCallback = null;
-
 
     public static String pathToSavedPassphraseFile() {
         return Environment.getExternalStorageDirectory() + "/learningmachine.dat";
@@ -326,7 +324,52 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         return false;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
+        Timber.i("Sync.LMActivity onActivityResult() -> Deffering " + requestCode);
+        GoogleDriveHelper.handleActivityResult(requestCode, resultCode, resultData);
+    }
 
+    private Observer gDriveCallbackObserver;
+
+    private void savePassphraseToGoogleDrive(String passphrase, Callback passphraseCallback) {
+        Timber.i("Sync.LMActivity " + passphrase);
+        if (passphrase == null) {
+            passphraseCallback.apply(null);
+            return;
+        }
+
+        String encryptionKey = getDeviceId(getApplicationContext());
+        String mneumonicString = "mneumonic:"+passphrase;
+        try {
+            String encryptedMsg = AESCrypt.encrypt(encryptionKey, mneumonicString);
+            Timber.i("Sync.LMActivity " + encryptedMsg);
+            gDriveCallbackObserver = (observable, o) -> {
+                if (observable instanceof GoogleDriveServiceImpl) {
+                    Timber.i("Sync.LMActivity callBackObserver -> update()");
+                    GoogleDriveServiceImpl service = (GoogleDriveServiceImpl) observable;
+                    passphraseCallback.apply(service.mAsyncResult);
+                }
+            };
+            Bundle extra = new Bundle();
+            extra.putString("encrypted", encryptedMsg);
+            GoogleDriveHelper.connectAndStartOperation(this,
+                    gDriveCallbackObserver,
+                    new Pair<>(GoogleDriveHelper.BACKUP_CODE, extra));
+        }catch (GeneralSecurityException e){
+            Timber.e(e, "Could not encrypt passphrase.");
+            passphraseCallback.apply(null);
+        }catch (Exception e){
+            Timber.e(e, "Could not backup passphrase.");
+            passphraseCallback.apply(null);
+        }
+
+    }
+
+    public void askToSavePassphraseToGoogleDrive(String passphrase, Callback passphraseCallback) {
+        savePassphraseToGoogleDrive(passphrase, passphraseCallback);
+    }
 
     private boolean didReceivePermissionsCallback = false;
     private boolean didSucceedInPermissionsRequest = false;

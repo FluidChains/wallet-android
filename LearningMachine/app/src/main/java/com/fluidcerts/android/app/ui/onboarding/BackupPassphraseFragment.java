@@ -27,6 +27,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class BackupPassphraseFragment extends OnboardingFragment {
 
     @Inject protected BitcoinManager mBitcoinManager;
@@ -55,6 +57,7 @@ public class BackupPassphraseFragment extends OnboardingFragment {
         savedInstanceState.putString("p", mPassphrase);
         savedInstanceState.putBoolean("onboardingSaveCheckmark", mBinding.onboardingSaveCheckmark.getVisibility() == View.VISIBLE);
         savedInstanceState.putBoolean("onboardingWriteCheckmark", mBinding.onboardingWriteCheckmark.getVisibility() == View.VISIBLE);
+        savedInstanceState.putBoolean("onboardingGDriveCheckmark", mBinding.onboardingWriteCheckmark.getVisibility() == View.VISIBLE);
         savedInstanceState.putBoolean("onboardingEmailCheckmark", mBinding.onboardingEmailCheckmark.getVisibility() == View.VISIBLE);
     }
 
@@ -64,12 +67,17 @@ public class BackupPassphraseFragment extends OnboardingFragment {
 
         mBinding.onboardingDoneButton.setOnClickListener(view -> onDone());
         mBinding.onboardingEmailButton.setOnClickListener(view -> onEmail());
+        mBinding.onboardingGdriveButton.setOnClickListener(view -> onGDrive());
         mBinding.onboardingSaveButton.setOnClickListener(view -> onSave());
         mBinding.onboardingWriteButton.setOnClickListener(view -> onWrite());
 
         int numCompleted = 3;
         if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingSaveCheckmark")) {
             mBinding.onboardingSaveCheckmark.setVisibility(View.INVISIBLE);
+            numCompleted--;
+        }
+        if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingGDriveCheckmark")) {
+            mBinding.onboardingGdriveCheckmark.setVisibility(View.INVISIBLE);
             numCompleted--;
         }
         if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingEmailCheckmark")) {
@@ -157,6 +165,45 @@ public class BackupPassphraseFragment extends OnboardingFragment {
         });
     }
 
+    protected void onGDrive() {
+        ((OnboardingActivity)getActivity()).askToSavePassphraseToGoogleDrive(mPassphrase, (passphrase) -> {
+            Timber.i("Sync.BackupPassphraseFragment onGdrive() -> " + passphrase);
+            if(passphrase == null) {
+
+                DialogUtils.showAlertDialog(getContext(), this,
+                        R.drawable.ic_dialog_failure,
+                        getResources().getString(R.string.onboarding_passphrase_permissions_error_title),
+                        getResources().getString(R.string.onboarding_passphrase_permissions_error),
+                        getResources().getString(R.string.ok_button),
+                        null,
+                        (btnIdx) -> {
+                            HandleBackupOptionCompleted(null);
+                            return null;
+                        });
+                return null;
+            }
+
+            DialogUtils.showAlertDialog(getContext(), this,
+                    R.drawable.ic_dialog_success,
+                    getResources().getString(R.string.onboarding_passphrase_complete_title),
+                    getResources().getString(R.string.onboarding_passphrase_save_gdrive_complete),
+                    getResources().getString(R.string.ok_button),
+                    null,
+                    (btnIdx) -> {
+                        if(mBinding != null) {
+                            HandleBackupOptionCompleted(mBinding.onboardingGdriveCheckmark);
+                        }
+                        return null;
+                    }, (cancel) -> {
+                        if(mBinding != null) {
+                            HandleBackupOptionCompleted(mBinding.onboardingGdriveCheckmark);
+                        }
+                        return null;
+                    });
+            return null;
+        });
+    }
+
     protected void onEmail() {
 
         DialogUtils.showAlertDialog(getContext(), this,
@@ -235,7 +282,7 @@ public class BackupPassphraseFragment extends OnboardingFragment {
 
             numberOfBackupOptionsUsed++;
 
-            if (numberOfBackupOptionsUsed >= 2 && !mBinding.onboardingDoneButton.isEnabled()) {
+            if (numberOfBackupOptionsUsed >= 3 && !mBinding.onboardingDoneButton.isEnabled()) {
                 mBinding.onboardingDoneButton.setText(R.string.onboarding_backup_done_button);
                 mBinding.onboardingDoneButton.setEnabled(true);
             }

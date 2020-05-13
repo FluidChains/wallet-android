@@ -48,7 +48,6 @@ public class BitcoinUtils {
     }
 
     public static List<String> generateMnemonic(byte[] seedData) {
-        Timber.i("W4LL3T created");
         if (MnemonicCode.INSTANCE == null) {
             return null;
         }
@@ -73,39 +72,14 @@ public class BitcoinUtils {
 
     @NonNull
     public static Wallet createWallet(NetworkParameters params, byte[] entropy) {
-        Timber.i("karim: " + entropy.toString());
         DeterministicSeed deterministicSeed = new DeterministicSeed(entropy,
                 LMConstants.WALLET_PASSPHRASE,
                 LMConstants.WALLET_CREATION_TIME_SECONDS);
-        Timber.i("karim: " + deterministicSeed.toString());
-        // m/44'/0'/0'/0
 
-//        // Seed (12 words)
-//        SecureRandom random = new SecureRandom();
-//        //String seedCode = "zone relief pear light zebra dad alpha phone salad vague trend miracle";
-//        DeterministicSeed seed = new DeterministicSeed(random, 128, "", 0);
-
-        // RootKey
-        DeterministicKey privateMasterKey = HDKeyDerivation.createMasterPrivateKey(deterministicSeed.getSeedBytes());
-        Timber.i("karim: " + privateMasterKey);
-
-        // Use this to generate account path m/44'/248'/0'
-        // Note: HARDENED_BIT adds Apostrophe to the path, if the flag is missing the result will be different.
-        // iancoleman's app use Hardened bit with Purpose, CoinType and Account.
         ImmutableList<ChildNumber> accountPath = ImmutableList.of(new ChildNumber(44 | ChildNumber.HARDENED_BIT),
                 new ChildNumber(248 | ChildNumber.HARDENED_BIT), new ChildNumber(0|ChildNumber.HARDENED_BIT));
 
-
-//        DeterministicKeyChain chain = DeterministicKeyChain.builder().seed(deterministicSeed).accountPath(accountPath).outputScriptType(ScriptType.P2PKH).build();
-        DeterministicKeyChain chain = new DeterministicKeyChain(deterministicSeed, accountPath);
-
-        List mnemonic = chain.getMnemonicCode();
-
-        Timber.i("karim: " + mnemonic.toString());
-
         Wallet wallet = Wallet.fromSeed(params, deterministicSeed, accountPath);
-        Timber.i("karim: " + wallet.toString());
-        Timber.i("karim: " + LegacyAddress.fromKey(params,wallet.freshKey(KeyPurpose.RECEIVE_FUNDS)));
         wallet.setVersion(WALLET_VERSION);
         return wallet;
     }

@@ -23,11 +23,12 @@
 
 
     <string name="onboarding_backup_methods">Select Backup Methods</string>
-    <string name="onboarding_backup_description">Please select at least two options below.</string>
+    <string name="onboarding_backup_description">Please select at least three options below.</string>
     <string name="onboarding_backup_write_button">Manual Hard Copy</string>
     <string name="onboarding_backup_save_button">Save to Device</string>
+    <string name="onboarding_backup_gdrive_button">Save to Google Drive</string>
     <string name="onboarding_backup_email_button">Copy to Email or Clipboard</string>
-    <string name="select_two_to_continue">Select At Least Two to Continue</string>
+    <string name="select_two_to_continue">Select At Least Three to Continue</string>
     <string name="onboarding_backup_done_button">Done</string>
 
 
@@ -173,6 +174,7 @@
 
     <string name="onboarding_passphrase_complete_title">Backup Complete</string>
     <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as learningmachine.dat.</string>
+    <string name="onboarding_passphrase_save_gdrive_complete">Your passphrase has been saved to Google Drive.</string>
 
 
     <string name="onboarding_passphrase_cancel">Cancel</string>
@@ -229,9 +231,10 @@
     <string name="login_to_issuer">Log In To Issuer</string>
 
     <!--Drive SyncAdapter-->
+    <string name="sync_content_provider_label" translatable="false">FluidcertsSync</string>
     <string name="sync_authenticator_label" translatable="false">FluidCertsSyncAdapter</string>
     <string name="sync_authority" translatable="false">com.fluidcerts.android.app.ui.drive.DriveRestoreActivity</string>
     <string name="sync_account_type" translatable="false">com.google</string>
-    <string name="server_client_id" translatable="false">604716184940-hsttu3epmr317vhlnmjd8tefui45g15f.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
 
 </resources>

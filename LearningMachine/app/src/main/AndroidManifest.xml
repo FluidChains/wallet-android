@@ -21,16 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.drive.DriveRestoreActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.googleusercontent.apps.604716184940-hsttu3epmr317vhlnmjd8tefui45g15f" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ui.splash.SplashActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -119,7 +109,6 @@
             android:label="@string/settings_about"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.fluidcerts.android.app.fileprovider"
@@ -129,9 +118,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/files" />
         </provider>
-
         <service
-            android:name=".data.backup.DriveSyncAdapterService"
+            android:name=".data.drive.DriveSyncAdapterService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -141,19 +129,11 @@
                 android:resource="@xml/syncadapter" />
         </service>
         <provider
-            android:name=".data.backup.DriveContentProvider"
+            android:name=".data.drive.DriveContentProvider"
+            android:label="@string/sync_content_provider_label"
             android:authorities="@string/sync_authority"
             android:exported="false"
             android:syncable="true" />
-<!--        <service android:name=".data.backup.DriveAuthenticatorService">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.accounts.AccountAuthenticator" />-->
-<!--            </intent-filter>-->
-
-<!--            <meta-data-->
-<!--                android:name="android.accounts.AccountAuthenticator"-->
-<!--                android:resource="@xml/authenticator" />-->
-<!--        </service>-->
     </application>
 
 </manifest>

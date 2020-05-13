@@ -80,13 +80,11 @@ public class BitcoinManager {
     }
 
     private Observable<Wallet> buildWallet(byte[] entropy) {
-        Timber.i("karim: building wallet");
         mWallet = BitcoinUtils.createWallet(mNetworkParameters, entropy);
         return saveWallet();
     }
 
     private Observable<Wallet> buildWallet(String seedPhrase) {
-        Timber.i("karim: building wallet");
         mWallet = BitcoinUtils.createWallet(mNetworkParameters, seedPhrase);
         return saveWallet();
     }
@@ -95,7 +93,6 @@ public class BitcoinManager {
      * @return true if wallet was loaded successfully
      */
     private Observable<Wallet> loadWallet() {
-        Timber.i("karim: loading wallet");
         try (FileInputStream walletStream = new FileInputStream(getWalletFile())) {
             Wallet wallet = BitcoinUtils.loadWallet(walletStream, mNetworkParameters);
             if (BitcoinUtils.updateRequired(wallet)) {
@@ -106,7 +103,6 @@ public class BitcoinManager {
                 Timber.d("Wallet successfully updated");
             }
             mWallet = wallet;
-            Timber.i("karim");
             Timber.d("Wallet successfully loaded");
             return Observable.just(mWallet);
         } catch (UnreadableWalletException e) {
