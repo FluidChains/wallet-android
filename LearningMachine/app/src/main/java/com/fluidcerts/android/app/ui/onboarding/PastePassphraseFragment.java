@@ -35,8 +35,14 @@ public class PastePassphraseFragment extends OnboardingFragment {
 
     private FragmentPastePassphraseBinding mBinding;
 
-    public static PastePassphraseFragment newInstance() {
-        return new PastePassphraseFragment();
+    private boolean isGoogleFlow;
+
+    public static PastePassphraseFragment newInstance(boolean isGoogleFlow) {
+        PastePassphraseFragment instance = new PastePassphraseFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("isGoogleFlow", isGoogleFlow);
+        instance.setArguments(args);
+        return instance;
     }
 
     @Override
@@ -44,21 +50,42 @@ public class PastePassphraseFragment extends OnboardingFragment {
         super.onCreate(savedInstanceState);
         Injector.obtain(getContext())
                 .inject(this);
+        Bundle args = getArguments();
+        isGoogleFlow = args.getBoolean("isGoogleFlow");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_paste_passphrase, container, false);
-
-        ((LMActivity)getActivity()).askToGetPassphraseFromDevice((passphrase) -> {
-            if (passphrase != null) {
-                mBinding.pastePassphraseEditText.setText(passphrase.toString());
-                onDone();
-            } else {
-                mBinding.passphraseLabel.requestFocus();
-            }
-            return null;
-        });
+        if (isGoogleFlow) {
+            ((LMActivity) getActivity()).askToGetPassphraseFromGoogleDrive((loading) -> {
+                if ((boolean) loading) {
+                    displayProgressDialog(R.string.onboarding_passphrase_load_gdrive_progress);
+                } else {
+                    hideProgressDialog();
+                }
+                return null;
+            },(passphrase) -> {
+                Timber.i("Sync.BackupPassphraseFragment PastePassphraseFragment() -> " + passphrase);
+                if (passphrase != null) {
+                    mBinding.pastePassphraseEditText.setText(passphrase.toString());
+                    onDone();
+                } else {
+                    backupNotFound(getResources().getString(R.string.error_passphrase_backup_not_found_gdrive));
+                }
+                return null;
+            });
+        } else {
+            ((LMActivity) getActivity()).askToGetPassphraseFromDevice((passphrase) -> {
+                if (passphrase != null) {
+                    mBinding.pastePassphraseEditText.setText(passphrase.toString());
+                    onDone();
+                } else {
+                    backupNotFound(getResources().getString(R.string.error_passphrase_backup_not_found_device));
+                }
+                return null;
+            });
+        }
 
         mBinding.pastePassphraseEditText.setFilters(new InputFilter[] {
                 new InputFilter.AllCaps() {
@@ -78,6 +105,18 @@ public class PastePassphraseFragment extends OnboardingFragment {
         return mBinding.getRoot();
     }
 
+    private void backupNotFound(String message) {
+        DialogUtils.showAlertDialog(getContext(), this,
+                R.drawable.ic_dialog_failure,
+                getResources().getString(R.string.error_passphrase_backup_not_found_title),
+                message,
+                null,
+                getResources().getString(R.string.ok_button),
+                (btnIdx) -> {
+                    return null;
+                });
+        mBinding.passphraseLabel.requestFocus();
+    }
 
     private void onDone() {
         displayProgressDialog(R.string.onboarding_passphrase_loading);

@@ -77,8 +77,12 @@ public class OnboardingActivity extends LMActivity implements AccountChooserFrag
     }
 
     @Override
-    public void onExistingAccount() {
-        replaceScreens(FlowType.EXISTING_ACCOUNT);
+    public void onExistingAccount(boolean isGoogleFlow) {
+        if (!isGoogleFlow) {
+            replaceScreens(FlowType.EXISTING_ACCOUNT);
+            return;
+        }
+        replaceScreens(FlowType.EXISTING_ACCOUNT_GOOGLE);
     }
 
     private void setupAdapter() {

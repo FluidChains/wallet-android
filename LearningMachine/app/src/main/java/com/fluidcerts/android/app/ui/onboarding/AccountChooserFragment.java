@@ -24,7 +24,7 @@ public class AccountChooserFragment extends OnboardingFragment {
 
     public interface Callback {
         void onNewAccount();
-        void onExistingAccount();
+        void onExistingAccount(boolean isGoogleFlow);
     }
 
     public static AccountChooserFragment newInstance() {
@@ -45,6 +45,9 @@ public class AccountChooserFragment extends OnboardingFragment {
             return null;
         });
         Laba.Animate(mBinding.existingAccountButton, "!^300", () -> {
+            return null;
+        });
+        Laba.Animate(mBinding.existingAccountGdriveButton, "!^300", () -> {
             return null;
         });
 
@@ -71,7 +74,8 @@ public class AccountChooserFragment extends OnboardingFragment {
         });
 
         mBinding.newAccountButton.setOnClickListener(view -> mCallback.onNewAccount());
-        mBinding.existingAccountButton.setOnClickListener(view -> mCallback.onExistingAccount());
+        mBinding.existingAccountButton.setOnClickListener(view -> mCallback.onExistingAccount(false));
+        mBinding.existingAccountGdriveButton.setOnClickListener(view -> mCallback.onExistingAccount(true));
 
         mSharedPreferencesManager.setFirstLaunch(true);
 

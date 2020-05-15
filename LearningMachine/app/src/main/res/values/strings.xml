@@ -8,7 +8,8 @@
     <!-- Onboarding -->
 
     <string name="onboarding_new_user">New User</string>
-    <string name="onboarding_returning_user">Current User</string>
+    <string name="onboarding_returning_user">Restore From Device</string>
+    <string name="onboarding_returning_user_gdrive" translatable="false">Restore From Google Account</string>
 
     <!--This is for accessibility-->
     <string name="play_intro_video">Play intro video</string>
