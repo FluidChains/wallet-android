@@ -166,7 +166,14 @@ public class BackupPassphraseFragment extends OnboardingFragment {
     }
 
     protected void onGDrive() {
-        ((OnboardingActivity)getActivity()).askToSavePassphraseToGoogleDrive(mPassphrase, (passphrase) -> {
+        ((OnboardingActivity)getActivity()).askToSavePassphraseToGoogleDrive(mPassphrase, (loading) -> {
+            if ((boolean) loading) {
+                displayProgressDialog(R.string.onboarding_passphrase_save_gdrive_progress);
+            } else {
+                hideProgressDialog();
+            }
+            return null;
+        },(passphrase) -> {
             Timber.i("Sync.BackupPassphraseFragment onGdrive() -> " + passphrase);
             if(passphrase == null) {
 

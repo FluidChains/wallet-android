@@ -333,7 +333,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
     private Observer gDriveCallbackObserver;
 
-    private void savePassphraseToGoogleDrive(String passphrase, Callback passphraseCallback) {
+    private void savePassphraseToGoogleDrive(String passphrase, Callback loadingCallback, Callback passphraseCallback) {
         Timber.i("Sync.LMActivity " + passphrase);
         if (passphrase == null) {
             passphraseCallback.apply(null);
@@ -349,9 +349,12 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                 if (observable instanceof GoogleDriveServiceImpl) {
                     Timber.i("Sync.LMActivity callBackObserver -> update()");
                     GoogleDriveServiceImpl service = (GoogleDriveServiceImpl) observable;
-                    passphraseCallback.apply(service.mAsyncResult);
+                    loadingCallback.apply(false);
+                    passphraseCallback.apply(service.getAsyncResult());
                 }
             };
+            loadingCallback.apply(true);
+
             Bundle extra = new Bundle();
             extra.putString("encrypted", encryptedMsg);
             GoogleDriveHelper.connectAndStartOperation(this,
@@ -367,8 +370,10 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
     }
 
-    public void askToSavePassphraseToGoogleDrive(String passphrase, Callback passphraseCallback) {
-        savePassphraseToGoogleDrive(passphrase, passphraseCallback);
+    public void askToSavePassphraseToGoogleDrive(String passphrase, Callback loadingCallback, Callback passphraseCallback) {
+        savePassphraseToGoogleDrive(passphrase, loadingCallback, passphraseCallback);
+    }
+
     }
 
     private boolean didReceivePermissionsCallback = false;
