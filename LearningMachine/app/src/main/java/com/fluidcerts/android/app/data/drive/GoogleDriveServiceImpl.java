@@ -196,7 +196,9 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         final AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... parameters) {
-                readSeedsFromDrive();
+                String folderId = getFolderIfExists(GoogleDriveHelper.SEED_BACKUP_PARENTS);
+                String result = readSeedsFromDrive(folderId);
+                setAsyncResult(result);
                 return null;
             }
         };
@@ -209,6 +211,21 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
             fl.get(0);
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             return createFolder(name);
+        }
+        for (File folder : fl) {
+            if (folder.getName().equals(name)) {
+                return folder.getId();
+            }
+        }
+        return null;
+    }
+
+    private String getFolderIfExists(String name) {
+        List<File> fl = queryFolders();
+        try {
+            fl.get(0);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            return null;
         }
         for (File folder : fl) {
             if (folder.getName().equals(name)) {
@@ -231,7 +248,16 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         return updateFile(lastBackup.getId(), encrypted);
     }
 
-    private void readSeedsFromDrive() {
+    private String readSeedsFromDrive(String parents) {
+        List<File> fl = queryFiles(parents);
+        try {
+            fl.get(0);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            return null;
+        }
+        File lastBackup = fl.get(0);
+        return readFile(lastBackup.getId());
+    }
 
     }
 
