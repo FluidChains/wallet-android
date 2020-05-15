@@ -8,7 +8,10 @@ import android.util.Pair;
 
 import java.util.Observer;
 
+import timber.log.Timber;
+
 public class GoogleDriveHelper {
+    private static final String TAG = "Sync.GoogleDriveHelper ";
 
     public static final int BACKUP_CODE = 1;
     public static final int RESTORE_CODE = 2;
@@ -27,12 +30,21 @@ public class GoogleDriveHelper {
         if (sGoogleDriveServiceImpl == null) {
             sGoogleDriveServiceImpl = new GoogleDriveServiceImpl(activity);
         }
-        if (sGoogleDriveServiceImpl.countObservers() < 1) {
-            sGoogleDriveServiceImpl.addObserver(observer);
+        if (sGoogleDriveServiceImpl.countObservers() >= 1) {
+            sGoogleDriveServiceImpl.deleteObservers();
         }
+        reset();
+        sGoogleDriveServiceImpl.addObserver(observer);
         sGoogleDriveServiceImpl.connectAndStartOperation(extra);
     }
 
+
+    private static void reset() {
+        Timber.d(TAG + "reset()");
+        if (sGoogleDriveServiceImpl != null) {
+            sGoogleDriveServiceImpl.reset();
+        }
+    }
     public static void disconnect() {
         if (sGoogleDriveServiceImpl != null) {
             sGoogleDriveServiceImpl.disconnect();
@@ -40,9 +52,9 @@ public class GoogleDriveHelper {
         }
     }
 
-    public static String asyncResult() {
-        return sGoogleDriveServiceImpl.mAsyncResult;
-    }
+//    public static String asyncResult() {
+//        return sGoogleDriveServiceImpl.mAsyncResult;
+//    }
 
     public static void handleActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (sGoogleDriveServiceImpl != null) sGoogleDriveServiceImpl.handleActivityResult(requestCode, resultCode, resultData);
