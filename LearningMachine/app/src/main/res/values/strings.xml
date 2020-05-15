@@ -172,6 +172,7 @@
 
     <string name="onboarding_passphrase_permissions_error_title">Backup Error</string>
     <string name="onboarding_passphrase_permissions_error">To save your passphrase to this device you must give Fluidcerts Wallet permission to access your files.</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" translatable="false">To save your passphrase to this device you must give Fluidcerts Wallet permission to access Google Drive.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Complete</string>
     <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as learningmachine.dat.</string>

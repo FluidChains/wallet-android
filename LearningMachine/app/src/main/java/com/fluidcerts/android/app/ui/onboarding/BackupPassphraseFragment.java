@@ -180,7 +180,7 @@ public class BackupPassphraseFragment extends OnboardingFragment {
                 DialogUtils.showAlertDialog(getContext(), this,
                         R.drawable.ic_dialog_failure,
                         getResources().getString(R.string.onboarding_passphrase_permissions_error_title),
-                        getResources().getString(R.string.onboarding_passphrase_permissions_error),
+                        getResources().getString(R.string.onboarding_passphrase_permissions_error_gdrive),
                         getResources().getString(R.string.ok_button),
                         null,
                         (btnIdx) -> {
