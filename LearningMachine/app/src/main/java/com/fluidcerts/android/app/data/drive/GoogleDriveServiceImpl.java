@@ -46,20 +46,30 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     private WeakReference<Activity> mActivity;
     private Drive mDriveService;
 
+    private boolean mInterrupted = false;
     private int mRecovered = 0;
-    public String mAsyncResult;
+
+    private String mAsyncResult;
 
     private int mNextGoogleApiOperation = INVALID;
     private Bundle mNextGoogleApiOperationBundle;
 
-    public GoogleDriveServiceImpl(final Activity activity) {
+
+    GoogleDriveServiceImpl(final Activity activity) {
         mActivity = new WeakReference<>(activity);
+    }
+
+    public final void reset() {
+        mInterrupted = false;
+        mRecovered = 0;
+        mNextGoogleApiOperation = INVALID;
+        mNextGoogleApiOperationBundle = new Bundle();
     }
 
     public final void disconnect() {
         mActivity = null;
-        mNextGoogleApiOperation = INVALID;
-        mNextGoogleApiOperationBundle = new Bundle();
+        mDriveService = null;
+        reset();
     }
 
     public final void connectAndStartOperation(final Pair<Integer, Bundle> extra) {
@@ -78,16 +88,20 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
             mActivity.get().startActivityForResult(client.getSignInIntent(), GoogleDriveHelper.RESOLVE_SIGN_IN_CODE);
         } else {
             onGoogleDriveConnected(mNextGoogleApiOperation);
-//            mNextGoogleApiOperation = INVALID;
         }
     }
 
     public final void handleActivityResult(int requestCode, int resultCode, Intent resultData) {
+        Timber.d(TAG + "handleActivityResult() resultCode -> " + resultCode);
         switch (requestCode) {
             case GoogleDriveHelper.RESOLVE_SIGN_IN_CODE:
-                GoogleSignIn.getSignedInAccountFromIntent(resultData)
-                        .addOnSuccessListener(this)
-                        .addOnFailureListener(this);
+                if (resultCode == Activity.RESULT_OK) {
+                    GoogleSignIn.getSignedInAccountFromIntent(resultData)
+                            .addOnSuccessListener(this)
+                            .addOnFailureListener(this);
+                    break;
+                }
+                setAsyncResult(null);
                 break;
         }
     }
@@ -109,16 +123,14 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                 .setApplicationName("FluidCerts")
                 .build();
         onGoogleDriveConnected(mNextGoogleApiOperation);
-//        mNextGoogleApiOperation = INVALID;
     }
 
     @Override
     public void onFailure(@NonNull Exception e) {
-        mNextGoogleApiOperation = INVALID;
+        reset();
     }
 
     private void onGoogleDriveConnected(final int operation) {
-        Timber.d(TAG + "number of observers: " + this.countObservers());
         switch (operation) {
             case GoogleDriveHelper.BACKUP_CODE:
                 Timber.d(TAG + "onGoogleDriveConnected() -> BACKUP");
@@ -136,7 +148,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     }
 
 //--------------------------------------------------------------------------------------------------
-//  Private methods
+//  Private methods - Util
 //--------------------------------------------------------------------------------------------------
 
     private boolean isAuthenticated() {
@@ -159,14 +171,25 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         mNextGoogleApiOperationBundle = extra.second;
     }
 
-    private void setmAsyncResult(String result) {
-        Timber.d(TAG + "setmAsyncResult() <- " + result);
+    private void setAsyncResult(String result) {
         mAsyncResult = result;
-        setChanged();
-        notifyObservers();
+        if (!mInterrupted) {
+            Timber.d(TAG + "setmAsyncResult() <- " + result);
+            setChanged();
+            notifyObservers();
+        }
+        Timber.d(TAG + "setmAsyncResult() suppressed <- " + result);
+        mInterrupted = false;
+    }
+
+    public String getAsyncResult() {
+        String result = mAsyncResult;
+        mAsyncResult = null;
+        return result;
     }
 
     private void recoverFromGoogleAuthExecption() {
+        mInterrupted = true;
         if (mRecovered >= 1) {
             Timber.d(TAG + "recoverFromGoogleAuthException() -> already recovered once");
             return;
@@ -174,6 +197,10 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         mRecovered += 1;
         connectAndStartOperation(new Pair<>(mNextGoogleApiOperation, mNextGoogleApiOperationBundle));
     }
+
+//--------------------------------------------------------------------------------------------------
+//  Private methods - ServiceImpl Async Actions
+//--------------------------------------------------------------------------------------------------
 
     @SuppressLint("StaticFieldLeak")
     private void onBackupToDriveAsync(String encrypted) {
@@ -183,7 +210,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                 String folderId = createFolderIfNotExists(GoogleDriveHelper.SEED_BACKUP_PARENTS);
                 if (folderId != null) {
                     String result = writeSeedsToDrive(folderId, encrypted);
-                    setmAsyncResult(result);
+                    setAsyncResult(result);
                 }
                 return null;
             }
@@ -204,6 +231,10 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         };
         asyncTask.execute();
     }
+
+//--------------------------------------------------------------------------------------------------
+//  Mid-level api methods
+//--------------------------------------------------------------------------------------------------
 
     private String createFolderIfNotExists(String name) {
         List<File> fl = queryFolders();
@@ -259,8 +290,13 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         return readFile(lastBackup.getId());
     }
 
+    private String writeDbToDrive() {
+        return null;
     }
 
+    private boolean readDbFromDrive() {
+        return false;
+    }
 //--------------------------------------------------------------------------------------------------
 //  Low-level api methods
 //--------------------------------------------------------------------------------------------------
@@ -283,7 +319,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         } catch (Exception e) {
             Timber.e(e, TAG);
         }
-
+        Timber.d(TAG + "readFile() -> " + contents);
         return contents;
     }
 
@@ -293,9 +329,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                 .setParents(Collections.singletonList(parents))
                 .setMimeType("text/plain")
                 .setName(filename);
-
         File file = null;
-
         try {
             ByteArrayContent contentStream = ByteArrayContent.fromString("text/plain", content);
             file = mDriveService.files().create(metadata, contentStream)
@@ -350,10 +384,11 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         } catch (IOException e) {
             Timber.e(e, TAG);
         }
+
+        Timber.d(TAG + "queryFiles() -> ");
         if (fl == null) {
             return new FileList().getFiles();
         }
-        Timber.d(TAG + "queryFiles() -> ");
         List<File> filterFiles = new ArrayList<>();
         for (File file : fl.getFiles()) {
             if (file.getParents().contains(folderId)) {
@@ -370,9 +405,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                 .setParents(Collections.singletonList("appDataFolder"))
                 .setMimeType("application/vnd.google-apps.folder")
                 .setName(name);
-
         File folder = null;
-
         try {
             folder = mDriveService.files().create(metadata)
                     .setFields("id, name")
@@ -405,19 +438,19 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         } catch (IOException e) {
             Timber.e(e, TAG);
         }
+
+        Timber.d(TAG + "queryFolders() -> ");
         if (fl == null) {
             return null;
         }
-        Timber.d(TAG + "queryFolders() -> ");
         for (File folder : fl.getFiles()) {
             Timber.d(TAG + "             -> /%s %s", folder.getName(), folder.getId());
         }
         return fl.getFiles();
     }
 
-
 //    private void syncNow(Account account) {
-//        Timber.i(TAG + "syncNow() ...syncing w. Google Drive");
+//        Timber.d(TAG + "syncNow() ...syncing w. Google Drive");
 //        Bundle bundle = new Bundle();
 //        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
 //        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
