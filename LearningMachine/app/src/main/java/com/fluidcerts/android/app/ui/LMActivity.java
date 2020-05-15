@@ -374,6 +374,41 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         savePassphraseToGoogleDrive(passphrase, loadingCallback, passphraseCallback);
     }
 
+    private void getSavedPassphraseFromGoogleDrive(Callback loadingCallback, Callback passphraseCallback) {
+
+        gDriveCallbackObserver = (observable, o) -> {
+            if (observable instanceof GoogleDriveServiceImpl) {
+                Timber.i("Sync.LMActivity callBackObserver -> update()");
+                GoogleDriveServiceImpl service = (GoogleDriveServiceImpl) observable;
+                String encryptionKey = getDeviceId(getApplicationContext());
+                loadingCallback.apply(false);
+                String result = service.getAsyncResult();
+                if (result == null) {
+                    passphraseCallback.apply(null);
+                    return;
+                }
+                String encryptedMsg = new Scanner(result).useDelimiter("\\Z").next();
+                try {
+                    String content = AESCrypt.decrypt(encryptionKey, encryptedMsg);
+                    if (content.startsWith("mneumonic:")) {
+                        this.runOnUiThread(() -> {
+                            passphraseCallback.apply(content.substring(10).trim());
+                        });
+                        return;
+                    }
+                } catch (GeneralSecurityException e) {
+                    Timber.e(e, "Could not decrypt passphrase.");
+                }
+            }
+        };
+        loadingCallback.apply(true);
+        GoogleDriveHelper.connectAndStartOperation(this,
+                gDriveCallbackObserver,
+                new Pair<>(GoogleDriveHelper.RESTORE_CODE, new Bundle()));
+    }
+
+    public void askToGetPassphraseFromGoogleDrive(Callback loadingCallback, Callback passphraseCallback) {
+        getSavedPassphraseFromGoogleDrive(loadingCallback, passphraseCallback);
     }
 
     private boolean didReceivePermissionsCallback = false;
