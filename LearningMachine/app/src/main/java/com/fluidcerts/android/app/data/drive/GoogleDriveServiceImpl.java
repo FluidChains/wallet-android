@@ -371,25 +371,25 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         return readStringFromFile(lastBackup.getId());
     }
 
-    private String writeDbToDrive(String parents) {
-        byte[] bytes;
-        try {
-            bytes = readLocalFileToByteArray(getAppDbFile());
-        } catch (IOException e) {
-            return null;
-        }
-        ByteArrayContent contentStream = new ByteArrayContent("application/x-sqlite3", bytes);
-        List<File> fl = queryFiles(parents);
-        try {
-            fl.get(0);
-        } catch (IndexOutOfBoundsException | NullPointerException e) {
-            return createFile(parents,
-                    GoogleDriveHelper.DB_BACKUP_FILENAME,
-                    contentStream);
-        }
-        File lastBackup = fl.get(0);
-        return updateFile(lastBackup.getId(), contentStream);
-    }
+//    private String writeDbToDrive(String parents) {
+//        byte[] bytes;
+//        try {
+//            bytes = readLocalFileToByteArray(getAppDbFile());
+//        } catch (IOException e) {
+//            return null;
+//        }
+//        ByteArrayContent contentStream = new ByteArrayContent("application/x-sqlite3", bytes);
+//        List<File> fl = queryFiles(parents);
+//        try {
+//            fl.get(0);
+//        } catch (IndexOutOfBoundsException | NullPointerException e) {
+//            return createFile(parents,
+//                    GoogleDriveHelper.DB_BACKUP_FILENAME,
+//                    contentStream);
+//        }
+//        File lastBackup = fl.get(0);
+//        return updateFile(lastBackup.getId(), contentStream);
+//    }
 
     private InputStream readDbFromDrive(String parents) {
         List<File> fl = queryFiles(parents);
@@ -610,9 +610,9 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
 //  IO methods
 //--------------------------------------------------------------------------------------------------
 
-    private java.io.File getAppDbFile() {
-        return mActivity.get().getApplicationContext().getDatabasePath(GoogleDriveHelper.DB_BACKUP_FILENAME);
-    }
+//    private java.io.File getAppDbFile() {
+//        return mActivity.get().getApplicationContext().getDatabasePath(GoogleDriveHelper.DB_BACKUP_FILENAME);
+//    }
 
     private java.io.File[] getCertFiles() {
         java.io.File certDir = new java.io.File(mActivity.get().getApplicationContext().getFilesDir(), "certs");
