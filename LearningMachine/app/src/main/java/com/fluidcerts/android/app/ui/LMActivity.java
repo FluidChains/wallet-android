@@ -359,7 +359,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             extra.putString("encrypted", encryptedMsg);
             GoogleDriveHelper.connectAndStartOperation(this,
                     gDriveCallbackObserver,
-                    new Pair<>(GoogleDriveHelper.BACKUP_CODE, extra));
+                    new Pair<>(GoogleDriveHelper.BACKUP_SEED_CODE, extra));
         }catch (GeneralSecurityException e){
             Timber.e(e, "Could not encrypt passphrase.");
             passphraseCallback.apply(null);
@@ -404,7 +404,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         loadingCallback.apply(true);
         GoogleDriveHelper.connectAndStartOperation(this,
                 gDriveCallbackObserver,
-                new Pair<>(GoogleDriveHelper.RESTORE_CODE, new Bundle()));
+                new Pair<>(GoogleDriveHelper.RESTORE_SEED_CODE, new Bundle()));
     }
 
     public void askToGetPassphraseFromGoogleDrive(Callback loadingCallback, Callback passphraseCallback) {

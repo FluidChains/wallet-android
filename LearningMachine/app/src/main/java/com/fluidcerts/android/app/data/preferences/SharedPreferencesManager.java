@@ -3,6 +3,8 @@ package com.fluidcerts.android.app.data.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 public class SharedPreferencesManager {
 
     private static final String PREF_NAME = "LearningMachine";
@@ -17,6 +19,9 @@ public class SharedPreferencesManager {
     private static final String DELAYED_CERTIFICATE_URL = "SharedPreferencesManager.DelayedCertificate.URL";
 
     private static final String PREF_LAST_LOG_DELETED_TIMESTAMP = "SharedPreferencesManager.Logs.LogsDeletedTimestamp";
+
+    private static final String PREF_SYNC_ADAPTER = "SharedPreferencesManager.SyncAdapter";
+
 
     private SharedPreferences mPrefs;
 
@@ -102,4 +107,15 @@ public class SharedPreferencesManager {
     public long getLastLogDeletedTimestamp() {
         return mPrefs.getLong(PREF_LAST_LOG_DELETED_TIMESTAMP, 0);
     }
+
+    public void setSyncAdapterEnabled(boolean enabled) {
+        mPrefs.edit()
+                .putBoolean(PREF_SYNC_ADAPTER, enabled)
+                .apply();
+    }
+
+    public boolean getSyncAdapterEnabled() {
+        return mPrefs.getBoolean(PREF_SYNC_ADAPTER, false);
+    }
+
 }

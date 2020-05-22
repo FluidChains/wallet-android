@@ -109,6 +109,11 @@
             android:label="@string/settings_about"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.sync.SyncAdapterSettingsActivity"
+            android:label="@string/settings_sync"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.fluidcerts.android.app.fileprovider"

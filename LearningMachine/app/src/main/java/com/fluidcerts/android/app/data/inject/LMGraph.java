@@ -1,6 +1,8 @@
 package com.fluidcerts.android.app.data.inject;
 
 import com.fluidcerts.android.app.LMApplication;
+import com.fluidcerts.android.app.data.drive.DriveSyncAdapter;
+import com.fluidcerts.android.app.data.drive.GoogleDriveServiceImpl;
 import com.fluidcerts.android.app.ui.LMFragment;
 import com.fluidcerts.android.app.ui.LMIssuerBaseFragment;
 import com.fluidcerts.android.app.ui.cert.AddCertificateFileFragment;
@@ -22,6 +24,8 @@ import com.fluidcerts.android.app.ui.onboarding.BackupPassphraseFragment;
 import com.fluidcerts.android.app.ui.settings.SettingsFragment;
 import com.fluidcerts.android.app.ui.settings.passphrase.RevealPassphraseFragment;
 import com.fluidcerts.android.app.ui.splash.SplashActivity;
+import com.fluidcerts.android.app.ui.sync.SyncAdapterSettingsActivity;
+import com.fluidcerts.android.app.ui.sync.SyncAdapterSettingsFragment;
 
 public interface LMGraph {
     void inject(LMApplication application);
@@ -31,6 +35,7 @@ public interface LMGraph {
     void inject(IssuerActivity activity);
     void inject(IssuerInfoActivity activity);
     void inject(OnboardingActivity activity);
+    void inject(SyncAdapterSettingsActivity activity);
 
     // Fragments
     void inject(ViewPassphraseFragment fragment);
@@ -50,4 +55,8 @@ public interface LMGraph {
     void inject(AddCertificateFileFragment fragment);
     void inject(IssuerInfoFragment fragment);
     void inject(CertificateInfoFragment fragment);
+    void inject(SyncAdapterSettingsFragment fragment);
+
+    // Service
+    void inject(GoogleDriveServiceImpl service);
 }

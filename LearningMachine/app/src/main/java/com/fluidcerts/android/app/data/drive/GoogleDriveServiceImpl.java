@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 
+import com.fluidcerts.android.app.data.CertificateManager;
+import com.fluidcerts.android.app.data.inject.Injector;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,15 +28,19 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -43,8 +49,11 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     private final String TAG = "Sync.GoogleDriveServiceImpl ";
     private final int INVALID = 999;
 
+    public boolean mActivityLaunched;
+
     private WeakReference<Activity> mActivity;
     private Drive mDriveService;
+    @Inject CertificateManager mCertificateManager;
 
     private boolean mInterrupted = false;
     private int mRecovered = 0;
@@ -54,9 +63,16 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     private int mNextGoogleApiOperation = INVALID;
     private Bundle mNextGoogleApiOperationBundle;
 
+    GoogleDriveServiceImpl(final Drive driveService) {
+        mActivityLaunched = false;
+        mDriveService = driveService;
+    }
 
     GoogleDriveServiceImpl(final Activity activity) {
+        mActivityLaunched = true;
         mActivity = new WeakReference<>(activity);
+        Injector.obtain(mActivity.get())
+                .inject(this);
     }
 
     public final void reset() {
@@ -75,8 +91,10 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     public final void connectAndStartOperation(final Pair<Integer, Bundle> extra) {
         Timber.d(TAG + "connectAndStartOperation() -> " + extra.first);
         unpackExtras(extra);
+        Timber.d(TAG + "connectAndStartOperation() -> activityLaunched: " + mActivityLaunched);
 
-        if (!isAuthenticated() || !hasPermissions()) {
+        if (mActivityLaunched && (mDriveService == null || !isAuthenticated() || !hasPermissions())) {
+            Timber.d(TAG + "connectAndStartOperation() here");
             final GoogleSignInOptions signInOptions =
                     new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                             .requestEmail()
@@ -132,14 +150,25 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
 
     private void onGoogleDriveConnected(final int operation) {
         switch (operation) {
-            case GoogleDriveHelper.BACKUP_CODE:
-                Timber.d(TAG + "onGoogleDriveConnected() -> BACKUP");
-                onBackupToDriveAsync(mNextGoogleApiOperationBundle.getString("encrypted"));
+            case GoogleDriveHelper.BACKUP_SEED_CODE:
+                Timber.d(TAG + "onGoogleDriveConnected() -> BACKUP SEED");
+                onBackupSeedToDriveAsync(mNextGoogleApiOperationBundle.getString("encrypted"));
                 break;
 
-            case GoogleDriveHelper.RESTORE_CODE:
-                Timber.d(TAG + "onGoogleDriveConnected() -> RESTORE");
-                onRestoreFromDriveAsync();
+            case GoogleDriveHelper.RESTORE_SEED_CODE:
+                Timber.d(TAG + "onGoogleDriveConnected() -> RESTORE SEED");
+                onRestoreSeedFromDriveAsync();
+//                onRestoreDbFromDriveAsync();
+                break;
+
+            case GoogleDriveHelper.BACKUP_CERTS_CODE:
+                Timber.d(TAG + "onGoogleDriveConnected() -> BACKUP DB");
+                onBackupCertsToDriveAsync();
+                break;
+
+            case GoogleDriveHelper.RESTORE_CERTS_CODE:
+                Timber.d(TAG + "onGoogleDriveConnected() -> RESTORE DB");
+                onRestoreCertsFromDriveAsync();
                 break;
 
             default:
@@ -153,14 +182,18 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
 
     private boolean isAuthenticated() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(mActivity.get());
+        Timber.d(TAG + "isAuthenticated() -> " + account);
         return account != null;
     }
 
     private boolean hasPermissions() {
-        Set<Scope> scopes = GoogleSignIn.getLastSignedInAccount(mActivity.get()).getGrantedScopes();
-        for (Scope scope : scopes) {
-            if (scope == new Scope(DriveScopes.DRIVE_APPDATA)) {
-                return true;
+        if (mActivity != null) {
+            Set<Scope> scopes = GoogleSignIn.getLastSignedInAccount(mActivity.get()).getGrantedScopes();
+            for (Scope scope : scopes) {
+                Timber.d(TAG + "hasPermissions() -> " + scope);
+                if (scope.equals(new Scope(DriveScopes.DRIVE_APPDATA))) {
+                    return true;
+                }
             }
         }
         return false;
@@ -203,7 +236,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
 //--------------------------------------------------------------------------------------------------
 
     @SuppressLint("StaticFieldLeak")
-    private void onBackupToDriveAsync(String encrypted) {
+    private void onBackupSeedToDriveAsync(String encrypted) {
         final AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... parameters) {
@@ -219,13 +252,59 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void onRestoreFromDriveAsync() {
+    private void onRestoreSeedFromDriveAsync() {
         final AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... parameters) {
                 String folderId = getFolderIfExists(GoogleDriveHelper.SEED_BACKUP_PARENTS);
                 String result = readSeedsFromDrive(folderId);
                 setAsyncResult(result);
+                return null;
+            }
+        };
+        asyncTask.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void onBackupCertsToDriveAsync() {
+        final AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... parameters) {
+                String folderId = createFolderIfNotExists(GoogleDriveHelper.CERTS_BACKUP_PARENTS);
+                if (folderId != null) {
+                    String result = writeCertsToDrive(folderId, getCertFiles());
+                    setAsyncResult(result);
+                }
+                return null;
+            }
+        };
+        asyncTask.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void onRestoreCertsFromDriveAsync() {
+        final AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... parameters) {
+                String folderId = getFolderIfExists(GoogleDriveHelper.CERTS_BACKUP_PARENTS);
+                List<File> files = readCertsFromDrive(folderId);
+
+                java.io.File tmpDir = getTempDirectory();
+                for (File file: files) {
+                    InputStream is = readFile(file.getId());
+                    java.io.File tempCert = new java.io.File(tmpDir, file.getName());
+                    Timber.i(TAG + "%s %s <-", tempCert.getName(), tempCert.getTotalSpace());
+                    createLocalFile(is, tempCert);
+                    Timber.i(TAG + "%s -> %s", tempCert.getName(), tempCert.getTotalSpace());
+                    mCertificateManager.addCertificate(tempCert)
+                            .subscribe(uuid -> {
+                                Timber.d("Certificate copied");
+                            }, throwable -> {
+                                Timber.e(throwable, "Importing failed with error");
+                            });
+                    tempCert.delete();
+                }
+                setAsyncResult("Restore Successful");
                 return null;
             }
         };
@@ -248,7 +327,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                 return folder.getId();
             }
         }
-        return null;
+        return createFolder(name);
     }
 
     private String getFolderIfExists(String name) {
@@ -267,16 +346,18 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
     }
 
     private String writeSeedsToDrive(String parents, String encrypted) {
+        ByteArrayContent contentStream = ByteArrayContent
+                                            .fromString("text/plain", encrypted);
         List<File> fl = queryFiles(parents);
         try {
             fl.get(0);
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             return createFile(parents,
                         GoogleDriveHelper.SEED_BACKUP_FILENAME,
-                        encrypted);
+                        contentStream);
         }
         File lastBackup = fl.get(0);
-        return updateFile(lastBackup.getId(), encrypted);
+        return updateFile(lastBackup.getId(), contentStream);
     }
 
     private String readSeedsFromDrive(String parents) {
@@ -287,43 +368,121 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
             return null;
         }
         File lastBackup = fl.get(0);
+        return readStringFromFile(lastBackup.getId());
+    }
+
+    private String writeDbToDrive(String parents) {
+        byte[] bytes;
+        try {
+            bytes = readLocalFileToByteArray(getAppDbFile());
+        } catch (IOException e) {
+            return null;
+        }
+        ByteArrayContent contentStream = new ByteArrayContent("application/x-sqlite3", bytes);
+        List<File> fl = queryFiles(parents);
+        try {
+            fl.get(0);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            return createFile(parents,
+                    GoogleDriveHelper.DB_BACKUP_FILENAME,
+                    contentStream);
+        }
+        File lastBackup = fl.get(0);
+        return updateFile(lastBackup.getId(), contentStream);
+    }
+
+    private InputStream readDbFromDrive(String parents) {
+        List<File> fl = queryFiles(parents);
+        try {
+            fl.get(0);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            return null;
+        }
+        File lastBackup = fl.get(0);
         return readFile(lastBackup.getId());
     }
 
-    private String writeDbToDrive() {
-        return null;
+    private String writeCertsToDrive(String parents, java.io.File[] localFiles) {
+        List<String> driveFiles = new ArrayList<>();
+        List<java.io.File> toUpload = new ArrayList<>();
+        for (File file: queryFiles(parents)) {
+            driveFiles.add(file.getName());
+        }
+        for (java.io.File file: localFiles) {
+            if (driveFiles.contains(file.getName())) {
+                continue;
+            } else {
+                toUpload.add(file);
+            }
+        }
+        boolean success = true;
+        for (java.io.File file : toUpload) {
+            byte[] bytes;
+            try {
+                bytes = readLocalFileToByteArray(file);
+            } catch (IOException e) {
+                return null;
+            }
+            ByteArrayContent contentStream = new ByteArrayContent("application/json", bytes);
+            if (createFile(parents, file.getName(), contentStream) == null) {
+                success = false;
+            }
+
+        }
+
+        return (success) ? "success" : null;
     }
 
-    private boolean readDbFromDrive() {
-        return false;
+    private List<File> readCertsFromDrive(String parents) {
+        List<File> fl = queryFiles(parents);
+        try {
+            fl.get(0);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            return null;
+        }
+
+        return fl;
     }
+
 //--------------------------------------------------------------------------------------------------
 //  Low-level api methods
 //--------------------------------------------------------------------------------------------------
 
-    private String readFile(String fileId) {
+    private InputStream readFile(String fileId) {
         Timber.d(TAG + "readFile() <- " + fileId);
-        String contents = null;
+        InputStream is = null;
         try {
-            InputStream is = mDriveService.files().get(fileId).executeMediaAsInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-            contents = stringBuilder.toString();
+            is = mDriveService.files().get(fileId).executeMediaAsInputStream();
         } catch (UserRecoverableAuthIOException e) {
             Timber.d(TAG + e + " Should recover after this point");
             recoverFromGoogleAuthExecption();
         } catch (Exception e) {
             Timber.e(e, TAG);
         }
-        Timber.d(TAG + "readFile() -> " + contents);
+        Timber.d(TAG + "readFile() -> " + is);
+        return is;
+    }
+
+    private String readStringFromFile(String fileId) {
+        Timber.d(TAG + "readStringFromFile() <- " + fileId);
+        String contents = null;
+        try (InputStream is = readFile(fileId);
+             BufferedReader br = new BufferedReader(new InputStreamReader(is)))
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            contents = stringBuilder.toString();
+        } catch (Exception e) {
+            Timber.e(e, TAG);
+        }
+        Timber.d(TAG + "readStringFromFile() -> " + contents);
         return contents;
     }
 
-    private String createFile(String parents, String filename, String content) {
+    private String createFile(String parents, String filename, ByteArrayContent content) {
         Timber.d(TAG + "createFile() <- " + content);
         File metadata = new File()
                 .setParents(Collections.singletonList(parents))
@@ -331,8 +490,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                 .setName(filename);
         File file = null;
         try {
-            ByteArrayContent contentStream = ByteArrayContent.fromString("text/plain", content);
-            file = mDriveService.files().create(metadata, contentStream)
+            file = mDriveService.files().create(metadata, content)
                     .setFields("id, name, parents")
                     .execute();
         } catch (UserRecoverableAuthIOException e) {
@@ -349,12 +507,11 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
         return file.getId();
     }
 
-    private String updateFile(String fileId, String content) {
+    private String updateFile(String fileId, ByteArrayContent content) {
         Timber.d(TAG + "updateFile() <- " + content);
         File file = null;
         try {
-            ByteArrayContent contentStream = ByteArrayContent.fromString("text/plain", content);
-            file = mDriveService.files().update(fileId, null, contentStream)
+            file = mDriveService.files().update(fileId, null, content)
                     .setFields("id, name, parents")
                     .execute();
         } catch (UserRecoverableAuthIOException e) {
@@ -432,7 +589,7 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
                     .setQ("mimeType='application/vnd.google-apps.folder'")
                     .setFields("files(id, name)")
                     .execute();
-        } catch (UserRecoverableAuthIOException e) {
+        } catch (UserRecoverableAuthIOException | NullPointerException e) {
             Timber.d(TAG + e + " Should recover after this point");
             recoverFromGoogleAuthExecption();
         } catch (IOException e) {
@@ -447,6 +604,60 @@ public class GoogleDriveServiceImpl extends Observable implements OnSuccessListe
             Timber.d(TAG + "             -> /%s %s", folder.getName(), folder.getId());
         }
         return fl.getFiles();
+    }
+
+//--------------------------------------------------------------------------------------------------
+//  IO methods
+//--------------------------------------------------------------------------------------------------
+
+    private java.io.File getAppDbFile() {
+        return mActivity.get().getApplicationContext().getDatabasePath(GoogleDriveHelper.DB_BACKUP_FILENAME);
+    }
+
+    private java.io.File[] getCertFiles() {
+        java.io.File certDir = new java.io.File(mActivity.get().getApplicationContext().getFilesDir(), "certs");
+        return certDir.listFiles();
+    }
+
+    private java.io.File getTempDirectory() {
+        java.io.File certDir = new java.io.File(mActivity.get().getFilesDir(), "tmp");
+        certDir.mkdirs();
+        return certDir;
+    }
+
+    private byte[] readLocalFileToByteArray(java.io.File file) throws IOException {
+        try (RandomAccessFile f = new RandomAccessFile(file, "r")) {
+            byte[] data = new byte[(int) f.length()];
+            f.readFully(data);
+            return data;
+        }
+    }
+
+    private java.io.File createLocalFile(final InputStream src, java.io.File file) {
+        if (src != null) {
+            try {
+                writeStreamToFileOutput(src, new FileOutputStream(file));
+            } catch (IOException e) {
+                Timber.e(TAG + e);
+            }
+        }
+        return file;
+    }
+
+    private void writeStreamToFileOutput(final InputStream is, final FileOutputStream os) throws IOException {
+        try {
+            final byte[] buffer = new byte[4 * 1024]; // or other buffer size
+            int read;
+
+            while ((read = is.read(buffer)) != -1) {
+                os.write(buffer, 0, read);
+            }
+            os.flush();
+
+        } finally {
+            is.close();
+            os.close();
+        }
     }
 
 //    private void syncNow(Account account) {

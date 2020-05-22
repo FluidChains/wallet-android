@@ -111,13 +111,13 @@
     <string name="certificate_delete_button">Delete Credential</string>
 
     <!-- Settings -->
+    <string name="settings_sync" translatable="false">Back-up Settings</string>
     <string name="settings_about" translatable="false">About Fluidcerts</string>
     <string name="settings_add_issuer">Add Issuer</string>
     <string name="settings_add_credential">Add Credential</string>
     <string name="settings_reveal_passphrase">My Passphrase</string>
     <string name="settings_about_passphrases">About Passphrases</string>
     <string name="settings_privacy_policy">Privacy Policy</string>
-    <string name="settings_backup_wallet" translatable="false">Backup Wallet</string>
     <string name="settings_email_logs">Email Logs</string>
 
     <string name="settings_logout">Log out and Reset</string>
@@ -244,5 +244,10 @@
     <string name="sync_authority" translatable="false">com.fluidcerts.android.app.ui.drive.DriveRestoreActivity</string>
     <string name="sync_account_type" translatable="false">com.google</string>
     <string name="server_client_id" translatable="false">561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
+
+    <!--SyncAdapterSettings Fragment-->
+    <string name="fragment_sync_adapter_settings_switch_enable" translatable="false">Enable Google Drive Sync</string>
+    <string name="fragment_sync_adapter_settings_backup_button" translatable="false">Back-up Certificates</string>
+    <string name="fragment_sync_adapter_settings_restore_button" translatable="false">Restore Certificates</string>
 
 </resources>

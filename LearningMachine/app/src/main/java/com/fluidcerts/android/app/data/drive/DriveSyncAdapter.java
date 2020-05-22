@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.util.Pair;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -17,6 +18,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 
 import java.util.Collections;
+import java.util.Observer;
 
 import timber.log.Timber;
 
@@ -26,6 +28,7 @@ public class DriveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private Context mContext;
     private ContentResolver mContentResolver;
+    private Observer mDriveCallbackObserver;
 
     public DriveSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -39,6 +42,29 @@ public class DriveSyncAdapter extends AbstractThreadedSyncAdapter {
         mContentResolver = context.getContentResolver();
     }
 
+    private Drive initGoogleDriveService() {
+        // Check for authorized account
+        GoogleSignInAccount googleAccount = GoogleSignIn.getLastSignedInAccount(mContext);
+        if (googleAccount == null) {
+            Timber.i(TAG + "No authorized account found, returning.");
+            return null;
+        } else {
+            Timber.i(TAG + "%s", googleAccount.getAccount());
+        }
+
+        // Use the authenticated account to sign in to the Drive service.
+        GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(
+                mContext,
+                Collections.singleton(DriveScopes.DRIVE_FILE));
+        credential.setSelectedAccount(googleAccount.getAccount());
+        return new Drive.Builder(
+                AndroidHttp.newCompatibleTransport(),
+                new GsonFactory(),
+                credential)
+                .setApplicationName("FluidCerts")
+                .build();
+    }
+
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Timber.i(TAG + "Starting synchronization...");
@@ -47,6 +73,23 @@ public class DriveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void syncWallet() {
         Timber.i(TAG + "syncWallet()");
+        mDriveCallbackObserver = (observable, o) -> {
+            if (observable instanceof GoogleDriveServiceImpl) {
+                Timber.i(TAG + "syncObserver -> update()");
+                GoogleDriveServiceImpl service = (GoogleDriveServiceImpl) observable;
+                String fileId = service.getAsyncResult();
+                if (fileId != null) {
+                    Timber.i(TAG + "sync successful -> " + fileId);
+                    return;
+                }
+                Timber.i(TAG + "sync failed");
+            }
+        };
+        Bundle extra = new Bundle();
+        Drive driveService = initGoogleDriveService();
+        GoogleDriveHelper.connectAndStartOperation(driveService,
+                mDriveCallbackObserver,
+                new Pair<>(GoogleDriveHelper.BACKUP_CERTS_CODE, extra));
     }
 
 }
