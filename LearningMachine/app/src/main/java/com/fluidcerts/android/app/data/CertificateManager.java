@@ -60,6 +60,10 @@ public class CertificateManager {
         }
     }
 
+    public Observable<CertificateRecord> getCertificates() {
+        return Observable.from(mCertificateStore.loadCertificates());
+    }
+
     public Observable<CertificateRecord> getCertificate(String certificateUuid) {
         return Observable.just(mCertificateStore.loadCertificate(certificateUuid));
     }
@@ -75,6 +79,10 @@ public class CertificateManager {
 
     public Observable<String> addCertificate(File file) {
         return handleCertificateFile(file);
+    }
+
+    public Observable<String> addCertificate(InputStream stream) {
+        return handleCertificateInputStream(stream);
     }
 
     public Observable<Boolean> removeCertificate(String uuid) {

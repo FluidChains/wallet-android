@@ -1,21 +1,41 @@
 package com.fluidcerts.android.app.ui.onboarding;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 
 import com.fluidcerts.android.app.R;
+import com.fluidcerts.android.app.data.CertificateManager;
+import com.fluidcerts.android.app.data.bitcoin.BitcoinManager;
+import com.fluidcerts.android.app.data.drive.GoogleDriveFile;
 import com.fluidcerts.android.app.data.inject.Injector;
 import com.fluidcerts.android.app.data.preferences.SharedPreferencesManager;
 import com.fluidcerts.android.app.databinding.ActivityOnboardingBinding;
 import com.fluidcerts.android.app.ui.LMActivity;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingFlow.FlowType;
+import com.fluidcerts.android.app.util.DialogUtils;
+
+import java.util.function.Function;
 
 import javax.inject.Inject;
 
+import rx.Observable;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import timber.log.Timber;
+
 public class OnboardingActivity extends LMActivity implements AccountChooserFragment.Callback {
 
-    @Inject SharedPreferencesManager mSharedPreferencesManager;
+    @Inject
+    SharedPreferencesManager mSharedPreferencesManager;
+
+    @Inject
+    BitcoinManager mBitcoinManager;
+
+    @Inject
+    CertificateManager mCertificateManager;
 
     private static final String SAVED_FLOW = "onboardingFlow";
 
@@ -77,12 +97,23 @@ public class OnboardingActivity extends LMActivity implements AccountChooserFrag
     }
 
     @Override
-    public void onExistingAccount(boolean isGoogleFlow) {
-        if (!isGoogleFlow) {
-            replaceScreens(FlowType.EXISTING_ACCOUNT);
-            return;
-        }
-        replaceScreens(FlowType.EXISTING_ACCOUNT_GOOGLE);
+    public void onExistingAccount() {
+        replaceScreens(FlowType.EXISTING_ACCOUNT);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onExistingDriveAccount(Action1<Boolean> loadingAction, Action1<Boolean> onDoneAction) {
+        Timber.i("[Drive] existing drive account");
+        askRestoreFromGoogleDrive(loadingAction, onDoneAction,
+                passphrase -> {
+                    Timber.i("[Drive] setting passphrase");
+                    return mBitcoinManager.setPassphrase(passphrase);
+                },
+                driveFile -> {
+                    Timber.i("[Drive] adding certificate: " + driveFile.name);
+                    return mCertificateManager.addCertificate(driveFile.stream);
+                });
     }
 
     private void setupAdapter() {
@@ -125,7 +156,8 @@ public class OnboardingActivity extends LMActivity implements AccountChooserFrag
 
     private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
-        public void onPageScrolled(int i, float v, int i1) { }
+        public void onPageScrolled(int i, float v, int i1) {
+        }
 
         @Override
         public void onPageSelected(int position) {
@@ -138,7 +170,8 @@ public class OnboardingActivity extends LMActivity implements AccountChooserFrag
         }
 
         @Override
-        public void onPageScrollStateChanged(int i) { }
+        public void onPageScrollStateChanged(int i) {
+        }
     };
 
 

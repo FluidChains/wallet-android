@@ -6,15 +6,23 @@ import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fluidcerts.android.app.R;
+import com.fluidcerts.android.app.data.bitcoin.BitcoinManager;
+import com.fluidcerts.android.app.data.inject.Injector;
 import com.fluidcerts.android.app.databinding.FragmentAccountChooserBinding;
+import com.fluidcerts.android.app.ui.home.HomeActivity;
 import com.fluidcerts.android.app.ui.video.VideoActivity;
+import com.fluidcerts.android.app.util.DialogUtils;
 import com.smallplanet.labalib.Laba;
 
+import javax.inject.Inject;
+
+import rx.functions.Action1;
 import timber.log.Timber;
 
 public class AccountChooserFragment extends OnboardingFragment {
@@ -24,7 +32,10 @@ public class AccountChooserFragment extends OnboardingFragment {
 
     public interface Callback {
         void onNewAccount();
-        void onExistingAccount(boolean isGoogleFlow);
+
+        void onExistingAccount();
+
+        void onExistingDriveAccount(Action1<Boolean> loadingAction, Action1<Boolean> doneAction);
     }
 
     public static AccountChooserFragment newInstance() {
@@ -74,12 +85,51 @@ public class AccountChooserFragment extends OnboardingFragment {
         });
 
         mBinding.newAccountButton.setOnClickListener(view -> mCallback.onNewAccount());
-        mBinding.existingAccountButton.setOnClickListener(view -> mCallback.onExistingAccount(false));
-        mBinding.existingAccountGdriveButton.setOnClickListener(view -> mCallback.onExistingAccount(true));
+        mBinding.existingAccountButton.setOnClickListener(view -> mCallback.onExistingAccount());
+        mBinding.existingAccountGdriveButton.setOnClickListener(view -> {
+            mCallback.onExistingDriveAccount(this::loadingGDrive, this::onDone);
+        });
 
         mSharedPreferencesManager.setFirstLaunch(true);
 
         return mBinding.getRoot();
+    }
+
+    private void loadingGDrive(boolean display) {
+        if (display)
+            displayProgressDialog(R.string.onboarding_passphrase_load_gdrive_progress);
+        else hideProgressDialog();
+    }
+
+    private void onDone(Boolean successful) {
+        if (!successful) {
+            backupNotFound(getResources().getString(R.string.error_passphrase_backup_not_found_gdrive));
+            return;
+        }
+
+        if (isVisible()) {
+            // if we return to the app by pasting in our passphrase, we
+            // must have already backed it up!
+            mSharedPreferencesManager.setHasSeenBackupPassphraseBefore(true);
+            mSharedPreferencesManager.setWasReturnUser(true);
+            mSharedPreferencesManager.setFirstLaunch(false);
+            if (continueDelayedURLsFromDeepLinking() == false) {
+                startActivity(new Intent(getActivity(), HomeActivity.class));
+                getActivity().finish();
+            }
+        }
+    }
+
+    private void backupNotFound(String message) {
+        DialogUtils.showAlertDialog(getContext(), this,
+                R.drawable.ic_dialog_failure,
+                getResources().getString(R.string.error_passphrase_backup_not_found_title),
+                message,
+                null,
+                getResources().getString(R.string.ok_button),
+                (btnIdx) -> {
+                    return null;
+                });
     }
 
     @Override

@@ -19,6 +19,30 @@ public class CertificateStore implements DataStore {
         mDatabase = databaseHelper.getWritableDatabase();
     }
 
+    public List<CertificateRecord> loadCertificates() {
+        List<CertificateRecord> certificates = new ArrayList<>();
+        Cursor cursor = mDatabase.query(
+                LMDatabaseHelper.Table.CERTIFICATE,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor.moveToFirst()) {
+            CertificateCursorWrapper cursorWrapper = new CertificateCursorWrapper(cursor);
+            while (!cursorWrapper.isAfterLast()) {
+                certificates.add(cursorWrapper.getCertificate());
+                cursorWrapper.moveToNext();
+            }
+        }
+
+        cursor.close();
+
+        return certificates;
+    }
+
     public CertificateRecord loadCertificate(String certUuid) {
         CertificateRecord certificate = null;
         Cursor cursor = mDatabase.query(

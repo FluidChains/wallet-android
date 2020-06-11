@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.fluidcerts.android.app.ui.onboarding.OnboardingScreen.ACCOUNT_CHOOSER;
-import static com.fluidcerts.android.app.ui.onboarding.OnboardingScreen.PASTE_PASSPHRASE_GOOGLE;
 import static com.fluidcerts.android.app.ui.onboarding.OnboardingScreen.WELCOME_BACK;
 import static com.fluidcerts.android.app.ui.onboarding.OnboardingScreen.BACKUP_PASSPHRASE;
 import static com.fluidcerts.android.app.ui.onboarding.OnboardingScreen.VIEW_PASSPHRASE;
@@ -20,9 +19,7 @@ public class OnboardingFlow implements Serializable {
         UNKNOWN(Arrays.asList(ACCOUNT_CHOOSER)),
         BACKUP_ONLY(Arrays.asList(WELCOME_BACK, BACKUP_PASSPHRASE)),
         NEW_ACCOUNT(Arrays.asList(ACCOUNT_CHOOSER, VIEW_PASSPHRASE, BACKUP_PASSPHRASE)),
-        EXISTING_ACCOUNT(Arrays.asList(ACCOUNT_CHOOSER, PASTE_PASSPHRASE)),
-        EXISTING_ACCOUNT_GOOGLE(Arrays.asList(ACCOUNT_CHOOSER, PASTE_PASSPHRASE_GOOGLE));
-
+        EXISTING_ACCOUNT(Arrays.asList(ACCOUNT_CHOOSER, PASTE_PASSPHRASE));
 
         private List<OnboardingScreen> mScreens;
 
@@ -50,5 +47,4 @@ public class OnboardingFlow implements Serializable {
     public void setPosition(int position) {
         mPosition = position;
     }
-
 }

@@ -31,18 +31,13 @@ import timber.log.Timber;
 
 public class PastePassphraseFragment extends OnboardingFragment {
 
-    @Inject protected BitcoinManager mBitcoinManager;
+    @Inject
+    protected BitcoinManager mBitcoinManager;
 
     private FragmentPastePassphraseBinding mBinding;
 
-    private boolean isGoogleFlow;
-
-    public static PastePassphraseFragment newInstance(boolean isGoogleFlow) {
-        PastePassphraseFragment instance = new PastePassphraseFragment();
-        Bundle args = new Bundle();
-        args.putBoolean("isGoogleFlow", isGoogleFlow);
-        instance.setArguments(args);
-        return instance;
+    public static PastePassphraseFragment newInstance() {
+        return new PastePassphraseFragment();
     }
 
     @Override
@@ -50,44 +45,23 @@ public class PastePassphraseFragment extends OnboardingFragment {
         super.onCreate(savedInstanceState);
         Injector.obtain(getContext())
                 .inject(this);
-        Bundle args = getArguments();
-        isGoogleFlow = args.getBoolean("isGoogleFlow");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_paste_passphrase, container, false);
-        if (isGoogleFlow) {
-            ((LMActivity) getActivity()).askToGetPassphraseFromGoogleDrive((loading) -> {
-                if ((boolean) loading) {
-                    displayProgressDialog(R.string.onboarding_passphrase_load_gdrive_progress);
-                } else {
-                    hideProgressDialog();
-                }
-                return null;
-            },(passphrase) -> {
-                Timber.i("Sync.BackupPassphraseFragment PastePassphraseFragment() -> " + passphrase);
-                if (passphrase != null) {
-                    mBinding.pastePassphraseEditText.setText(passphrase.toString());
-                    onDone();
-                } else {
-                    backupNotFound(getResources().getString(R.string.error_passphrase_backup_not_found_gdrive));
-                }
-                return null;
-            });
-        } else {
-            ((LMActivity) getActivity()).askToGetPassphraseFromDevice((passphrase) -> {
-                if (passphrase != null) {
-                    mBinding.pastePassphraseEditText.setText(passphrase.toString());
-                    onDone();
-                } else {
-                    backupNotFound(getResources().getString(R.string.error_passphrase_backup_not_found_device));
-                }
-                return null;
-            });
-        }
 
-        mBinding.pastePassphraseEditText.setFilters(new InputFilter[] {
+        ((LMActivity) getActivity()).askToGetPassphraseFromDevice((passphrase) -> {
+            if (passphrase != null) {
+                mBinding.pastePassphraseEditText.setText(passphrase.toString());
+                onDone();
+            } else {
+                backupNotFound(getResources().getString(R.string.error_passphrase_backup_not_found_device));
+            }
+            return null;
+        });
+
+        mBinding.pastePassphraseEditText.setFilters(new InputFilter[]{
                 new InputFilter.AllCaps() {
                     @Override
                     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -133,7 +107,7 @@ public class PastePassphraseFragment extends OnboardingFragment {
                         .compose(bindToMainThread())
                         .subscribe(wallet -> {
 
-                            if(isVisible()) {
+                            if (isVisible()) {
 
                                 Log.d("LM", "PastePassphraseFragment isVisible()");
 
@@ -141,7 +115,7 @@ public class PastePassphraseFragment extends OnboardingFragment {
                                     @Override
                                     public void run() {
 
-                                        if(isVisible()) {
+                                        if (isVisible()) {
                                             // if we return to the app by pasting in our passphrase, we
                                             // must have already backed it up!
                                             mSharedPreferencesManager.setHasSeenBackupPassphraseBefore(true);

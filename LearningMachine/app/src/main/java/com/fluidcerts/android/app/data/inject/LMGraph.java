@@ -1,7 +1,6 @@
 package com.fluidcerts.android.app.data.inject;
 
 import com.fluidcerts.android.app.LMApplication;
-import com.fluidcerts.android.app.data.drive.DriveSyncAdapter;
 import com.fluidcerts.android.app.data.drive.GoogleDriveServiceImpl;
 import com.fluidcerts.android.app.ui.LMFragment;
 import com.fluidcerts.android.app.ui.LMIssuerBaseFragment;
@@ -16,11 +15,11 @@ import com.fluidcerts.android.app.ui.issuer.IssuerActivity;
 import com.fluidcerts.android.app.ui.issuer.IssuerFragment;
 import com.fluidcerts.android.app.ui.issuer.IssuerInfoActivity;
 import com.fluidcerts.android.app.ui.issuer.IssuerInfoFragment;
+import com.fluidcerts.android.app.ui.onboarding.BackupPassphraseFragment;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingActivity;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingFragment;
 import com.fluidcerts.android.app.ui.onboarding.PastePassphraseFragment;
 import com.fluidcerts.android.app.ui.onboarding.ViewPassphraseFragment;
-import com.fluidcerts.android.app.ui.onboarding.BackupPassphraseFragment;
 import com.fluidcerts.android.app.ui.settings.SettingsFragment;
 import com.fluidcerts.android.app.ui.settings.passphrase.RevealPassphraseFragment;
 import com.fluidcerts.android.app.ui.splash.SplashActivity;
