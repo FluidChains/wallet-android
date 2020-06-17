@@ -61,6 +61,13 @@ public class GoogleDriveService {
             } catch (IOException e) {
                 return Observable.error(e);
             }
+            try {
+                fileList.getFiles().get(0);
+                log(String.format("queryFiles -> fileList: %s", fileList.getFiles()));
+            } catch (IndexOutOfBoundsException e) {
+                log(String.format("queryFiles -> fileList: %s", null));
+                return Observable.just(null);
+            }
             return Observable.from(fileList.getFiles());
         });
     }
@@ -108,13 +115,17 @@ public class GoogleDriveService {
 
     public Observable<GoogleDriveFile> downloadDriveFile(File file) {
         return Observable.defer(() -> {
-            log(String.format("downloadingFile -> id: %s | name: %s", file.getId(), file.getName()));
+            if (file == null) {
+                return Observable.just(null);
+            }
             GoogleDriveFile driveFile;
             try {
+                log(String.format("downloadingFile -> id: %s | name: %s", file.getId(), file.getName()));
                 driveFile = new GoogleDriveFile(
                         file.getName(),
                         mDriveService.files().get(file.getId()).executeMediaAsInputStream());
-            } catch (Exception e) {
+            } catch (NullPointerException | IOException e) {
+                log(String.format("downloadingFile -> error: %s ", e));
                 return Observable.error(e);
             }
             log(String.format("File downloaded -> name: %s", file.getName()));

@@ -97,23 +97,27 @@ public class OnboardingActivity extends LMActivity implements AccountChooserFrag
     }
 
     @Override
-    public void onExistingAccount() {
-        replaceScreens(FlowType.EXISTING_ACCOUNT);
+    public void onExistingAccount(boolean isGoogleFlow) {
+        if (!isGoogleFlow) {
+            replaceScreens(FlowType.EXISTING_ACCOUNT);
+            return;
+        }
+        replaceScreens(FlowType.EXISTING_ACCOUNT_GOOGLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onExistingDriveAccount(Action1<Boolean> loadingAction, Action1<Boolean> onDoneAction) {
         Timber.i("[Drive] existing drive account");
-        askRestoreFromGoogleDrive(loadingAction, onDoneAction,
-                passphrase -> {
-                    Timber.i("[Drive] setting passphrase");
-                    return mBitcoinManager.setPassphrase(passphrase);
-                },
-                driveFile -> {
-                    Timber.i("[Drive] adding certificate: " + driveFile.name);
-                    return mCertificateManager.addCertificate(driveFile.stream);
-                });
+//        askRestoreFromGoogleDrive(loadingAction, onDoneAction,
+//                passphrase -> {
+//                    Timber.i("[Drive] setting passphrase");
+//                    return mBitcoinManager.setPassphrase(passphrase);
+//                },
+//                driveFile -> {
+//                    Timber.i("[Drive] adding certificate: " + driveFile.name);
+//                    return mCertificateManager.addCertificate(driveFile.stream);
+//                });
     }
 
     private void setupAdapter() {

@@ -33,7 +33,7 @@ public class AccountChooserFragment extends OnboardingFragment {
     public interface Callback {
         void onNewAccount();
 
-        void onExistingAccount();
+        void onExistingAccount(boolean isGoogleFlow);
 
         void onExistingDriveAccount(Action1<Boolean> loadingAction, Action1<Boolean> doneAction);
     }
@@ -85,10 +85,11 @@ public class AccountChooserFragment extends OnboardingFragment {
         });
 
         mBinding.newAccountButton.setOnClickListener(view -> mCallback.onNewAccount());
-        mBinding.existingAccountButton.setOnClickListener(view -> mCallback.onExistingAccount());
-        mBinding.existingAccountGdriveButton.setOnClickListener(view -> {
-            mCallback.onExistingDriveAccount(this::loadingGDrive, this::onDone);
-        });
+        mBinding.existingAccountButton.setOnClickListener(view -> mCallback.onExistingAccount(false));
+        mBinding.existingAccountGdriveButton.setOnClickListener(view -> mCallback.onExistingAccount(true));
+//        mBinding.existingAccountGdriveButton.setOnClickListener(view -> {
+//            mCallback.onExistingDriveAccount(this::loadingGDrive, this::onDone);
+//        });
 
         mSharedPreferencesManager.setFirstLaunch(true);
 

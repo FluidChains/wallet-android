@@ -1,7 +1,6 @@
 package com.fluidcerts.android.app.data.inject;
 
 import com.fluidcerts.android.app.LMApplication;
-import com.fluidcerts.android.app.data.drive.GoogleDriveServiceImpl;
 import com.fluidcerts.android.app.ui.LMFragment;
 import com.fluidcerts.android.app.ui.LMIssuerBaseFragment;
 import com.fluidcerts.android.app.ui.cert.AddCertificateFileFragment;
@@ -56,6 +55,4 @@ public interface LMGraph {
     void inject(CertificateInfoFragment fragment);
     void inject(SyncAdapterSettingsFragment fragment);
 
-    // Service
-    void inject(GoogleDriveServiceImpl service);
 }

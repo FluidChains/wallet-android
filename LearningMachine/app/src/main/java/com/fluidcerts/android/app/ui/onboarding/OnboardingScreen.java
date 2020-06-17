@@ -5,5 +5,6 @@ public enum OnboardingScreen {
     VIEW_PASSPHRASE,
     BACKUP_PASSPHRASE,
     PASTE_PASSPHRASE,
+    PASTE_PASSPHRASE_GOOGLE,
     WELCOME_BACK
 }

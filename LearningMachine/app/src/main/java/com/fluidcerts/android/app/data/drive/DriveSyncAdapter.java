@@ -72,24 +72,7 @@ public class DriveSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void syncWallet() {
-        Timber.i(TAG + "syncWallet()");
-        mDriveCallbackObserver = (observable, o) -> {
-            if (observable instanceof GoogleDriveServiceImpl) {
-                Timber.i(TAG + "syncObserver -> update()");
-                GoogleDriveServiceImpl service = (GoogleDriveServiceImpl) observable;
-                String fileId = service.getAsyncResult();
-                if (fileId != null) {
-                    Timber.i(TAG + "sync successful -> " + fileId);
-                    return;
-                }
-                Timber.i(TAG + "sync failed");
-            }
-        };
-        Bundle extra = new Bundle();
-        Drive driveService = initGoogleDriveService();
-        GoogleDriveHelper.connectAndStartOperation(driveService,
-                mDriveCallbackObserver,
-                new Pair<>(GoogleDriveHelper.BACKUP_CERTS_CODE, extra));
+
     }
 
 }

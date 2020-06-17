@@ -182,6 +182,7 @@
     <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as learningmachine.dat.</string>
     <string name="onboarding_passphrase_save_gdrive_complete">Your passphrase has been saved to Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_progress" translatable="false">Searching Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_credentials_progress" translatable="false">Loading credentials.</string>
     <string name="onboarding_passphrase_save_gdrive_progress" translatable="false">Saving to Google Drive.</string>
 
 
