@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            tools:context="com.fluidcerts.android.app.ui.settings.SettingsActivity">
+
+<!--            <Switch-->
+<!--                android:id="@+id/sync_adapter_settings_enable_sync_switch"-->
+<!--                style="@style/Text.Title.2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="56dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:paddingStart="17dp"-->
+<!--                android:paddingEnd="17dp"-->
+<!--                android:text="@string/fragment_sync_adapter_settings_switch_enable" />-->
+
+            <TextView
+                android:id="@+id/sync_adapter_settings_backup_button"
+                style="@style/Text.Title.2"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
+                android:text="@string/fragment_sync_adapter_settings_backup_button" />
+
+            <TextView
+                android:id="@+id/sync_adapter_settings_restore_button"
+                style="@style/Text.Title.2"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
+                android:text="@string/fragment_sync_adapter_settings_restore_button" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/sync_adapter_settings_show_files"-->
+<!--                style="@style/Text.Title.2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="56dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:paddingStart="17dp"-->
+<!--                android:paddingEnd="17dp"-->
+<!--                android:text="Show Files" />-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white_background" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

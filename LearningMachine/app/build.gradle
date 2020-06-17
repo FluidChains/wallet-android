@@ -6,10 +6,10 @@ android {
         javaMaxHeapSize "4g"
     }
     defaultConfig {
-        applicationId "com.learningmachine.android.app"
+        applicationId "com.fluidcerts.android.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionName "3.1.3"
+        versionName "3.2.45"
         def buildNumber = System.getenv("BUILD_NUMBER")
         if (buildNumber != null) {
             versionCode buildNumber.toInteger()
@@ -37,6 +37,7 @@ android {
     }
 
     packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
         exclude 'lib/x86_64/darwin/libscrypt.dylib'
         exclude "org/bitcoinj/crypto/mnemonic/wordlist/english.txt"
         exclude "org/bitcoinj/crypto/cacerts"
@@ -57,7 +58,7 @@ android {
 
     productFlavors {
         dev {
-            applicationId "com.learningmachine.android.app.dev"
+            applicationId "com.fluidcerts.android.app.dev"
             dimension "env"
             if (project.hasProperty("devBuild")) {
                 // don't package all resources for dev builds
@@ -68,7 +69,7 @@ android {
             }
         }
         staging {
-            applicationId "com.learningmachine.android.app.staging"
+            applicationId "com.fluidcerts.android.app.staging"
             dimension "env"
         }
         production {
@@ -84,7 +85,7 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "${variant.name}-${versionName}.apk"
+                    outputFileName = "fluidcerts-${variant.name}-${versionName}.apk"
                 }
             }
 
@@ -115,7 +116,7 @@ final MULTIDEX_VERSION = '1.0.1'
 final DAGGER_VERSION = '2.22.1'
 final SLF4J_VERSION = '1.7.25'
 final SPONGYCASTLE_VERSION = '1.56.0.0'
-final PROTOBUF_VERSION = '3.3.1'
+final PROTOBUF_VERSION = '3.4.0'
 final TIMBER_VERSION = '4.5.1'
 final JODATIMEANDROID_VERSION = '2.9.9'
 final RETROFIT_VERSION = '2.5.0'
@@ -167,6 +168,9 @@ dependencies {
     implementation "com.madgag.spongycastle:core:$SPONGYCASTLE_VERSION"
     implementation "com.google.protobuf:protobuf-java:$PROTOBUF_VERSION"
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
     implementation "net.danlew:android.joda:$JODATIMEANDROID_VERSION"
@@ -183,26 +187,32 @@ dependencies {
     implementation "nl.littlerobots.rxlint:rxlint:$RXLINT_VERSION"
     implementation "com.squareup.picasso:picasso:$PICASSO_VERSION"
     implementation "com.google.guava:guava:$GUAVA_VERSION"
-
     implementation 'com.google.android.exoplayer:exoplayer:2.8.4'
-
-
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$ESPRESSO_VERSION"
-//    androidTestImplementation "com.android.support.test:testing-support-lib:0.1"
-    androidTestImplementation("com.android.support.test.espresso:espresso-contrib:2.0") {
+
+    //    androidTestImplementation "com.android.support.test:testing-support-lib:0.1"
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.0') {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.http-client:google-http-client-gson:1.26.0'
+    implementation('com.google.api-client:google-api-client-android:1.26.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
     androidTestImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
-
     testImplementation "junit:junit:$JUNIT_VERSION"
     testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
     testImplementation "org.robolectric:robolectric:$ROBOLECTRIC_VERSION"
     testImplementation "org.robolectric:shadows-multidex:$ROBOLECTRIC_VERSION"
     testImplementation "joda-time:joda-time:$JODATIME_VERSION"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation files('libs/bitcoinj-core-uniquid-0.15-SNAPSHOT.jar')
 }

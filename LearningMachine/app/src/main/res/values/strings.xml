@@ -1,5 +1,5 @@
 <resources>
-    <string name="home_issuers">Blockcerts Wallet</string>
+    <string name="home_issuers">Fluidcerts Wallet</string>
     <string name="home_settings_menu_item_title">Settings</string>
 
     <string name="settings_privacy_policy_endpoint">https://www.blockcerts.org/mobile-privacy</string>
@@ -8,7 +8,8 @@
     <!-- Onboarding -->
 
     <string name="onboarding_new_user">New User</string>
-    <string name="onboarding_returning_user">Current User</string>
+    <string name="onboarding_returning_user">Restore From Device</string>
+    <string name="onboarding_returning_user_gdrive" translatable="false">Restore From Google Account</string>
 
     <!--This is for accessibility-->
     <string name="play_intro_video">Play intro video</string>
@@ -23,11 +24,12 @@
 
 
     <string name="onboarding_backup_methods">Select Backup Methods</string>
-    <string name="onboarding_backup_description">Please select at least two options below.</string>
+    <string name="onboarding_backup_description">Please select at least three options below.</string>
     <string name="onboarding_backup_write_button">Manual Hard Copy</string>
     <string name="onboarding_backup_save_button">Save to Device</string>
+    <string name="onboarding_backup_gdrive_button">Save to Google Drive</string>
     <string name="onboarding_backup_email_button">Copy to Email or Clipboard</string>
-    <string name="select_two_to_continue">Select At Least Two to Continue</string>
+    <string name="select_two_to_continue">Select At Least Three to Continue</string>
     <string name="onboarding_backup_done_button">Done</string>
 
 
@@ -41,7 +43,11 @@
 
     <string name="error_invalid_passphrase_malformed">Invalid passphrase</string>
 
-    <string name="onboarding_welcome_title">Welcome to the new Blockcerts Wallet!</string>
+    <string name="error_passphrase_backup_not_found_title" translatable="false">Backup not found</string>
+    <string name="error_passphrase_backup_not_found_device" translatable="false">Passphrase backup not found on device</string>
+    <string name="error_passphrase_backup_not_found_gdrive" translatable="false">Passphrase backup not found on Google Drive</string>
+
+    <string name="onboarding_welcome_title">Welcome to the new Fluidcerts Wallet!</string>
     <string name="onboarding_welcome_desc">We\'ve improved the experience, but you\'ll be able to receive and manage your credentials as before. Please note that you are now required to back up your passphrase, but you can do so easily in the app. Tap continue to begin.</string>
     <string name="onboarding_welcome_button_title">Continue</string>
 
@@ -105,6 +111,8 @@
     <string name="certificate_delete_button">Delete Credential</string>
 
     <!-- Settings -->
+    <string name="settings_sync" translatable="false">Back-up Settings</string>
+    <string name="settings_about" translatable="false">About Fluidcerts</string>
     <string name="settings_add_issuer">Add Issuer</string>
     <string name="settings_add_credential">Add Credential</string>
     <string name="settings_reveal_passphrase">My Passphrase</string>
@@ -116,7 +124,6 @@
     <string name="settings_logout_title">Log out and Clear Device</string>
     <string name="settings_logout_message">Logging out will remove all of your credentials and any stored passphrases on this device.</string>
     <string name="settings_logout_button_title">Log out</string>
-
 
 
     <!-- Add Issuer / Add Certificate -->
@@ -133,7 +140,6 @@
     <!-- Share certificate -->
     <string name="fragment_certificate_share_url_button_title">Share Link</string>
     <string name="fragment_certificate_share_file_button_title">Share File</string>
-
 
 
     <!-- Dialog Error Messages -->
@@ -169,15 +175,19 @@
     <string name="onboarding_passphrase_email_before">This is a low-security backup method. Do you want to continue?</string>
 
     <string name="onboarding_passphrase_permissions_error_title">Backup Error</string>
-    <string name="onboarding_passphrase_permissions_error">To save your passphrase to this device you must give Blockcerts Wallet permission to access your files.</string>
+    <string name="onboarding_passphrase_permissions_error">To save your passphrase to this device you must give Fluidcerts Wallet permission to access your files.</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" translatable="false">To save your passphrase to this device you must give Fluidcerts Wallet permission to access Google Drive.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Complete</string>
     <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as learningmachine.dat.</string>
+    <string name="onboarding_passphrase_save_gdrive_complete">Your passphrase has been saved to Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_progress" translatable="false">Searching Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_credentials_progress" translatable="false">Loading credentials.</string>
+    <string name="onboarding_passphrase_save_gdrive_progress" translatable="false">Saving to Google Drive.</string>
 
 
     <string name="onboarding_passphrase_cancel">Cancel</string>
     <string name="ok_button">Okay</string>
-
 
     <!-- Settings -->
     <string name="settings_fragment">Settings</string>
@@ -208,8 +218,8 @@
     <string name="fragment_certificate_info_delete_warning_negative_title">Delete</string>
 
     <!-- Check version -->
-    <string name="check_version_title">Please Update Blockcerts Wallet</string>
-    <string name="check_version_message">In order to add an issuer or credential, you must have the latest version of Blockcerts Wallet.</string>
+    <string name="check_version_title">Please Update Fluidcerts Wallet</string>
+    <string name="check_version_message">In order to add an issuer or credential, you must have the latest version of Fluidcerts Wallet.</string>
     <string name="check_version_message_cancel_title">Cancel</string>
 
     <!-- Certificate Verification -->
@@ -228,5 +238,17 @@
 
     <!--SAML login title-->
     <string name="login_to_issuer">Log In To Issuer</string>
+
+    <!--Drive SyncAdapter-->
+    <string name="sync_content_provider_label" translatable="false">FluidcertsSync</string>
+    <string name="sync_authenticator_label" translatable="false">FluidCertsSyncAdapter</string>
+    <string name="sync_authority" translatable="false">com.fluidcerts.android.app.ui.drive.DriveRestoreActivity</string>
+    <string name="sync_account_type" translatable="false">com.google</string>
+    <string name="server_client_id" translatable="false">561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
+
+    <!--SyncAdapterSettings Fragment-->
+    <string name="fragment_sync_adapter_settings_switch_enable" translatable="false">Enable Google Drive Sync</string>
+    <string name="fragment_sync_adapter_settings_backup_button" translatable="false">Back-up Certificates</string>
+    <string name="fragment_sync_adapter_settings_restore_button" translatable="false">Restore Certificates</string>
 
 </resources>

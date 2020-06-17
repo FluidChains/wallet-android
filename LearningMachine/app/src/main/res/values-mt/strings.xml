@@ -1,5 +1,5 @@
 <resources>
-    <string name="home_issuers">Blockcerts Wallet</string>
+    <string name="home_issuers">Fluidcerts Wallet</string>
     <string name="home_settings_menu_item_title">Settings</string>
 
     <string name="settings_privacy_policy_endpoint">https://www.blockcerts.org/mt/mobile-privacy</string>
@@ -26,8 +26,9 @@
     <string name="onboarding_backup_description">Jekk jogħġbok agħżel mill-inqas żewġ għażliet minn hawn taħt:</string>
     <string name="onboarding_backup_write_button">Kopja Stampata tal-Manwal</string>
     <string name="onboarding_backup_save_button">Issejvja Fuq Dan it-Tagħmir</string>
+    <string name="onboarding_backup_gdrive_button">Issejvja Fuq Google Drive</string>
     <string name="onboarding_backup_email_button">Ikkopja fuq Email jew Clipboard</string>
-    <string name="select_two_to_continue">Agħżel mill-Inqas Tnejn Biex Tkompli</string>
+    <string name="select_two_to_continue">Agħżel mill-Inqas Tlieta Biex Tkompli</string>
     <string name="onboarding_backup_done_button">Lest</string>
 
 
@@ -41,7 +42,7 @@
 
     <string name="error_invalid_passphrase_malformed">Passphrase Invalida</string>
 
-    <string name="onboarding_welcome_title">Merħba għall-Blockcerts Wallet il-ġdid!</string>
+    <string name="onboarding_welcome_title">Merħba għall-Fluidcerts Wallet il-ġdid!</string>
     <string name="onboarding_welcome_desc">Aħna tejjibna din l-esperjenza, imma int se tkun tista\' tirċievi u tamministra l-kredenzjali tiegħek bħal qabel. Jekk jogħġbok innota li issa għandek bżonn tagħmel backup tal-passphrase tiegħek, imma tista\' tagħmel hekk faċilment fl-app. Agħfas il-buttuna Kompli sabiex tibda.</string>
     <string name="onboarding_welcome_button_title">Kompli</string>
 
@@ -171,10 +172,11 @@
     <string name="onboarding_passphrase_email_before">Dan huwa metodu ta\' backup b\'sigurtà baxxa. Trid tkompli?</string>
 
     <string name="onboarding_passphrase_permissions_error_title">Żball fil-Backup</string>
-    <string name="onboarding_passphrase_permissions_error">Biex tissejvja l-passphrase fuq dan it-tagħmir trid tagħti permess lil Blockcerts Wallet biex jaċċessa l-fajls tiegħek.</string>
+    <string name="onboarding_passphrase_permissions_error">Biex tissejvja l-passphrase fuq dan it-tagħmir trid tagħti permess lil Fluidcerts Wallet biex jaċċessa l-fajls tiegħek.</string>
 
     <string name="onboarding_passphrase_complete_title">Il-Backup Lest</string>
     <string name="onboarding_passphrase_save_complete">Il-passphrase tiegħek ġiet issejvjata fuq dan it-tagħmir bħala learningmachine.dat.</string>
+    <string name="onboarding_passphrase_save_gdrive_complete">Il-passphrase tiegħek ġiet issejvjata fuq Google Drive.</string>
 
 
     <string name="onboarding_passphrase_cancel">Ikkanċella</string>
@@ -210,7 +212,7 @@
     <string name="fragment_certificate_info_delete_warning_negative_title">Ħassar</string>
 
     <!-- Check version -->
-    <string name="check_version_title">Jekk Jogħġbok Aġġorna l-Blockcerts Wallet</string>
+    <string name="check_version_title">Jekk Jogħġbok Aġġorna l-Fluidcerts Wallet</string>
     <string name="check_version_message">Sabiex iżżid xi emittent jew kredenzjali, irid ikollok l-aħħar verżjoni ta\' Blockerts Wallet.</string>
     <string name="check_version_message_cancel_title">Ikkanċella</string>
 

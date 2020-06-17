@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.learningmachine.android.app">
+    package="com.fluidcerts.android.app">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:name=".LMApplication"
@@ -15,111 +20,125 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:theme="@style/NoToolbarTheme.Splash"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            android:theme="@style/NoToolbarTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <data
-                    android:host="wallet.blockcerts.org"
-                    android:scheme="https"/>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                    android:host="certs-test.exos.to"
+                    android:scheme="https" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.video.VideoActivity"
-            android:theme="@style/NoToolbarTheme.Video"
+        <activity
+            android:name=".ui.video.VideoActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="fullUser"
-            android:launchMode="singleTask"/>
-
+            android:theme="@style/NoToolbarTheme.Video" />
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/NoToolbarTheme.Onboarding"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
-        <activity android:name=".ui.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_fragment"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.issuer.IssuerActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.issuer.AddIssuerActivity"
             android:label="@string/fragment_add_issuer_title"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
-        <activity android:name=".ui.LMWebActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.LMWebActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settings.passphrase.RevealPassphraseActivity"
             android:label="@string/settings_reveal_passphrase"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cert.CertificateActivity"
-            android:theme="@style/AppThemeLight"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
-        <activity android:name=".ui.issuer.IssuerInfoActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:theme="@style/AppThemeLight" />
+        <activity
+            android:name=".ui.issuer.IssuerInfoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cert.AddCertificateActivity"
             android:label="@string/fragment_add_certificate_title"
-            android:theme="@style/NoToolbarTheme"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:theme="@style/NoToolbarTheme" />
         <activity
             android:name=".ui.cert.CertificateInfoActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
-        <activity android:name=".ui.WebAuthActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
-        <activity android:name=".ui.cert.VerifyCertificateActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.WebAuthActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.cert.VerifyCertificateActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.home.AboutActivity"
+            android:label="@string/settings_about"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.sync.SyncAdapterSettingsActivity"
+            android:label="@string/settings_sync"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.learningmachine.android.app.fileprovider"
+            android:authorities="com.fluidcerts.android.app.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/files"/>
+                android:resource="@xml/files" />
         </provider>
-
+        <service
+            android:name=".data.drive.DriveSyncAdapterService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+        <provider
+            android:name=".data.drive.DriveContentProvider"
+            android:label="@string/sync_content_provider_label"
+            android:authorities="@string/sync_authority"
+            android:exported="false"
+            android:syncable="true" />
     </application>
 
 </manifest>

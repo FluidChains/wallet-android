@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_issuers">Portafoglio Blockcerts</string>
+    <string name="home_issuers">Portafoglio Fluidcerts</string>
     <string name="home_settings_menu_item_title">Impostazioni</string>
 
     <string name="settings_privacy_policy_endpoint">https://www.blockcerts.org/it/mobile-privacy</string>
@@ -24,11 +24,12 @@
 
 
     <string name="onboarding_backup_methods">Seleziona metodi di Backup</string>
-    <string name="onboarding_backup_description">Per favore seleziona almeno due opzioni presenti sotto.</string>
+    <string name="onboarding_backup_description">Per favore seleziona almeno tre opzioni presenti sotto.</string>
     <string name="onboarding_backup_write_button">Copia manuale</string>
     <string name="onboarding_backup_save_button">Salva sul dispositivo</string>
+    <string name="onboarding_backup_gdrive_button">Salva sul Google Drive</string>
     <string name="onboarding_backup_email_button">Copia su email o negli appunti</string>
-    <string name="select_two_to_continue">Selezionane almeno due per continuare</string>
+    <string name="select_two_to_continue">Selezionane almeno tre per continuare</string>
     <string name="onboarding_backup_done_button">Fatto</string>
 
 
@@ -42,7 +43,7 @@
 
     <string name="error_invalid_passphrase_malformed">Frase di accesso non valida</string>
 
-    <string name="onboarding_welcome_title">Benvenuto al nuovo Portafoglio Blockcerts!</string>
+    <string name="onboarding_welcome_title">Benvenuto al nuovo Portafoglio Fluidcerts!</string>
     <string name="onboarding_welcome_desc">Abbiamo migliorato l\'esperienza, ma sarai in grado di ricevere e gestire le tue credenziali come prima. Si prega di notare che ora è necessario eseguire il backup della frase di accesso, ma è possibile farlo facilmente nell\'app. Premi Continua per iniziare.</string>
     <string name="onboarding_welcome_button_title">Continua</string>
 
@@ -170,10 +171,11 @@
     <string name="onboarding_passphrase_email_before">Questo è un metodo di backup a bassa sicurezza. Vuoi continuare?</string>
 
     <string name="onboarding_passphrase_permissions_error_title">Errore di Backup</string>
-    <string name="onboarding_passphrase_permissions_error">Per salvare la tua frase di accesso su questo device tu devi dare i permessi del Portafoglio Blockcerts per accedere ai tuoi files.</string>
+    <string name="onboarding_passphrase_permissions_error">Per salvare la tua frase di accesso su questo device tu devi dare i permessi del Portafoglio Fluidcerts per accedere ai tuoi files.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Completo</string>
     <string name="onboarding_passphrase_save_complete">La tua frase di accesso è stata salvata sul device come learningmachine.dat.</string>
+    <string name="onboarding_passphrase_save_gdrive_complete">La tua frase di accesso è stata salvata sul Google Drive.</string>
 
 
     <string name="onboarding_passphrase_cancel">Annulla</string>
@@ -209,8 +211,8 @@
     <string name="fragment_certificate_info_delete_warning_negative_title">Cancella</string>
 
     <!-- Check version -->
-    <string name="check_version_title">Per piacere aggiorna il Portafoglio Blockcerts</string>
-    <string name="check_version_message">Per poter aggiungere un issuer o credenziali, tu devi essere in possesso dell\'ultima versione del Portafoglio Blockcerts.</string>
+    <string name="check_version_title">Per piacere aggiorna il Portafoglio Fluidcerts</string>
+    <string name="check_version_message">Per poter aggiungere un issuer o credenziali, tu devi essere in possesso dell\'ultima versione del Portafoglio Fluidcerts.</string>
     <string name="check_version_message_cancel_title">Annulla</string>
 
     <!-- Certificate Verification -->

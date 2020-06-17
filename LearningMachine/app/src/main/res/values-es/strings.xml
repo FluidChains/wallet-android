@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="home_issuers">Blockcerts Wallet</string>
+    <string name="home_issuers">Fluidcerts Wallet</string>
     <string name="home_settings_menu_item_title">Ajustes</string>
 
     <string name="settings_privacy_policy_endpoint">https://www.blockcerts.org/es/mobile-privacy</string>
@@ -24,11 +24,12 @@
 
 
     <string name="onboarding_backup_methods">Selecciona Método de Respaldo</string>
-    <string name="onboarding_backup_description">Selecciona al menos dos de las siguientes opciones:</string>
+    <string name="onboarding_backup_description">Selecciona al menos tres de las siguientes opciones:</string>
     <string name="onboarding_backup_write_button">Copia Manual</string>
     <string name="onboarding_backup_save_button">Guardar en el dispositivo</string>
+    <string name="onboarding_backup_gdrive_button">Guardar en el Google Drive</string>
     <string name="onboarding_backup_email_button">Copiar a un correo electrónico o al portapapeles</string>
-    <string name="select_two_to_continue">Selecciona al menos dos para continuar</string>
+    <string name="select_two_to_continue">Selecciona al menos tres para continuar</string>
     <string name="onboarding_backup_done_button">Finalizar</string>
 
 
@@ -42,7 +43,7 @@
 
     <string name="error_invalid_passphrase_malformed">Frase de Contraseña Inválida</string>
 
-    <string name="onboarding_welcome_title">¡Bienvenido al nuevo Blockcerts Wallet!</string>
+    <string name="onboarding_welcome_title">¡Bienvenido al nuevo Fluidcerts Wallet!</string>
     <string name="onboarding_welcome_desc">Hemos mejorado la experiencia, pero podrás continuar recibiendo y organizando tus credenciales como siempre. Es importante notar que ahora deberás hacer un respaldo de tu frase de contraseña, pero esto lo puedes hacer fácilmente en la aplicación.</string>
     <string name="onboarding_welcome_button_title">Continuar</string>
 
@@ -170,15 +171,13 @@
 
 
     <string name="onboarding_passphrase_permissions_error_title">Error de Respaldo</string>
-    <string name="onboarding_passphrase_permissions_error">Para guardar tu frase de contraseña en éste dispositivo deberás permitirle a Blockcerts Wallet que acceda tus archivos.</string>
+    <string name="onboarding_passphrase_permissions_error">Para guardar tu frase de contraseña en éste dispositivo deberás permitirle a Fluidcerts Wallet que acceda tus archivos.</string>
 
     <string name="onboarding_passphrase_complete_title">Respaldo Completo</string>
     <string name="onboarding_passphrase_save_complete">Tu frase de contraseña ha sido guardada en éste dispositivo como learningmachine.dat.</string>
-
+    <string name="onboarding_passphrase_save_gdrive_complete">Tu frase de contraseña ha sido guardada en Google Drive.</string>
 
     <string name="onboarding_passphrase_cancel">Rechazar</string>
-    <string name="onboarding_passphrase_ok">Aceptar</string>
-
 
     <!-- Settings -->
     <string name="settings_fragment">Emisores</string>
@@ -210,9 +209,8 @@
 
     <!-- Check version -->
     <string name="check_version_title">Favor de Actualizar Bockcerts Wallet</string>
-    <string name="check_version_message">Para poder añadir un emisor o una credencial, es necesario instalar la nueva versión de Blockcerts Wallet.</string>
+    <string name="check_version_message">Para poder añadir un emisor o una credencial, es necesario instalar la nueva versión de Fluidcerts Wallet.</string>
     <string name="check_version_message_cancel_title">Cancelar</string>
-    <string name="check_version_message_confirm_title">Aceptar</string>
 
     <!-- Certificate Verification -->
 
