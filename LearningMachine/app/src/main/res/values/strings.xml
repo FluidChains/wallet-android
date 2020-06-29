@@ -251,4 +251,9 @@
     <string name="fragment_sync_adapter_settings_backup_button" translatable="false">Back-up Certificates</string>
     <string name="fragment_sync_adapter_settings_restore_button" translatable="false">Restore Certificates</string>
 
+    <!--Lock Screen-->
+    <string name="activity_lock_screen_auth_failed" translatable="false">Authentication Failed</string>
+    <string name="activity_lock_screen_auth_success" translatable="false">Success</string>
+    <string name="activity_lock_screen_auth_error" translatable="false">Please enable lock screen on device to use FluidCerts</string>
+
 </resources>
