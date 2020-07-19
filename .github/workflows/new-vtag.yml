@@ -67,6 +67,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./${{ env.build-directory }}/release/*.apk
+          asset_name: fluidcerts-productionRelease-${{ github.ref }}.apk
           asset_content_type: application/vnd.android.package-archive
           
       - name: Upload Debug Asset 
@@ -77,4 +78,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./${{ env.build-directory }}/debug/*.apk
+          asset_name: fluidcerts-productionDebug-${{ github.ref }}-debug.apk
           asset_content_type: application/vnd.android.package-archive
