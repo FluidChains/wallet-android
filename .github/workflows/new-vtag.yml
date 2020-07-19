@@ -25,9 +25,5 @@ jobs:
       - name: Java Version
         run: java -version
 
-      - name: Set gradlew URL
-        run: bash ./LearningMachine/gradlew wrapper --gradle-version 3.4.0 --distribution-type=all
-      
       - name: Update gradlew
-        run: bash ./LearningMachine/gradlew wrapper
-#         run: bash ./LearningMachine/gradlew tasks --all --stacktrace
+        run: ./LearningMachine/gradlew tasks --all
