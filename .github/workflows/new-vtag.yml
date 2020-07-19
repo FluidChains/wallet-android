@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./LearningMachine
+      build-directory: ./LearningMachine/app/build/outputs/apk/production
 
     steps:
       - name: Clone repo
@@ -39,3 +40,44 @@ jobs:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          
+      - name: Generate Production *.apk
+        run: ./gradlew assembleProduction
+        working-directory: ${{ env.working-directory }}
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset 
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ env.build-directory }}/release/fluidcerts-productionRelease-3.7.8.apk
+          asset_name: fluidcerts-productionRelease-3.7.8.apk.zip
+          asset_content_type: application/vnd.android.package-archive
+          
+      - name: Upload Debug Asset 
+        id: upload-debug-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ env.build-directory }}/debug/fluidcerts-productionDebug-3.7.8-debug.apk
+          asset_name: fluidcerts-productionDebug-3.7.8-debug.apk
+          asset_content_type: application/vnd.android.package-archive
