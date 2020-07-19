@@ -31,7 +31,7 @@ android {
         LearningMachineRelease {
             keyAlias System.getenv("SIGNING_KEY_ALIAS")
             keyPassword System.getenv("SIGNING_KEY_PASSWORD")
-            storeFile file('../../keys/learning-machine.jks')
+            storeFile file('../../keys/fluidcerts.jks')
             storePassword System.getenv("SIGNING_STORE_PASSWORD")
         }
     }
