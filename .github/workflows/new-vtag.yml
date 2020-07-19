@@ -20,6 +20,9 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Build *.apk
-        run: bash ./LearningMachine/gradlew wrapper --gradle-version 3.4.0
+      - name: Set gradlew URL
+        run: bash ./LearningMachine/gradlew wrapper --gradle-version 3.4.0 --distribution-type=all
+      
+      - name: Update gradlew
+        run: bash ./LearningMachine/gradlew wrapper
 #         run: bash ./LearningMachine/gradlew tasks --all --stacktrace
