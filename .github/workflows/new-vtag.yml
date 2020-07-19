@@ -27,7 +27,10 @@ jobs:
       - name: Java Version
         run: java -version
 
-      - name: Gradle
+      - name: Generate Android Debug Keystore
+        run: keytool -genkey -v -keystore /home/runner/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+        
+      - name: Gradle signingReport
         run: ./gradlew signingReport
         working-directory: ${{ env.working-directory }}
         env:
