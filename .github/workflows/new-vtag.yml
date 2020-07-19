@@ -10,24 +10,26 @@ jobs:
   release:
     name: Generate new release
     runs-on: ubuntu-latest
-
+    env:
+      working-directory: ./LearningMachine
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
 
       - name: Setup Java
         uses: actions/setup-java@v1
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         with:
           java-version: '11.0.8'
           java-package: jdk
-          architecture: x64 
+          architecture: x64
 
       - name: Java Version
         run: java -version
 
-      - name: Set gradlew URL
-        run: bash ./LearningMachine/gradlew wrapper --gradle-version 3.4.0 --distribution-type=all
-      
-      - name: Update gradlew
-        run: bash ./LearningMachine/gradlew wrapper
-#         run: bash ./LearningMachine/gradlew tasks --all --stacktrace
+      - name: Gradle
+        run: ./gradlew signingReport
+        working-directory: ${{ env.working-directory }}
