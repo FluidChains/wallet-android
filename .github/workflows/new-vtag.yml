@@ -12,16 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./LearningMachine
+      build-directory: ./LearningMachine/app/build/outputs/apk/production
+
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
 
       - name: Setup Java
         uses: actions/setup-java@v1
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         with:
           java-version: '11.0.8'
           java-package: jdk
@@ -30,6 +28,54 @@ jobs:
       - name: Java Version
         run: java -version
 
-      - name: Gradle
-        run: ./gradlew signingReport
+      - name: Generate Android Debug Keystore
+        run: |
+          mkdir -p /home/runner/.android
+          keytool -genkey -v -dname "cn=Karim Boucher, ou=DevOps, o=Fluidchains, l=Ft.Lauderdale, st=FL, c=US" -keystore /home/runner/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+        
+#       - name: Gradle signingReport
+#         run: ./gradlew signingReport
+#         working-directory: ${{ env.working-directory }}
+#         env:
+#           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+#           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+#           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          
+      - name: Generate Production *.apk
+        run: ./gradlew assembleProduction
         working-directory: ${{ env.working-directory }}
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset 
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ env.build-directory }}/release/*.apk
+          asset_content_type: application/vnd.android.package-archive
+          
+      - name: Upload Debug Asset 
+        id: upload-debug-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ env.build-directory }}/debug/*.apk
+          asset_content_type: application/vnd.android.package-archive
