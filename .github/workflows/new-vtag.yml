@@ -15,13 +15,15 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
 
-      - name: Set up JDK 1.8
+      - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: '11.0.8'
+          java-package: jdk
+          architecture: x64 
 
       - name: Java Version
-        run: bash java -version
+        run: java -version
 
       - name: Set gradlew URL
         run: bash ./LearningMachine/gradlew wrapper --gradle-version 3.4.0 --distribution-type=all
