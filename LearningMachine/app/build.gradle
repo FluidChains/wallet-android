@@ -85,7 +85,7 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "fluidcerts-${variant.name}-v${versionName}.apk"
+                    outputFileName = "fluidcerts-${variant.name}-${versionName}.apk"
                 }
             }
 
