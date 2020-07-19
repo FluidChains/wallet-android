@@ -69,7 +69,7 @@ public class GoogleDriveService {
                 fileList.getFiles().get(0);
                 log(String.format("queryFiles -> fileList: %s", fileList.getFiles()));
             } catch (IndexOutOfBoundsException e) {
-                log(String.format("queryFiles -> fileList: %s", null));
+//                log(String.format("queryFiles -> fileList: %s", null));
                 return Observable.just(null);
             }
             return Observable.from(fileList.getFiles());
