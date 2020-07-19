@@ -27,5 +27,5 @@ jobs:
         run: java -version
 
       - name: View avail. gradle tasks
-        run: gradlew tasks --all
+        run: ./gradlew tasks --all
         working-directory: ${{ env.working-directory }}
