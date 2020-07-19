@@ -27,7 +27,7 @@
     <string name="onboarding_backup_description">Please select at least three options below.</string>
     <string name="onboarding_backup_write_button">Manual Hard Copy</string>
     <string name="onboarding_backup_save_button">Save to Device</string>
-    <string name="onboarding_backup_gdrive_button">Save to Google Drive</string>
+    <string name="onboarding_backup_gdrive_button">Save to Google Drive (Required)</string>
     <string name="onboarding_backup_email_button">Copy to Email or Clipboard</string>
     <string name="select_two_to_continue">Select At Least Three to Continue</string>
     <string name="onboarding_backup_done_button">Done</string>
@@ -43,9 +43,9 @@
 
     <string name="error_invalid_passphrase_malformed">Invalid passphrase</string>
 
-    <string name="error_passphrase_backup_not_found_title" translatable="false">Backup not found</string>
-    <string name="error_passphrase_backup_not_found_device" translatable="false">Passphrase backup not found on device</string>
-    <string name="error_passphrase_backup_not_found_gdrive" translatable="false">Passphrase backup not found on Google Drive</string>
+    <string name="error_passphrase_backup_not_found_title" translatable="false">Restore failed</string>
+    <string name="error_passphrase_backup_not_found_device" translatable="false">Unable to restore from device</string>
+    <string name="error_passphrase_backup_not_found_gdrive" translatable="false">Unable to restore from Google Drive</string>
 
     <string name="onboarding_welcome_title">Welcome to the new Fluidcerts Wallet!</string>
     <string name="onboarding_welcome_desc">We\'ve improved the experience, but you\'ll be able to receive and manage your credentials as before. Please note that you are now required to back up your passphrase, but you can do so easily in the app. Tap continue to begin.</string>
@@ -255,5 +255,11 @@
     <string name="activity_lock_screen_auth_failed" translatable="false">Authentication Failed</string>
     <string name="activity_lock_screen_auth_success" translatable="false">Success</string>
     <string name="activity_lock_screen_auth_error" translatable="false">Please enable lock screen on device to use FluidCerts</string>
+
+    <!--Encrypt/Decrypt Seeds-->
+    <string name="activity_paste_passphrase_encrypt" translatable="false">Enter password to encrypt seed</string>
+    <string name="activity_paste_passphrase_decrypt" translatable="false">Enter password to decrypt seed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

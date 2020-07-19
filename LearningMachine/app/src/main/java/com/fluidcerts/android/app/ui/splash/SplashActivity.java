@@ -13,6 +13,7 @@ import com.fluidcerts.android.app.data.url.SplashUrlDecoder;
 import com.fluidcerts.android.app.ui.LMActivity;
 import com.fluidcerts.android.app.ui.home.HomeActivity;
 import com.fluidcerts.android.app.ui.lock.LockScreenActivity;
+import com.fluidcerts.android.app.ui.lock.SetPasswordActivity;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingActivity;
 
 import javax.inject.Inject;

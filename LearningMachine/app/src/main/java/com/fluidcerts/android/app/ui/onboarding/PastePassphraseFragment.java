@@ -98,7 +98,7 @@ public class PastePassphraseFragment extends OnboardingFragment {
                     mBinding.pastePassphraseEditText.setText(passphrase.toString());
                     onDone();
                 } else {
-                    backupNotFound(getResources().getString(R.string.error_passphrase_backup_not_found_device));
+                    backupNotFound(getContext().getString(R.string.error_passphrase_backup_not_found_device));
                 }
                 return null;
             });

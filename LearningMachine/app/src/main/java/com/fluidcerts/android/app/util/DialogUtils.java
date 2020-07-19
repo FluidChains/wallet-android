@@ -2,13 +2,17 @@ package com.fluidcerts.android.app.util;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import com.google.gson.stream.MalformedJsonException;
+
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.JsonParseException;
@@ -30,6 +34,27 @@ public class DialogUtils {
     }
 
     public static final String TAG_DIALOG_ALERT = "DialogUtils.Dialog.Alert";
+
+    public static AlertDialog showInputDialog(Context context, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Enter a password to encrypt");
+        final EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            dialog.dismiss();
+            String m_Text = input.getText().toString();
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        return dialog;
+    }
 
     public static AlertDialog showProgressDialog(Context context, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

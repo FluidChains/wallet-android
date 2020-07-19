@@ -63,7 +63,9 @@ public class LockScreenActivity extends AppCompatActivity {
             return;
         }
         createKey();
-        tryEncrypt();
+        if (tryEncrypt()) {
+            alreadyAuthenticated();
+        };
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -77,7 +79,6 @@ public class LockScreenActivity extends AppCompatActivity {
                             + KeyProperties.ENCRYPTION_PADDING_PKCS7);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             cipher.doFinal(SECRET_BYTE_ARRAY);
-            alreadyAuthenticated();
             return true;
         } catch (UserNotAuthenticatedException e) {
             showAuthenticationScreen();
@@ -129,8 +130,7 @@ public class LockScreenActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS) {
             if (resultCode == RESULT_OK) {
                 if (tryEncrypt()) {
-                    setResult(RESULT_OK);
-                    finish();
+                    alreadyAuthenticated();
                 }
             } else {
                 mBinding.icon.setImageResource(R.drawable.ic_dialog_failure);
@@ -140,6 +140,7 @@ public class LockScreenActivity extends AppCompatActivity {
     }
 
     private void alreadyAuthenticated() {
-
+        setResult(RESULT_OK);
+        finish();
     }
 }

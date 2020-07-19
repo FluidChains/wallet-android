@@ -2,6 +2,7 @@ package com.fluidcerts.android.app.data.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -22,6 +23,8 @@ public class SharedPreferencesManager {
 
     private static final String PREF_SYNC_ADAPTER = "SharedPreferencesManager.SyncAdapter";
 
+    private static final String PREF_APP_PASS = "SharedPreferencesManager.AppPass";
+    private static final String PREF_APP_PASS_IV = "SharedPreferencesManager.AppPass.IV";
 
     private SharedPreferences mPrefs;
 
@@ -106,6 +109,36 @@ public class SharedPreferencesManager {
 
     public long getLastLogDeletedTimestamp() {
         return mPrefs.getLong(PREF_LAST_LOG_DELETED_TIMESTAMP, 0);
+    }
+
+    public void setPasswordIV(byte[] array) {
+        String string = Base64.encodeToString(array, Base64.DEFAULT);
+        mPrefs.edit()
+                .putString(PREF_APP_PASS_IV, string)
+                .apply();
+    }
+
+    public byte[] getPasswordIV() {
+        String string = mPrefs.getString(PREF_APP_PASS_IV, null);
+        if (string == null) {
+            return null;
+        }
+        return Base64.decode(string, Base64.DEFAULT);
+    }
+
+    public void setLockScreenPassword(byte[] array) {
+        String string = Base64.encodeToString(array, Base64.DEFAULT);
+        mPrefs.edit()
+                .putString(PREF_APP_PASS, string)
+                .apply();
+    }
+
+    public byte[] getLockScreenPassword() {
+        String string = mPrefs.getString(PREF_APP_PASS, null);
+        if (string == null) {
+            return null;
+        }
+        return Base64.decode(string, Base64.DEFAULT);
     }
 
     public void setSyncAdapterEnabled(boolean enabled) {

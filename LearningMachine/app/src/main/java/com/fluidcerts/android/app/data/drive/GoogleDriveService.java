@@ -50,6 +50,10 @@ public class GoogleDriveService {
         return queryFiles("name contains '.json'");
     }
 
+    public Observable<File> querySeeds() {
+        return queryFiles("name contains '.txt'");
+    }
+
     public Observable<File> queryFiles(String query) {
         return Observable.defer(() -> {
             final FileList fileList;
@@ -72,24 +76,31 @@ public class GoogleDriveService {
         });
     }
 
-    public Single<String> saveData(String fileName, String data) {
-        return Single.defer(() -> {
-            File metadata = new File()
-                    .setParents(Collections.singletonList(APP_DATA_FOLDER))
-                    .setMimeType("text/plain")
-                    .setName(fileName);
-
+    public Observable<String> saveData(File file, String data) {
+        return Observable.defer(() -> {
             ByteArrayContent dataStream = ByteArrayContent.fromString("text/plain", data);
             File googleFile;
             try {
-                googleFile = mDriveService.files().create(metadata, dataStream).execute();
+                if (file == null) {
+                    File metadata = new File()
+                            .setParents(Collections.singletonList(APP_DATA_FOLDER))
+                            .setMimeType("text/plain")
+                            .setName(BackupConstants.PASSPHRASE_FILE_NAME);
+                    googleFile = mDriveService.files().create(metadata, dataStream).execute();
+
+                } else {
+                    googleFile = mDriveService.files().update(file.getId(),null,dataStream)
+                            .setFields("id, name, parents")
+                            .execute();
+                }
+
                 if (googleFile == null) {
                     throw new IOException("Null result when requesting file creation.");
                 }
             } catch (Exception e) {
-                return Single.error(e);
+                return Observable.error(e);
             }
-            return Single.just(googleFile.getId());
+            return Observable.just(googleFile.getId());
         });
     }
 

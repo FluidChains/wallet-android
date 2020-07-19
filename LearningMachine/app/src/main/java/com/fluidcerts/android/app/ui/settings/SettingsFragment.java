@@ -20,6 +20,7 @@ import com.fluidcerts.android.app.ui.LMWebActivity;
 import com.fluidcerts.android.app.ui.home.AboutActivity;
 import com.fluidcerts.android.app.ui.cert.AddCertificateActivity;
 import com.fluidcerts.android.app.ui.issuer.AddIssuerActivity;
+import com.fluidcerts.android.app.ui.lock.SetPasswordActivity;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingActivity;
 import com.fluidcerts.android.app.ui.settings.passphrase.RevealPassphraseActivity;
 import com.fluidcerts.android.app.ui.sync.SyncAdapterSettingsActivity;
@@ -28,6 +29,11 @@ import com.fluidcerts.android.app.util.FileLoggingTree;
 import com.fluidcerts.android.app.util.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 
 import javax.inject.Inject;
 
@@ -162,6 +168,27 @@ public class SettingsFragment extends LMFragment {
         super.onStop();
     }
 
+    private void deleteSavedEncryptionKey() {
+        KeyStore keyStore = null;
+        try {
+            keyStore = KeyStore.getInstance("AndroidKeyStore");
+        } catch (KeyStoreException e) {
+            Timber.e(e);
+        }
+        try {
+            keyStore.load(null);
+        } catch (IOException | NoSuchAlgorithmException | CertificateException e) {
+            Timber.e(e);
+        }
+
+        try {
+            keyStore.deleteEntry(SetPasswordActivity.KEYSTORE_ENCRYPTION_KEY_ALIAS);
+        } catch (KeyStoreException e) {
+            Timber.e(e);
+        }
+
+    }
+
     private void setupReplacePassphrase(FragmentSettingsBinding binding) {
 
         if (BuildConfig.DEBUG == false) {
@@ -181,7 +208,7 @@ public class SettingsFragment extends LMFragment {
                     (btnIdx) -> {
                         if((int)btnIdx == 1) {
                             mBitcoinManager.resetEverything();
-
+                            deleteSavedEncryptionKey();
                             Intent intent = new Intent(getActivity(), OnboardingActivity.class);
                             startActivity(intent);
                             getActivity().finish();

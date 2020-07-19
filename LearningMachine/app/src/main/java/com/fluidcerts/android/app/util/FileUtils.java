@@ -1,7 +1,9 @@
 package com.fluidcerts.android.app.util;
 
 import android.content.Context;
+import android.os.Environment;
 
+import com.fluidcerts.android.app.data.drive.GoogleDriveFile;
 import com.google.common.io.Files;
 
 import java.io.BufferedReader;
@@ -16,18 +18,42 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import okio.Buffer;
+import rx.Observable;
 import timber.log.Timber;
 
 public class FileUtils {
 
     private static final String CERT_DIR = "certs";
     private static final String LOGS_DIR = "logs";
+    private static final String SEED_DIR = "seed";
     private static final String JSON_EXT = ".json";
+    private static final String SEED_FILE = "fluid_certs.dat";
     private static final String LOGS_FILE = "logs.txt";
 
     public static boolean saveCertificate(Context context, Buffer buffer, String uuid) {
         File file = getCertificateFile(context, uuid, true);
         return writeResponseBodyToDisk(file, buffer);
+    }
+
+    public static Observable<Boolean> saveCertificate(Context context, GoogleDriveFile driveFile) {
+        return Observable.defer(() -> {
+            if (driveFile == null) {
+                return Observable.just(false);
+            }
+            File file = getCertificateFile(context, driveFile.name.substring(0, driveFile.name.lastIndexOf('.')), true);
+            return Observable.just(writeResponseBodyToDisk(file, driveFile.stream));
+        });
+    }
+
+    public static Observable<Boolean> saveSeed(Context context, GoogleDriveFile file) {
+        return Observable.defer(() -> {
+            if (file == null) {
+                return Observable.just(false);
+            }
+            File seedDir = getSeedDirectory(context, true);
+            File seedFile = new File(seedDir, SEED_FILE);
+            return Observable.just(writeResponseBodyToDisk(seedFile, file.stream));
+        });
     }
 
     public static void saveLogs(Context context, StringBuilder buffer) {
@@ -86,9 +112,26 @@ public class FileUtils {
         return certDir;
     }
 
+    private static File getSeedDirectory(Context context, boolean createDir) {
+        File certDir = new File(context.getFilesDir(), SEED_DIR);
+        if (createDir) {
+            certDir.mkdirs();
+        }
+        return certDir;
+    }
+
     private static boolean writeResponseBodyToDisk(File file, Buffer buffer) {
         try (InputStream inputStream = buffer.inputStream();
              OutputStream outputStream = new FileOutputStream(file)) {
+            return copyStreams(inputStream, outputStream);
+        } catch (IOException e) {
+            Timber.e(e, "Unable to write ResponseBody to file");
+            return false;
+        }
+    }
+
+    private static boolean writeResponseBodyToDisk(File file, InputStream inputStream) {
+        try (OutputStream outputStream = new FileOutputStream(file)) {
             return copyStreams(inputStream, outputStream);
         } catch (IOException e) {
             Timber.e(e, "Unable to write ResponseBody to file");
@@ -213,6 +256,24 @@ public class FileUtils {
         String ret = convertStreamToString(fin);
         fin.close();
         return ret;
+    }
+
+    public static String getSeedFromFile(Context context, boolean gDrive, boolean createDir) {
+        String seedPath;
+
+        if (gDrive) {
+            File seedDir = getSeedDirectory(context, createDir);
+            seedPath = new File(seedDir, SEED_FILE).getAbsolutePath();
+        } else {
+            seedPath = Environment.getExternalStorageDirectory() + "/learningmachine.dat";
+        }
+
+        try {
+            return getStringFromFile(seedPath);
+        } catch (Exception e) {
+            Timber.i("FileUtil getStringFromFileError" + e);
+            return null;
+        }
     }
 
 }

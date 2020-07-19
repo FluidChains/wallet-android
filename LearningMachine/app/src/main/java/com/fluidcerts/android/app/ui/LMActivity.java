@@ -16,14 +16,16 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
-import com.fluidcerts.android.app.data.drive.BackupConstants;
 import com.fluidcerts.android.app.data.drive.GoogleDriveFile;
 import com.fluidcerts.android.app.data.drive.GoogleDriveService;
 import com.fluidcerts.android.app.ui.home.HomeActivity;
 import com.fluidcerts.android.app.ui.issuer.IssuerActivity;
+import com.fluidcerts.android.app.ui.lock.EnterPasswordActivity;
+import com.fluidcerts.android.app.ui.lock.SetPasswordActivity;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingActivity;
 import com.fluidcerts.android.app.ui.settings.SettingsActivity;
 import com.fluidcerts.android.app.util.AESCrypt;
+import com.fluidcerts.android.app.util.FileUtils;
 import com.smallplanet.labalib.Laba;
 import com.trello.rxlifecycle.LifecycleProvider;
 import com.trello.rxlifecycle.LifecycleTransformer;
@@ -34,6 +36,7 @@ import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 import org.bitcoinj.wallet.Wallet;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
 import java.util.Scanner;
@@ -52,12 +55,16 @@ import timber.log.Timber;
 public abstract class LMActivity extends AppCompatActivity implements LifecycleProvider<ActivityEvent> {
 
     protected static Class lastImportantClassSeen = HomeActivity.class;
+    public static final Integer REQUEST_CODE_SET_ENCRYPTION_KEY = 3;
+    public static final Integer REQUEST_CODE_DECRYPTION_KEY = 4;
 
     // Used by LifecycleProvider interface to transform lifeycycle events into a stream of events through an observable.
     private final BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
     private Observable.Transformer mMainThreadTransformer;
     protected GoogleDriveService mDriveService;
     protected Action0 drivePendingAction;
+    protected Function drivePendingFunction;
+    protected String mEncryptionKey;
 
     public void safeGoBack() {
 
@@ -124,9 +131,11 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
             if (passphraseCallback != null) {
                 if (didSucceedInPermissionsRequest) {
-                    getSavedPassphraseFromDevice(passphraseCallback);
+                    startEnterEncryptionKeyActivity(false);
+//                    getSavedPassphraseFromDevice(passphraseCallback);
                 } else {
-                    getSavedPassphraseFromDevice(passphraseCallback);
+                    startEnterEncryptionKeyActivity(false);
+//                    getSavedPassphraseFromDevice(passphraseCallback);
                 }
                 passphraseCallback = null;
             }
@@ -263,9 +272,15 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             return;
         }
 
+        if (mEncryptionKey == null) {
+            startSetEncryptionKeyActivity();
+            return;
+        }
+
         String passphraseFile = pathToSavedPassphraseFile();
         try (PrintWriter out = new PrintWriter(passphraseFile)) {
-            String encryptionKey = getDeviceId(getApplicationContext());
+            String encryptionKey = mEncryptionKey;
+            mEncryptionKey = null;
             String mneumonicString = "mneumonic:" + passphrase;
             try {
                 String encryptedMsg = AESCrypt.encrypt(encryptionKey, mneumonicString);
@@ -285,28 +300,46 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                     checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                this.drivePendingAction = () -> savePassphraseToDevice(passphrase, passphraseCallback);
                 savePassphraseToDevice(passphrase, passphraseCallback);
             } else {
-                tempPassphrase = passphrase;
-                this.passphraseCallback = passphraseCallback;
+//                tempPassphrase = passphrase;
+//                this.passphraseCallback = passphraseCallback;
+                this.drivePendingAction = () -> savePassphraseToDevice(passphrase, passphraseCallback);
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                savePassphraseToDevice(passphrase, passphraseCallback);
             }
         } else {
+            this.drivePendingAction = () -> savePassphraseToDevice(passphrase, passphraseCallback);
             savePassphraseToDevice(passphrase, passphraseCallback);
         }
     }
 
     public void askToGetPassphraseFromDevice(Callback passphraseCallback) {
 
+        String encryptedMsg = FileUtils.getSeedFromFile(this, false,false);
+        if (encryptedMsg == null) {
+            passphraseCallback.apply(null);
+            return;
+        }
+
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                getSavedPassphraseFromDevice(passphraseCallback);
+//                getSavedPassphraseFromDevice(passphraseCallback);
+                this.passphraseCallback = passphraseCallback;
+//                this.drivePendingAction = () -> getSavedPassphraseFromDevice(passphraseCallback);
+                startEnterEncryptionKeyActivity(false);
             } else {
                 this.passphraseCallback = passphraseCallback;
+//                this.drivePendingAction = () -> getSavedPassphraseFromDevice(passphraseCallback);
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                startEnterEncryptionKeyActivity(false);
             }
         } else {
-            getSavedPassphraseFromDevice(passphraseCallback);
+//            getSavedPassphraseFromDevice(passphraseCallback);
+            this.passphraseCallback = passphraseCallback;
+//            this.drivePendingAction = () -> getSavedPassphraseFromDevice(passphraseCallback);
+            startEnterEncryptionKeyActivity(false);
         }
     }
 
@@ -332,17 +365,75 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
-        Timber.i("Sync.LMActivity onActivityResult() -> Deffering " + requestCode);
-        GoogleDriveService.handleActivityResult(this, requestCode, resultCode, resultData, (drive) -> {
-            this.mDriveService = drive;
+        Timber.i("[Drive] requestCode: " + requestCode);
+        if (requestCode == REQUEST_CODE_SET_ENCRYPTION_KEY) {
+            mEncryptionKey = resultData.getStringExtra("encryptionKey");
+            Timber.i("[Drive] mEncryptionKey: " + mEncryptionKey);
             if (this.drivePendingAction != null) {
                 this.drivePendingAction.call();
-                this.drivePendingAction = null;
+//                this.drivePendingAction = null;
             }
-        });
+        } else if (requestCode == REQUEST_CODE_DECRYPTION_KEY) {
+            assert resultData != null;
+            Boolean isGoogleFlow = resultData.getBooleanExtra("isGoogleFlow", false);
+            if (resultCode == RESULT_OK) {
+                String seed = resultData.getStringExtra("seed");
+                if (isGoogleFlow) {
+                    this.drivePendingFunction.apply(seed);
+                } else {
+//                    this.drivePendingAction.call();
+                    this.passphraseCallback.apply(seed);
+                }
+            } else {
+                if (isGoogleFlow) {
+                    this.drivePendingFunction.apply(null);
+                } else {
+                    this.passphraseCallback.apply(null);
+                }
+            }
+        } else {
+            Timber.i("Sync.LMActivity onActivityResult() -> Deffering " + requestCode);
+            GoogleDriveService.handleActivityResult(this, requestCode, resultCode, resultData, (drive) -> {
+                this.mDriveService = drive;
+                if (this.drivePendingAction != null) {
+                    this.drivePendingAction.call();
+//                    this.drivePendingAction = null;
+                }
+            });
+        }
+    }
+
+//    public static AlertDialog showInputDialog(Context context, String message, Callback callback) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setTitle(message);
+//        final EditText input = new EditText(context);
+//        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//        input.setHint("Password");
+//        builder.setView(input);
+//        builder.setPositiveButton("OK", (dialog, which) -> {
+//            callback.apply(input.getText().toString());
+//            input.setText("");
+//            dialog.dismiss();
+//        });
+//        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//        return dialog;
+//    }
+
+    private void startSetEncryptionKeyActivity() {
+        Intent intent = new Intent(this, SetPasswordActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SET_ENCRYPTION_KEY);
+    }
+
+    private void startEnterEncryptionKeyActivity(boolean isGoogleFlow) {
+        Intent intent = new Intent(this, EnterPasswordActivity.class);
+        intent.putExtra("isGoogleFlow", isGoogleFlow);
+        startActivityForResult(intent, REQUEST_CODE_DECRYPTION_KEY);
     }
 
     public void askToSavePassphraseToGoogleDrive(String passphrase, Callback loadingCallback, Callback passphraseCallback) {
@@ -351,16 +442,29 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             GoogleDriveService.requestSignIn(this);
             this.drivePendingAction = () -> savePassphraseToGoogleDrive(passphrase, loadingCallback, passphraseCallback);
         } else {
+            this.drivePendingAction = () -> savePassphraseToGoogleDrive(passphrase, loadingCallback, passphraseCallback);
             savePassphraseToGoogleDrive(passphrase, loadingCallback, passphraseCallback);
         }
     }
 
     private void savePassphraseToGoogleDrive(String passphrase, Callback loadingCallback, Callback passphraseCallback) {
         Timber.i("[Drive] savePassphraseToGoogleDrive");
-
+        if (mEncryptionKey == null) {
+            startSetEncryptionKeyActivity();
+            return;
+        }
         try {
+            String encrypted = null;
+            try {
+                encrypted = getEncryptedPassphrase(passphrase, mEncryptionKey);
+                mEncryptionKey = null;
+            } catch (GeneralSecurityException e) {
+                passphraseCallback.apply(null);
+            }
             loadingCallback.apply(true);
-            this.mDriveService.saveData(BackupConstants.PASSPHRASE_FILE_NAME, getEncryptedPassphrase(passphrase))
+            String finalEncrypted = encrypted;
+            this.mDriveService.querySeeds()
+                    .flatMap((file) -> this.mDriveService.saveData(file, finalEncrypted))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doAfterTerminate(() -> loadingCallback.apply(false))
@@ -369,13 +473,11 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                                 Timber.i(e, "[Drive] create file error: " + e.getMessage());
                                 passphraseCallback.apply(null);
                             });
-
-        } catch (GeneralSecurityException e) {
-            Timber.e(e, "Could not encrypt passphrase.");
-            passphraseCallback.apply(null);
         } catch (Exception e) {
             Timber.e(e, "error saving passphrase to google drive.");
             passphraseCallback.apply(null);
+        } finally {
+            this.drivePendingAction = null;
         }
     }
 
@@ -386,10 +488,10 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             Function<GoogleDriveFile, Observable<String>> addCertificateFunc) {
         Timber.i("[Drive] askRestoreFromGoogleDrive");
         if (this.mDriveService == null) {
+            this.drivePendingAction = () -> restoreFromGoogleDrive(loadingAction, passphraseLoadedFunc, addCertificateFunc);
             GoogleDriveService.requestSignIn(this);
-            this.drivePendingAction = () -> restoreFromGoogleDrive(
-                    loadingAction, passphraseLoadedFunc, addCertificateFunc);
         } else {
+            this.drivePendingAction = () -> restoreFromGoogleDrive(loadingAction, passphraseLoadedFunc, addCertificateFunc);
             restoreFromGoogleDrive(loadingAction, passphraseLoadedFunc, addCertificateFunc);
         }
     }
@@ -401,22 +503,14 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             Function<GoogleDriveFile, Observable<String>> addCertificateFunc) {
 
         loadingAction.call(true);
-        this.mDriveService.queryFileByname(BackupConstants.PASSPHRASE_FILE_NAME)
+
+        this.mDriveService.queryCertificates()
                 .subscribeOn(Schedulers.io())
                 .flatMap(file -> this.mDriveService.downloadDriveFile(file))
-                .flatMap(driveFile -> {
-                    return getPassphraseFromEncrypted(driveFile, getDeviceId(getApplicationContext()));
-                })
-                .flatMap(passphrase -> passphraseLoadedFunc.apply(passphrase))
-                .flatMap(wallet -> {
-                    Timber.i("[Drive] wallet null: ");
-                    return this.mDriveService.queryCertificates();
-                })
-                .flatMap(file -> {
-                    Timber.i("[Drive] adding certificates: ");
-                    return this.mDriveService.downloadDriveFile(file);
-                })
-                .flatMap(addCertificateFunc::apply)
+                .flatMap(driveFile -> FileUtils.saveCertificate(this, driveFile))
+                .flatMap(wallet -> this.mDriveService.querySeeds())
+                .flatMap(file -> this.mDriveService.downloadDriveFile(file))
+                .flatMap(driveFile -> FileUtils.saveSeed(this, driveFile))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> {
                     Timber.i("[Drive] doOnTerminated");
@@ -424,13 +518,59 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                 })
                 .doOnError(e -> {
                     Timber.i(e, "[Drive] adding certificate error: " + e.getMessage());
+                    if (e.equals(new IOException())){
+                        Timber.i(e, "[Drive] IO Auth error: " + e.getMessage());
+                    }
                     passphraseLoadedFunc.apply(null);
                 })
                 .doOnCompleted(() -> {
                     Timber.i("[Drive] doOnCompleted");
                     loadingAction.call(false);
                 })
-                .subscribe(certId -> Timber.i("[Drive] certificate added: " + certId));
+                .subscribe(seed -> {
+                    Timber.i("[Drive] seed: " + seed);
+                    if (seed) {
+                        drivePendingFunction = passphraseLoadedFunc;
+                        startEnterEncryptionKeyActivity(true);
+                    } else {
+                        runOnUiThread(() -> passphraseLoadedFunc.apply(null));
+                    }
+                });
+
+        this.drivePendingAction = null;
+
+//        this.mDriveService.querySeeds()
+//                .subscribeOn(Schedulers.io())
+//                .flatMap(file -> this.mDriveService.downloadDriveFile(file))
+//                .flatMap(driveFile -> FileUtils.saveSeed(this, driveFile))
+//                .flatMap(wallet -> {
+//                    Timber.i("[Drive] wallet: " + wallet);
+//                    return this.mDriveService.queryCertificates();
+//                })
+//                .flatMap(file -> {
+//                    Timber.i("[Drive] adding certificates: ");
+//                    return this.mDriveService.downloadDriveFile(file);
+//                })
+//                .flatMap(driveFile -> FileUtils.saveCertificate(this, driveFile))
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doAfterTerminate(() -> {
+//                    Timber.i("[Drive] doOnTerminated");
+//                    loadingAction.call(false);
+//                })
+//                .doOnError(e -> {
+//                    Timber.i(e, "[Drive] adding certificate error: " + e.getMessage());
+//                    passphraseLoadedFunc.apply(null);
+//                })
+//                .doOnCompleted(() -> {
+//                    Timber.i("[Drive] doOnCompleted");
+//                    loadingAction.call(false);
+//                })
+//                .subscribe(certId -> showInputDialog(this, getResources().getString(R.string.activity_paste_passphrase_decrypt), (encryptionKey) -> {
+//                    String passphrase = getPassphraseFromEncrypted((String) encryptionKey);
+//                    Timber.i("[Drive] passphrase: " + passphrase);
+//                    passphraseLoadedFunc.apply(passphrase);
+//                    return true;
+//                }));
     }
 
     public void askBackUpToGoogleDrive(Action1<Boolean> loadingAction, Action1<Boolean> onDoneAction, Observable<File> getFilesObservable) {
@@ -491,33 +631,32 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                 .subscribe(certId -> Timber.i("[Drive] certificate added: " + certId));
     }
 
-    private String getEncryptedPassphrase(String passphrase) throws GeneralSecurityException {
-        String encryptionKey = getDeviceId(getApplicationContext());
+    private String getEncryptedPassphrase(String passphrase, String key) throws GeneralSecurityException {
         String mneumonicString = "mneumonic:" + passphrase;
-        String encryptedMsg = AESCrypt.encrypt(encryptionKey, mneumonicString);
+        String encryptedMsg = AESCrypt.encrypt(key, mneumonicString);
         Timber.i("[Drive] encryptedMsg: " + encryptedMsg);
         return encryptedMsg;
     }
 
-    private Observable<String> getPassphraseFromEncrypted(GoogleDriveFile driveFile, String encryptionKey) {
-        return Observable.defer(() -> {
-            if (driveFile == null || encryptionKey == null ) {
-                return Observable.just(null);
-            }
-            String encryptedMsg = new Scanner(driveFile.stream).useDelimiter("\\Z").next();
-            Timber.i("[Drive] encrypted content: " + encryptedMsg);
-            try {
-                String content = AESCrypt.decrypt(encryptionKey, encryptedMsg);
-                if (content.startsWith("mneumonic:")) {
-                    return Observable.just(content.substring(10).trim());
-                }
-            } catch (GeneralSecurityException e) {
-                Timber.e(e, "Could not decrypt file: " + driveFile.name);
-                return Observable.error(e);
-            }
-            return Observable.just(null);
-        });
-    }
+//    private String getPassphraseFromEncrypted(String encryptionKey) {
+//        String encryptedMsg = FileUtils.getSeedFromFile(this, false);
+//        Timber.i("[Drive] encryptedMsg: " + encryptedMsg);
+//        try {
+////            String encryptedMsg = new Scanner(new File(passphraseFile)).useDelimiter("\\Z").next();
+////            Timber.i("[Drive] encryptedMsg: " + encryptedMsg);
+//            try {
+//                String content = AESCrypt.decrypt(encryptionKey, encryptedMsg);
+//                if (content.startsWith("mneumonic:")) {
+//                    return content.substring(10).trim();
+//                }
+//            }catch (GeneralSecurityException e){
+//                Timber.e(e, "Could not decrypt passphrase.");
+//            }
+//        } catch(Exception e) {
+//            // note: this is a non-critical feature, so if this fails nbd
+//        }
+//        return null;
+//    }
 
     private boolean didReceivePermissionsCallback = false;
     private boolean didSucceedInPermissionsRequest = false;

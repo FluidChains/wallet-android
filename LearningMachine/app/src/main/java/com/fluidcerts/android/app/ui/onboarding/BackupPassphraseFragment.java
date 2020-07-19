@@ -37,6 +37,7 @@ public class BackupPassphraseFragment extends OnboardingFragment {
     protected String mPassphrase;
 
     private int numberOfBackupOptionsUsed = 0;
+    private boolean gDriveCompleted = false;
 
     public static BackupPassphraseFragment newInstance() {
         return new BackupPassphraseFragment();
@@ -72,12 +73,15 @@ public class BackupPassphraseFragment extends OnboardingFragment {
         mBinding.onboardingWriteButton.setOnClickListener(view -> onWrite());
 
         int numCompleted = 3;
+
+
         if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingSaveCheckmark")) {
             mBinding.onboardingSaveCheckmark.setVisibility(View.INVISIBLE);
             numCompleted--;
         }
         if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingGDriveCheckmark")) {
             mBinding.onboardingGdriveCheckmark.setVisibility(View.INVISIBLE);
+            gDriveCompleted = false;
             numCompleted--;
         }
         if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingEmailCheckmark")) {
@@ -93,7 +97,7 @@ public class BackupPassphraseFragment extends OnboardingFragment {
             mPassphrase = savedInstanceState.getString("p");
         }
 
-        if(numCompleted < 2) {
+        if(!gDriveCompleted || numCompleted < 3) {
             mBinding.onboardingDoneButton.setText(R.string.select_two_to_continue);
             mBinding.onboardingDoneButton.setEnabled(false);
         }
@@ -133,9 +137,9 @@ public class BackupPassphraseFragment extends OnboardingFragment {
 
                 DialogUtils.showAlertDialog(getContext(), this,
                         R.drawable.ic_dialog_failure,
-                        getResources().getString(R.string.onboarding_passphrase_permissions_error_title),
-                        getResources().getString(R.string.onboarding_passphrase_permissions_error),
-                        getResources().getString(R.string.ok_button),
+                        getContext().getString(R.string.onboarding_passphrase_permissions_error_title),
+                        getContext().getString(R.string.onboarding_passphrase_permissions_error),
+                        getContext().getString(R.string.ok_button),
                         null,
                         (btnIdx) -> {
                             HandleBackupOptionCompleted(null);
@@ -146,9 +150,9 @@ public class BackupPassphraseFragment extends OnboardingFragment {
 
             DialogUtils.showAlertDialog(getContext(), this,
                     R.drawable.ic_dialog_success,
-                    getResources().getString(R.string.onboarding_passphrase_complete_title),
-                    getResources().getString(R.string.onboarding_passphrase_save_complete),
-                    getResources().getString(R.string.ok_button),
+                    getActivity().getResources().getString(R.string.onboarding_passphrase_complete_title),
+                    getActivity().getResources().getString(R.string.onboarding_passphrase_save_complete),
+                    getActivity().getResources().getString(R.string.ok_button),
                     null,
                     (btnIdx) -> {
                         if(mBinding != null) {
@@ -198,11 +202,13 @@ public class BackupPassphraseFragment extends OnboardingFragment {
                     null,
                     (btnIdx) -> {
                         if(mBinding != null) {
+                            gDriveCompleted = true;
                             HandleBackupOptionCompleted(mBinding.onboardingGdriveCheckmark);
                         }
                         return null;
                     }, (cancel) -> {
                         if(mBinding != null) {
+                            gDriveCompleted = true;
                             HandleBackupOptionCompleted(mBinding.onboardingGdriveCheckmark);
                         }
                         return null;
@@ -289,7 +295,7 @@ public class BackupPassphraseFragment extends OnboardingFragment {
 
             numberOfBackupOptionsUsed++;
 
-            if (numberOfBackupOptionsUsed >= 3 && !mBinding.onboardingDoneButton.isEnabled()) {
+            if (numberOfBackupOptionsUsed >= 3 && gDriveCompleted && !mBinding.onboardingDoneButton.isEnabled()) {
                 mBinding.onboardingDoneButton.setText(R.string.onboarding_backup_done_button);
                 mBinding.onboardingDoneButton.setEnabled(true);
             }
