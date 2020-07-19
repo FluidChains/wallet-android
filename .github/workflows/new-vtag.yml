@@ -17,6 +17,10 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=version::${GITHUB_REF/refs\/tags\//}
+        
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
@@ -66,8 +70,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.build-directory }}/release/fluidcerts-productionRelease-${{ github.ref }}.apk
-          asset_name: fluidcerts-productionRelease-${{ github.ref }}.apk
+          asset_path: ${{ env.build-directory }}/release/fluidcerts-productionRelease-${{ steps.get_version.outputs.version }}.apk
+          asset_name: fluidcerts-productionRelease-${{ steps.get_version.outputs.version }}.apk
           asset_content_type: application/vnd.android.package-archive
           
       - name: Upload Debug Asset 
@@ -77,6 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.build-directory }}/debug/fluidcerts-productionDebug-${{ github.event.release.tag_name }}-debug.apk
-          asset_name: fluidcerts-productionDebug-${{ github.event.release.tag_name }}-debug.apk
+          asset_path: ${{ env.build-directory }}/debug/fluidcerts-productionDebug-${{ steps.get_version.outputs.version }}-debug.apk
+          asset_name: fluidcerts-productionDebug-${{ steps.get_version.outputs.version }}-debug.apk
           asset_content_type: application/vnd.android.package-archive
