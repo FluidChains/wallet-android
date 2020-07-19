@@ -33,13 +33,13 @@ jobs:
           mkdir -p /home/runner/.android
           keytool -genkey -v -dname "cn=Karim Boucher, ou=DevOps, o=Fluidchains, l=Ft.Lauderdale, st=FL, c=US" -keystore /home/runner/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
         
-      - name: Gradle signingReport
-        run: ./gradlew signingReport
-        working-directory: ${{ env.working-directory }}
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+#       - name: Gradle signingReport
+#         run: ./gradlew signingReport
+#         working-directory: ${{ env.working-directory }}
+#         env:
+#           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+#           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+#           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
           
       - name: Generate Production *.apk
         run: ./gradlew assembleProduction
@@ -67,8 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.build-directory }}/release/fluidcerts-productionRelease-3.2.49.apk
-          asset_name: fluidcerts-productionRelease-3.7.8.apk.zip
+          asset_path: ./${{ env.build-directory }}/release/*.apk
           asset_content_type: application/vnd.android.package-archive
           
       - name: Upload Debug Asset 
@@ -78,6 +77,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.build-directory }}/debug/fluidcerts-productionDebug-3.2.49-debug.apk
-          asset_name: fluidcerts-productionDebug-3.7.8-debug.apk
+          asset_path: ./${{ env.build-directory }}/debug/*.apk
           asset_content_type: application/vnd.android.package-archive
