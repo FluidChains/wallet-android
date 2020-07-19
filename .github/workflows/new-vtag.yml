@@ -28,7 +28,9 @@ jobs:
         run: java -version
 
       - name: Generate Android Debug Keystore
-        run: keytool -genkey -v -dname "cn=Karim Boucher, ou=DevOps, o=Fluidchains, l=Ft.Lauderdale, st=FL, c=US" -keystore /home/runner/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+        run: |
+          mkdir -p /home/runner/.android
+          keytool -genkey -v -dname "cn=Karim Boucher, ou=DevOps, o=Fluidchains, l=Ft.Lauderdale, st=FL, c=US" -keystore /home/runner/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
         
       - name: Gradle signingReport
         run: ./gradlew signingReport
