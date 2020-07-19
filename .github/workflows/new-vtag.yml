@@ -67,7 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.build-directory }}/release/fluidcerts-productionRelease-3.7.8.apk
+          asset_path: ./${{ env.build-directory }}/release/fluidcerts-productionRelease-3.2.49.apk
           asset_name: fluidcerts-productionRelease-3.7.8.apk.zip
           asset_content_type: application/vnd.android.package-archive
           
@@ -78,6 +78,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.build-directory }}/debug/fluidcerts-productionDebug-3.7.8-debug.apk
+          asset_path: ./${{ env.build-directory }}/debug/fluidcerts-productionDebug-3.2.49-debug.apk
           asset_name: fluidcerts-productionDebug-3.7.8-debug.apk
           asset_content_type: application/vnd.android.package-archive
