@@ -19,7 +19,7 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=version::${GITHUB_REF/refs\/tags\//}
+        run: echo ::set-output name=version::${GITHUB_REF/refs\/tags\/v/}
         
       - name: Setup Java
         uses: actions/setup-java@v1
@@ -35,15 +35,7 @@ jobs:
         run: |
           mkdir -p /home/runner/.android
           keytool -genkey -v -dname "cn=Karim Boucher, ou=DevOps, o=Fluidchains, l=Ft.Lauderdale, st=FL, c=US" -keystore /home/runner/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
-        
-#       - name: Gradle signingReport
-#         run: ./gradlew signingReport
-#         working-directory: ${{ env.working-directory }}
-#         env:
-#           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-#           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-#           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-          
+
       - name: Generate Production *.apk
         run: ./gradlew assembleProduction
         working-directory: ${{ env.working-directory }}
@@ -73,7 +65,7 @@ jobs:
           asset_path: ${{ env.build-directory }}/release/fluidcerts-productionRelease-${{ steps.get_version.outputs.version }}.apk
           asset_name: fluidcerts-productionRelease-${{ steps.get_version.outputs.version }}.apk
           asset_content_type: application/vnd.android.package-archive
-          
+
       - name: Upload Debug Asset 
         id: upload-debug-asset 
         uses: actions/upload-release-asset@v1
