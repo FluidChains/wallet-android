@@ -150,7 +150,12 @@ public class BitcoinManager {
 
         String passphraseFileOnExternalStorage = Environment.getExternalStorageDirectory() + "/learningmachine.dat";
         File file = new File(passphraseFileOnExternalStorage);
-        file.delete();
+        if (file.delete()) {
+            Timber.i("Seed backup successfully deleted");
+        }
+        if (getWalletFile().delete()) {
+            Timber.i("Wallet successfully deleted");
+        }
     }
 
     public Observable<Wallet> setPassphrase(String newPassphrase) {

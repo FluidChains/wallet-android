@@ -5,14 +5,10 @@ import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
 
 import com.fluidcerts.android.app.LMConstants;
-
 import com.google.common.collect.ImmutableList;
 
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.LegacyAddress;
+import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicKeyChain;
@@ -21,7 +17,6 @@ import org.bitcoinj.wallet.Protos;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
 import org.bitcoinj.wallet.WalletExtension;
-import org.bitcoinj.wallet.KeyChain.KeyPurpose;
 import org.bitcoinj.wallet.WalletProtobufSerializer;
 
 import java.io.IOException;
