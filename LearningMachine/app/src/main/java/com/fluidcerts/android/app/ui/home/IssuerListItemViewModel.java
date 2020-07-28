@@ -31,7 +31,7 @@ public class IssuerListItemViewModel extends BaseObservable {
         Resources resources = context.getResources();
 
         if (mIssuer.cachedNumberOfCertificatesForIssuer == 0) {
-            return resources.getString(R.string.issuer_no_certificates_desc);
+            return "";
         }
 
         return resources.getQuantityString(R.plurals.certificate_counting,
