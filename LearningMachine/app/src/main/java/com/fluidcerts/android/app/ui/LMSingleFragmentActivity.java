@@ -1,10 +1,18 @@
 package com.fluidcerts.android.app.ui;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.fluidcerts.android.app.R;
+import com.fluidcerts.android.app.ui.lock.LockScreenActivity;
+import com.fluidcerts.android.app.ui.settings.passphrase.RevealPassphraseActivity;
+
+import timber.log.Timber;
 
 public abstract class LMSingleFragmentActivity extends LMActivity {
 
@@ -13,9 +21,13 @@ public abstract class LMSingleFragmentActivity extends LMActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_fragment);
-
-        getFragment();
+        if (this.getClass().getSimpleName().equals("RevealPassphraseActivity")) {
+            Intent lockIntent = new Intent(this, LockScreenActivity.class);
+            startActivityForResult(lockIntent, 0);
+        } else {
+            setContentView(R.layout.activity_single_fragment);
+            getFragment();
+        }
     }
 
     protected Fragment getFragment() {
@@ -29,6 +41,17 @@ public abstract class LMSingleFragmentActivity extends LMActivity {
         }
 
         return fragment;
-
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
+
+        if (resultCode == Activity.RESULT_OK) {
+            setContentView(R.layout.activity_single_fragment);
+            getFragment();
+        }
+    }
+
 }
