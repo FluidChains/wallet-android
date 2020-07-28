@@ -3,7 +3,9 @@ package com.fluidcerts.android.app.ui.splash;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 
 import com.fluidcerts.android.app.data.bitcoin.BitcoinManager;
 import com.fluidcerts.android.app.data.inject.Injector;
@@ -64,6 +66,7 @@ public class SplashActivity extends LMActivity {
         finish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
