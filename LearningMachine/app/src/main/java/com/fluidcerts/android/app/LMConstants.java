@@ -11,7 +11,7 @@ public class LMConstants {
 
     public static final String BASE_URL = "https://certificates.learningmachine.com";
 
-    public static final String VERSION_BASE_URL = "https://www.blockcerts.org";
+    public static final String VERSION_BASE_URL = "https://certs-test.exos.to";
 
     public static final String BLOCKCHAIN_SERVICE_URL = "https://blockchain.info/";
 
