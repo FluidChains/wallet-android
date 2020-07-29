@@ -259,7 +259,9 @@
     <!--Encrypt/Decrypt Seeds-->
     <string name="activity_paste_passphrase_encrypt" translatable="false">Enter password to encrypt seed</string>
     <string name="activity_paste_passphrase_decrypt" translatable="false">Enter password to decrypt seed</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--SetPasswordFragment-->
+    <string name="fragment_set_password_warning" translatable="false">Please create a password to encrypt your wallet backups.\n\nThis password will be used to add a layer of security to the recovery information for your credentials. HOWEVER, if you lose this password, in an event of an emergency such as a broken or lost phone, you will NOT be able to recover your data.</string>
+
 
 </resources>

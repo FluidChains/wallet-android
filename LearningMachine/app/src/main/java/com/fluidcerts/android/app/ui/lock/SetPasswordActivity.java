@@ -1,5 +1,6 @@
 package com.fluidcerts.android.app.ui.lock;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,7 +17,9 @@ import com.fluidcerts.android.app.R;
 import com.fluidcerts.android.app.data.inject.Injector;
 import com.fluidcerts.android.app.data.preferences.SharedPreferencesManager;
 import com.fluidcerts.android.app.databinding.ActivitySetPasswordBinding;
+import com.fluidcerts.android.app.dialog.AlertDialogFragment;
 import com.fluidcerts.android.app.ui.LMActivity;
+import com.fluidcerts.android.app.util.DialogUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -37,6 +41,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class SetPasswordActivity extends AppCompatActivity {
 
@@ -60,7 +66,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         if (savedPassword != null) {
             Intent intent = new Intent();
             intent.putExtra("encryptionKey", savedPassword);
-            setResult(LMActivity.REQUEST_CODE_SET_ENCRYPTION_KEY, intent);
+            setResult(RESULT_OK, intent);
             finish();
             return;
         }
@@ -81,19 +87,16 @@ public class SetPasswordActivity extends AppCompatActivity {
                 try {
                     byte[] encryptedPassword = cipher.doFinal(password.getBytes("UTF-8"));
                     mSharedPreferencesManager.setLockScreenPassword(encryptedPassword);
-                } catch (IllegalBlockSizeException e) {
-                    e.printStackTrace();
-                } catch (BadPaddingException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
+                } catch (IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
                 Intent intent = new Intent();
                 intent.putExtra("encryptionKey", password);
-                setResult(LMActivity.REQUEST_CODE_SET_ENCRYPTION_KEY, intent);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
+        DisplayWarning();
     }
 
     private String getSavedPassword() {
@@ -153,9 +156,9 @@ public class SetPasswordActivity extends AppCompatActivity {
         }
 
         String passwordPlaintext = null;
-        assert decodedData != null;
-        passwordPlaintext = new String(decodedData, StandardCharsets.UTF_8);
-
+        if (decodedData != null) {
+            passwordPlaintext = new String(decodedData, StandardCharsets.UTF_8);
+        }
         return passwordPlaintext;
     }
 
@@ -245,5 +248,21 @@ public class SetPasswordActivity extends AppCompatActivity {
 
             mBinding.validationLabel.setText(validation);
         }
+    }
+
+    public void DisplayWarning() {
+        FragmentManager fm = getSupportFragmentManager();
+        AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(
+                false,
+                0,
+                R.drawable.ic_dialog_warning,
+                "",
+                getResources().getString(R.string.fragment_set_password_warning),
+                "Ok",
+                null,
+                null,
+                null,
+                null);
+        alertDialogFragment.show(fm, "SetPasswordActivity.Dialog.Alert");
     }
 }

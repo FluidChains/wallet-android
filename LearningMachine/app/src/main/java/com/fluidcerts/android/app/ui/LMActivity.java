@@ -371,11 +371,13 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         super.onActivityResult(requestCode, resultCode, resultData);
         Timber.i("[Drive] requestCode: " + requestCode);
         if (requestCode == REQUEST_CODE_SET_ENCRYPTION_KEY) {
-            mEncryptionKey = resultData.getStringExtra("encryptionKey");
-            Timber.i("[Drive] mEncryptionKey: " + mEncryptionKey);
-            if (this.drivePendingAction != null) {
-                this.drivePendingAction.call();
-//                this.drivePendingAction = null;
+            if (resultCode == RESULT_OK) {
+                mEncryptionKey = resultData.getStringExtra("encryptionKey");
+                Timber.i("[Drive] mEncryptionKey: " + mEncryptionKey);
+                if (this.drivePendingAction != null) {
+                    this.drivePendingAction.call();
+                    //                this.drivePendingAction = null;
+                }
             }
         } else if (requestCode == REQUEST_CODE_DECRYPTION_KEY) {
             assert resultData != null;
