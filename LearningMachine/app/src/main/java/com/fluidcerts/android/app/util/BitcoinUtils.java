@@ -54,7 +54,7 @@ public class BitcoinUtils {
         return null;
     }
 
-    public static Wallet createWallet(NetworkParameters params, String seedPhrase) {
+    public static Wallet createWallet(NetworkParameters params, String seedPhrase, String chain) {
         byte[] entropy;
         try {
             entropy = MnemonicCode.INSTANCE.toEntropy(Arrays.asList(seedPhrase.split(" ")));
@@ -62,17 +62,44 @@ public class BitcoinUtils {
             Timber.e(e, "Could not convert passphrase to entropy");
             return null;
         }
-        return createWallet(params, entropy);
+        try {
+            return createWallet(params, entropy, chain);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return null;
     }
 
     @NonNull
-    public static Wallet createWallet(NetworkParameters params, byte[] entropy) {
+    public static Wallet createWallet(NetworkParameters params, byte[] entropy, String chain) throws Exception {
         DeterministicSeed deterministicSeed = new DeterministicSeed(entropy,
                 LMConstants.WALLET_PASSPHRASE,
                 LMConstants.WALLET_CREATION_TIME_SECONDS);
 
-        ImmutableList<ChildNumber> accountPath = ImmutableList.of(new ChildNumber(44 | ChildNumber.HARDENED_BIT),
-                new ChildNumber(248 | ChildNumber.HARDENED_BIT), new ChildNumber(0|ChildNumber.HARDENED_BIT));
+        int purpose;
+        int coin;
+        int account;
+
+        switch(chain) {
+            case "exos":
+                purpose = 44;
+                coin = 248;
+                account = 0;
+                break;
+            case "ruta":
+                purpose = 44;
+                coin = 462;
+                account = 0;
+                break;
+            default:
+                throw new Exception(String.format("Unrecognized chain %s", chain));
+        }
+
+        ImmutableList<ChildNumber> accountPath = ImmutableList.of(
+                new ChildNumber(purpose | ChildNumber.HARDENED_BIT),
+                new ChildNumber(coin | ChildNumber.HARDENED_BIT),
+                new ChildNumber(account | ChildNumber.HARDENED_BIT)
+        );
 
         Wallet wallet = Wallet.fromSeed(params, deterministicSeed, accountPath);
         wallet.setVersion(WALLET_VERSION);
