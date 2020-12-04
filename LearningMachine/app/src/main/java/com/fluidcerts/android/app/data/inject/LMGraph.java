@@ -1,6 +1,8 @@
 package com.fluidcerts.android.app.data.inject;
 
 import com.fluidcerts.android.app.LMApplication;
+import com.fluidcerts.android.app.data.provider.LMContentProvider;
+import com.fluidcerts.android.app.ui.LMActivity;
 import com.fluidcerts.android.app.ui.LMFragment;
 import com.fluidcerts.android.app.ui.LMIssuerBaseFragment;
 import com.fluidcerts.android.app.ui.cert.AddCertificateFileFragment;
@@ -31,6 +33,7 @@ public interface LMGraph {
     void inject(LMApplication application);
 
     // Activities
+    void inject(LMActivity activity);
     void inject(SplashActivity activity);
     void inject(IssuerActivity activity);
     void inject(IssuerInfoActivity activity);
@@ -58,4 +61,7 @@ public interface LMGraph {
     void inject(CertificateInfoFragment fragment);
     void inject(SyncAdapterSettingsFragment fragment);
     void inject(SetPasswordFragment fragment);
+
+    // Providers
+    void inject(LMContentProvider contentProvider);
 }

@@ -11,7 +11,7 @@ public class LMDatabaseHelper extends SQLiteOpenHelper {
 
     @VisibleForTesting static final String DB_NAME = "com.fluidcerts.android.app.sqlite";
 
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     private Migration[] mMigrations = { };
 
