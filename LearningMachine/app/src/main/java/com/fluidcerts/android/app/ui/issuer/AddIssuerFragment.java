@@ -51,7 +51,7 @@ public class AddIssuerFragment extends LMIssuerBaseFragment {
         handleArgs();
 
         mBinding.addIssuerUrlEditText.setText(mIntroUrl);
-        mBinding.addIssuerNonceEditText.setText(mNounce);
+        mBinding.addIssuerNonceEditText.setText(mNonce);
 
         mBinding.addIssuerNonceEditText.setOnEditorActionListener(mActionListener);
 
@@ -71,7 +71,7 @@ public class AddIssuerFragment extends LMIssuerBaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mNounce = mBinding.addIssuerNonceEditText.getText().toString();
+                mNonce = mBinding.addIssuerNonceEditText.getText().toString();
                 CheckIfImportButtonShouldBeEnabled();
             }
         });
@@ -105,7 +105,7 @@ public class AddIssuerFragment extends LMIssuerBaseFragment {
         }
         if (!StringUtils.isEmpty(issuerNonce)) {
             mBinding.addIssuerNonceEditText.setText(issuerNonce);
-            mNounce = issuerNonce;
+            mNonce = issuerNonce;
         }
     }
 

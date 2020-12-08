@@ -41,7 +41,7 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
     protected String mChain;
     protected String mIntroUrl;
     protected String mCertUrl;
-    protected String mNounce;
+    protected String mNonce;
     protected String mLinkType;
 
 
@@ -69,7 +69,7 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
         }
         String issuerNonce = args.getString(ARG_ISSUER_NONCE);
         if (!StringUtils.isEmpty(issuerNonce)) {
-            mNounce = issuerNonce;
+            mNonce = issuerNonce;
         }
 
         String certUrl = args.getString(ARG_CERT_URL);

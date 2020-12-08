@@ -90,7 +90,7 @@ public class HomeFragment extends LMIssuerBaseFragment {
 
         handleArgs();
 
-        if (ARG_LINK_TYPE_ISSUER.equals(mLinkType) && !StringUtils.isEmpty(super.mIntroUrl) && !StringUtils.isEmpty(super.mNounce)) {
+        if (ARG_LINK_TYPE_ISSUER.equals(mLinkType) && !StringUtils.isEmpty(super.mIntroUrl) && !StringUtils.isEmpty(super.mNonce)) {
             startIssuerIntroduction();
         } else if (ARG_LINK_TYPE_CERT.equals(mLinkType) && !StringUtils.isEmpty(super.mCertUrl)) {
             addCertificate();
@@ -263,7 +263,7 @@ public class HomeFragment extends LMIssuerBaseFragment {
             mIntroUrl = issuerUrlString;
         }
         if (!StringUtils.isEmpty(issuerNonce)) {
-            mNounce = issuerNonce;
+            mNonce = issuerNonce;
         }
         startIssuerIntroduction();
     }
