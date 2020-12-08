@@ -11,7 +11,7 @@ public class LMDatabaseHelper extends SQLiteOpenHelper {
 
     @VisibleForTesting static final String DB_NAME = "com.fluidcerts.android.app.sqlite";
 
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     private Migration[] mMigrations = { };
 
@@ -39,6 +39,7 @@ public class LMDatabaseHelper extends SQLiteOpenHelper {
         // New mechanism: test to see if we're missing what we need, then add it. Works across all versions. Simpler to keep track of
         ConfirmColumnExistsInTable(sqLiteDatabase, LMDatabaseHelper.Table.ISSUER, LMDatabaseHelper.Column.Issuer.RECIPIENT_PUB_KEY, "text", null);
         ConfirmColumnExistsInTable(sqLiteDatabase, LMDatabaseHelper.Table.ISSUER, LMDatabaseHelper.Column.Issuer.ISSUERURL, "text", "");
+        ConfirmColumnExistsInTable(sqLiteDatabase, LMDatabaseHelper.Table.ISSUER, LMDatabaseHelper.Column.Issuer.CHAIN, "text", null);
         ConfirmColumnExistsInTable(sqLiteDatabase, LMDatabaseHelper.Table.CERTIFICATE, LMDatabaseHelper.Column.Certificate.EXPIRATION_DATE, "text", "");
     }
 
@@ -75,6 +76,7 @@ public class LMDatabaseHelper extends SQLiteOpenHelper {
         public static class Issuer {
             public static final String ID = "id";
             public static final String NAME = "name";
+            public static final String CHAIN = "chain";
             public static final String EMAIL = "email";
             public static final String ISSUERURL = "issuer_url";
             public static final String UUID = "uuid";
@@ -112,6 +114,7 @@ public class LMDatabaseHelper extends SQLiteOpenHelper {
                 + ", " + Column.Issuer.NAME + " TEXT"
                 + ", " + Column.Issuer.EMAIL + " TEXT"
                 + ", " + Column.Issuer.ISSUERURL + " TEXT"
+                + ", " + Column.Issuer.CHAIN + " TEXT"
                 + ", " + Column.Issuer.UUID + " TEXT"
                 + ", " + Column.Issuer.CERTS_URL + " TEXT"
                 + ", " + Column.Issuer.INTRO_URL + " TEXT"

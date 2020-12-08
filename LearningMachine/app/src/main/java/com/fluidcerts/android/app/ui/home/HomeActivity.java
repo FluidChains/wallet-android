@@ -12,6 +12,7 @@ import timber.log.Timber;
 
 public class HomeActivity extends LMSingleFragmentActivity {
 
+    private static final String EXTRA_ISSUER_CHAIN = "HomeActivity.IssuerChain";
     private static final String EXTRA_ISSUER_URL = "HomeActivity.IssuerUrl";
     private static final String EXTRA_CERT_URL = "HomeActivity.CertUrl";
     private static final String EXTRA_ISSUER_NONCE = "HomeActivity.IssuerNonce";
@@ -22,8 +23,9 @@ public class HomeActivity extends LMSingleFragmentActivity {
 
     private HomeFragment mLastFragment;
 
-    public static Intent newIntentForIssuer(Context context, String issuerUrlString, String nonce) {
+    public static Intent newIntentForIssuer(Context context, String chain, String issuerUrlString, String nonce) {
         Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra(EXTRA_ISSUER_CHAIN, chain);
         intent.putExtra(EXTRA_ISSUER_URL, issuerUrlString);
         intent.putExtra(EXTRA_ISSUER_NONCE, nonce);
         intent.putExtra(EXTRA_LINK_TYPE, LINK_TYPE_ISSUER);
@@ -42,9 +44,10 @@ public class HomeActivity extends LMSingleFragmentActivity {
         Timber.i("Sync.HomeActivity createFragment()");
         String linkType = getIntent().getStringExtra(EXTRA_LINK_TYPE);
         if (LINK_TYPE_ISSUER.equals(linkType)) {
+            String issuerChainString = getIntent().getStringExtra(EXTRA_ISSUER_CHAIN);
             String issuerUrlString = getIntent().getStringExtra(EXTRA_ISSUER_URL);
             String nonce = getIntent().getStringExtra(EXTRA_ISSUER_NONCE);
-            mLastFragment = HomeFragment.newInstanceForIssuer(issuerUrlString, nonce);
+            mLastFragment = HomeFragment.newInstanceForIssuer(issuerChainString, issuerUrlString, nonce);
         } else if (LINK_TYPE_CERT.equals(linkType)) {
             String certUrl = getIntent().getStringExtra(EXTRA_CERT_URL);
             mLastFragment = HomeFragment.newInstanceForCert(certUrl);
@@ -73,9 +76,10 @@ public class HomeActivity extends LMSingleFragmentActivity {
 
         String linkType = intent.getStringExtra(EXTRA_LINK_TYPE);
         if (LINK_TYPE_ISSUER.equals(linkType)) {
+            String chain = intent.getStringExtra(EXTRA_ISSUER_CHAIN);
             String issuerUrl = intent.getStringExtra(EXTRA_ISSUER_URL);
-            String nounce = intent.getStringExtra(EXTRA_ISSUER_NONCE);
-            getLastFragment().updateArgsIssuer(issuerUrl, nounce);
+            String nonce = intent.getStringExtra(EXTRA_ISSUER_NONCE);
+            getLastFragment().updateArgsIssuer(chain, issuerUrl, nonce);
         } else if (LINK_TYPE_CERT.equals(linkType)) {
             String certUrl = intent.getStringExtra(EXTRA_CERT_URL);
             getLastFragment().updateArgsCert(certUrl);

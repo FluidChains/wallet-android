@@ -15,6 +15,10 @@ public class IssuerRecord {
     @SerializedName("name")
     private String mName;
 
+    /** The chain (network) of the issuer. */
+    @SerializedName("chain")
+    private String mChain;
+
     /** The email address where you can contact the issuer */
     @SerializedName("email")
     private String mEmail;
@@ -55,12 +59,15 @@ public class IssuerRecord {
     private String mAnalyticsUrlString;
 
     // created when added to DB
+    @SerializedName("introducedOn")
     private String mIntroducedOn;
 
+    @SerializedName("recipientPubKey")
     private String mRecipientPubKey;
 
     public IssuerRecord(String name, String email, String issuerURL, String uuid, String certsUrl, String introUrl, String introducedOn, String analyticsUrlString, String recipientPubKey) {
         mName = name;
+//        mChain = chain;
         mEmail = email;
         mIssuerURL = issuerURL;
         mUuid = uuid;
@@ -75,10 +82,13 @@ public class IssuerRecord {
         return mName;
     }
 
+    public String getChain() {
+        return mChain;
+    }
+
     public String getIssuerURL() {
         return mIssuerURL;
     }
-
 
     public String getEmail() {
         return mEmail;

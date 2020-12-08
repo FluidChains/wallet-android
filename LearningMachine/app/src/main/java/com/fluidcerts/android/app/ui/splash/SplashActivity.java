@@ -48,7 +48,7 @@ public class SplashActivity extends LMActivity {
         // Note: If we have not "logged into" an account yet, then we need to force the user into onboarding
         if(mSharedPreferencesManager.isFirstLaunch() || mSharedPreferencesManager.shouldShowWelcomeBackUserFlow()) {
             if(mLaunchData.getLaunchType() == ADD_ISSUER) {
-                mSharedPreferencesManager.setDelayedIssuerURL(mLaunchData.getIntroUrl(), mLaunchData.getNonce());
+                mSharedPreferencesManager.setDelayedIssuerURL(mLaunchData.getChain(), mLaunchData.getIntroUrl(), mLaunchData.getNonce());
             }
             if(mLaunchData.getLaunchType() == ADD_CERTIFICATE) {
                 mSharedPreferencesManager.setDelayedCertificateURL(mLaunchData.getCertUrl());
@@ -83,6 +83,7 @@ public class SplashActivity extends LMActivity {
                 case ADD_ISSUER:
                     Timber.i("Application was launched with this url: " + mData.toString());
                     Intent issuerIntent = HomeActivity.newIntentForIssuer(this,
+                            mLaunchData.getChain(),
                             mLaunchData.getIntroUrl(),
                             mLaunchData.getNonce());
                     issuerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);

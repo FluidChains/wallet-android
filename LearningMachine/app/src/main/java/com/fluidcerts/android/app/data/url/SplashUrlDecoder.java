@@ -38,25 +38,13 @@ public class SplashUrlDecoder {
     }
 
     private static LaunchData handleAddIssuerUri(String uriString) {
-//        String pathSuffix = getPathSuffix(uriString, ADD_ISSUER_PATH);
-//        if (StringUtils.isEmpty(pathSuffix)) {
-//            Timber.e("Launch uri missing the issuer path suffix");
-//            return null;
-//        }
-
-//        String[] issuerParts = pathSuffix.split("/");
-//        if (issuerParts.length < 2) {
-//            Timber.e("Launch uri missing issuer path parts");
-//            return null;
-//        }
 
         try {
             Uri issuerUri = Uri.parse(uriString);
-//            String introUrl = URLDecoder.decode(issuerParts[0], "UTF-8");
-//            String nonce = URLDecoder.decode(issuerParts[1], "UTF-8");
             String introUrl = URLDecoder.decode(issuerUri.getQueryParameter("issuerProfile"), "UTF-8");
             String nonce = URLDecoder.decode(issuerUri.getQueryParameter("otc"), "UTF-8");
-            return new LaunchData(ADD_ISSUER, introUrl, nonce);
+            String chain = URLDecoder.decode(issuerUri.getQueryParameter("chain"), "UTF-8");
+            return new LaunchData(ADD_ISSUER, chain, introUrl, nonce);
         } catch (IOException e) {
             Timber.e(e, "Unable to decode Urls.");
         }

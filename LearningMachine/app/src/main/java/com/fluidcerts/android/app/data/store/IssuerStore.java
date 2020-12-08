@@ -37,9 +37,6 @@ public class IssuerStore implements DataStore {
         String imageData = issuerResponse.getImageData();
         mImageStore.saveImage(uuid, imageData);
 
-        String introducedOn = DateTime.now().toString();
-        issuerResponse.setIntroducedOn(introducedOn);
-
         saveIssuer(issuerResponse, recipientPubKey);
     }
 

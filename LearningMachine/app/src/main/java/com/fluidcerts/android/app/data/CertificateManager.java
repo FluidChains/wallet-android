@@ -115,7 +115,10 @@ public class CertificateManager {
                 boolean isSampleCert = recipientKey.equals("sample-certificate");
                 // TODO: certificate ownership check must compare against all addresses
                 // recipient key must match one of the bitcoin addresses
-                boolean isCertOwner = mBitcoinManager.isMyIssuedAddress(recipientKey);
+                // TODO: retrieve chain from responseBody
+                // this has a hardcoded value because SHOULD_PERFORM_OWNERSHIP_CHECK currently
+                // is set to false
+                boolean isCertOwner = mBitcoinManager.isMyIssuedAddress("ruta", recipientKey);
 
                 if (!isSampleCert && !isCertOwner) {
                     return Observable.error(new CertificateOwnershipException());
@@ -176,7 +179,10 @@ public class CertificateManager {
 
         if (LMConstants.SHOULD_PERFORM_OWNERSHIP_CHECK) {
             // Reject on address mismatch
-            boolean isMyKey = mBitcoinManager.isMyIssuedAddress(recipientKey);
+            // TODO: retrieve chain from certInputStream
+            // this has a hardcoded value because SHOULD_PERFORM_OWNERSHIP_CHECK currently
+            // is set to false
+            boolean isMyKey = mBitcoinManager.isMyIssuedAddress("ruta", recipientKey);
             if (!isMyKey) {
                 FileUtils.deleteCertificate(mContext, tempFilename);
                 return Observable.error(new CertificateOwnershipException());

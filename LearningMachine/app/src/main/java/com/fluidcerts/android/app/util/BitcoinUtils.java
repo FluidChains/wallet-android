@@ -3,16 +3,21 @@ package com.fluidcerts.android.app.util;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.fluidcerts.android.app.LMConstants;
+import com.fluidcerts.android.app.data.network.MultiChainParams;
 import com.google.common.collect.ImmutableList;
 
+import org.bitcoinj.core.LegacyAddress;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
+import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.wallet.DeterministicKeyChain;
 import org.bitcoinj.wallet.DeterministicSeed;
+import org.bitcoinj.wallet.KeyChain;
 import org.bitcoinj.wallet.Protos;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
@@ -24,6 +29,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import rx.exceptions.OnErrorNotImplementedException;
 import timber.log.Timber;
 
 public class BitcoinUtils {
@@ -54,7 +60,21 @@ public class BitcoinUtils {
         return null;
     }
 
-    public static Wallet createWallet(NetworkParameters params, String seedPhrase, String chain) {
+    @NonNull
+    public static DeterministicSeed createDeterministicSeed(byte[] entropy) {
+        return new DeterministicSeed(entropy,
+                LMConstants.WALLET_PASSPHRASE,
+                LMConstants.WALLET_CREATION_TIME_SECONDS);
+    }
+
+    @NonNull
+    public static Wallet createWallet(byte[] entropy, String chain, int usedAddresses) {
+        Wallet wallet = new MultiChainParams(chain).createWallet(entropy, usedAddresses);
+        wallet.setVersion(WALLET_VERSION);
+        return wallet;
+    }
+
+    public static Wallet createWallet(String seedPhrase, String chain, int usedAddresses) {
         byte[] entropy;
         try {
             entropy = MnemonicCode.INSTANCE.toEntropy(Arrays.asList(seedPhrase.split(" ")));
@@ -62,48 +82,7 @@ public class BitcoinUtils {
             Timber.e(e, "Could not convert passphrase to entropy");
             return null;
         }
-        try {
-            return createWallet(params, entropy, chain);
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        return null;
-    }
-
-    @NonNull
-    public static Wallet createWallet(NetworkParameters params, byte[] entropy, String chain) throws Exception {
-        DeterministicSeed deterministicSeed = new DeterministicSeed(entropy,
-                LMConstants.WALLET_PASSPHRASE,
-                LMConstants.WALLET_CREATION_TIME_SECONDS);
-
-        int purpose;
-        int coin;
-        int account;
-
-        switch(chain) {
-            case "exos":
-                purpose = 44;
-                coin = 248;
-                account = 0;
-                break;
-            case "ruta":
-                purpose = 44;
-                coin = 462;
-                account = 0;
-                break;
-            default:
-                throw new Exception(String.format("Unrecognized chain %s", chain));
-        }
-
-        ImmutableList<ChildNumber> accountPath = ImmutableList.of(
-                new ChildNumber(purpose | ChildNumber.HARDENED_BIT),
-                new ChildNumber(coin | ChildNumber.HARDENED_BIT),
-                new ChildNumber(account | ChildNumber.HARDENED_BIT)
-        );
-
-        Wallet wallet = Wallet.fromSeed(params, deterministicSeed, accountPath);
-        wallet.setVersion(WALLET_VERSION);
-        return wallet;
+        return createWallet(entropy, chain, usedAddresses);
     }
 
     public static Wallet loadWallet(InputStream walletStream, NetworkParameters networkParameters) throws IOException, UnreadableWalletException {

@@ -33,25 +33,34 @@ public class GoogleDriveService {
     private final Drive mDriveService;
     public static final int REQUEST_CODE_SIGN_IN = 1;
     private static final String APP_DATA_FOLDER = "appDataFolder";
+    private static final String PASSPHRASE_FILE_NAME = "certifico.seeds";
 
     public static void log(String message) {
-        Timber.i("[Drive] " + message);
+        Timber.d("[Drive] " + message);
     }
 
     public GoogleDriveService(Drive driveService) {
         mDriveService = driveService;
     }
 
-    public Observable<File> queryFileByname(String name) {
+    public Observable<File> queryFileByName(String name) {
         return queryFiles(String.format("name = '%s'", name));
+    }
+
+    public Observable<File> querySeeds() {
+        return queryFiles("name contains '.seeds'");
+    }
+
+    public Observable<File> queryIssuers() {
+        return queryFiles("name contains '.issuer'");
+    }
+
+    public Observable<File> queryIssuedAddresses() {
+        return queryFiles("name contains '.index'");
     }
 
     public Observable<File> queryCertificates() {
         return queryFiles("name contains '.json'");
-    }
-
-    public Observable<File> querySeeds() {
-        return queryFiles("name contains '.txt'");
     }
 
     public Observable<File> queryFiles(String query) {
@@ -69,14 +78,14 @@ public class GoogleDriveService {
                 fileList.getFiles().get(0);
                 log(String.format("queryFiles -> fileList: %s", fileList.getFiles()));
             } catch (IndexOutOfBoundsException e) {
-//                log(String.format("queryFiles -> fileList: %s", null));
+                log(String.format("queryFiles -> fileList: %s", "No files"));
                 return Observable.just(null);
             }
             return Observable.from(fileList.getFiles());
         });
     }
 
-    public Observable<String> saveData(File file, String data) {
+    public Observable<String> saveToDriveOrUpdate(File file, String data) {
         return Observable.defer(() -> {
             ByteArrayContent dataStream = ByteArrayContent.fromString("text/plain", data);
             File googleFile;
@@ -85,7 +94,7 @@ public class GoogleDriveService {
                     File metadata = new File()
                             .setParents(Collections.singletonList(APP_DATA_FOLDER))
                             .setMimeType("text/plain")
-                            .setName(BackupConstants.PASSPHRASE_FILE_NAME);
+                            .setName(PASSPHRASE_FILE_NAME);
                     googleFile = mDriveService.files().create(metadata, dataStream).execute();
 
                 } else {
@@ -104,27 +113,7 @@ public class GoogleDriveService {
         });
     }
 
-    public Observable<File> uploadFile(java.io.File file) {
-        return Observable.defer(() -> {
-            log(String.format("uploadingFile -> name: %s", file.getName()));
-            File driveFile;
-            File metadata = new File()
-                    .setParents(Collections.singletonList(APP_DATA_FOLDER))
-                    .setName(file.getName());
-            FileContent mediaContent = new FileContent("text/plain", file);
-            try {
-                driveFile = mDriveService.files().create(metadata, mediaContent)
-                        .setFields("id")
-                        .execute();
-            } catch (Exception e) {
-                return Observable.error(e);
-            }
-            log(String.format("File uploaded -> id: %s | name: %s", driveFile.getId(), file.getName()));
-            return Observable.just(driveFile);
-        });
-    }
-
-    public Observable<GoogleDriveFile> downloadDriveFile(File file) {
+    public Observable<GoogleDriveFile> downloadFromDrive(File file) {
         return Observable.defer(() -> {
             if (file == null) {
                 return Observable.just(null);
@@ -163,7 +152,7 @@ public class GoogleDriveService {
             int requestCode,
             int resultCode,
             Intent resultData,
-            Action1<GoogleDriveService> postSigninAction) {
+            Action1<GoogleDriveService> postSignInAction) {
         Timber.i(String.format("handleActivityResult requestCode: %s | resultCode: %s", requestCode, resultCode));
         switch (requestCode) {
             case GoogleDriveService.REQUEST_CODE_SIGN_IN:
@@ -171,8 +160,8 @@ public class GoogleDriveService {
                     handleSignInResult(activity, resultData)
                             .subscribe(drive -> {
                                 log("handling SignedResult");
-                                if (postSigninAction != null) {
-                                    postSigninAction.call(drive);
+                                if (postSignInAction != null) {
+                                    postSignInAction.call(drive);
                                 }
                             });
                     break;

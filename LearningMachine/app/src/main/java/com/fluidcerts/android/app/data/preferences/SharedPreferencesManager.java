@@ -4,7 +4,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.fluidcerts.android.app.util.KeyStoreUtils;
+
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
+
+import javax.crypto.NoSuchPaddingException;
+
+import timber.log.Timber;
 
 public class SharedPreferencesManager {
 
@@ -14,6 +27,7 @@ public class SharedPreferencesManager {
     private static final String PREF_SEEN_BACKUP_PASSPHRASE= "SharedPreferencesManager.SeenBackupPassphrase";
     private static final String PREF_LEGACY_RECEIVE_ADDRESS = "SharedPreferencesManager.LegacyReceiveAddress";
 
+    private static final String DELAYED_ISSUER_CHAIN = "SharedPreferencesManager.DelayedIssuer.Chain";
     private static final String DELAYED_ISSUER_URL = "SharedPreferencesManager.DelayedIssuer.URL";
     private static final String DELAYED_ISSUER_NONCE = "SharedPreferencesManager.DelayedIssuer.Nonce";
 
@@ -26,12 +40,19 @@ public class SharedPreferencesManager {
     private static final String PREF_APP_PASS = "SharedPreferencesManager.AppPass";
     private static final String PREF_APP_PASS_IV = "SharedPreferencesManager.AppPass.IV";
 
+    private static final String PREF_WALLET_SEEDS = "SharedPreferencesManager.WalletSeeds";
+
+    private static final String PREF_ISSUED_ADDRESSES = "SharedPreferencesManager.IssuedAddresses";
+
     private SharedPreferences mPrefs;
 
     public SharedPreferencesManager(Context context) {
         mPrefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
+    public String getDelayedIssuerChain() {
+        return mPrefs.getString(DELAYED_ISSUER_CHAIN, "");
+    }
     public String getDelayedIssuerURL() {
         return mPrefs.getString(DELAYED_ISSUER_URL, "");
     }
@@ -39,8 +60,9 @@ public class SharedPreferencesManager {
         return mPrefs.getString(DELAYED_ISSUER_NONCE, "");
     }
 
-    public void setDelayedIssuerURL(String issuerURL, String issuerNonce) {
+    public void setDelayedIssuerURL(String chain, String issuerURL, String issuerNonce) {
         mPrefs.edit()
+                .putString(DELAYED_ISSUER_CHAIN, chain)
                 .putString(DELAYED_ISSUER_URL, issuerURL)
                 .putString(DELAYED_ISSUER_NONCE, issuerNonce)
                 .apply();
@@ -48,6 +70,7 @@ public class SharedPreferencesManager {
 
     public String getDelayedCertificateURL() {
         return mPrefs.getString(DELAYED_CERTIFICATE_URL, "");
+
     }
 
     public void setDelayedCertificateURL(String certificateURL) {
@@ -151,4 +174,63 @@ public class SharedPreferencesManager {
         return mPrefs.getBoolean(PREF_SYNC_ADAPTER, false);
     }
 
+    public void setWalletSeeds(Context context, String value) {
+        if (mPrefs.getString(PREF_WALLET_SEEDS, null) != null) {
+            throw new IllegalArgumentException(String.format("Key %s already exists", PREF_WALLET_SEEDS));
+        }
+
+        String encrypted;
+        try {
+            encrypted = KeyStoreUtils.encrypt(context, PREF_WALLET_SEEDS, value);
+        } catch (CertificateException
+                | NoSuchAlgorithmException
+                | KeyStoreException
+                | IOException
+                | UnrecoverableEntryException
+                | NoSuchProviderException
+                | NoSuchPaddingException
+                | InvalidKeyException
+                | InvalidAlgorithmParameterException e) {
+            Timber.e(e);
+            return;
+        }
+
+        mPrefs.edit()
+                .putString(PREF_WALLET_SEEDS, encrypted)
+                .apply();
+    }
+
+    public String getWalletSeeds() {
+        String encrypted = mPrefs.getString(PREF_WALLET_SEEDS, null);
+        if (encrypted != null) {
+            try {
+                return KeyStoreUtils.decrypt(PREF_WALLET_SEEDS, encrypted);
+            } catch (UnrecoverableEntryException | NoSuchAlgorithmException | CertificateException | KeyStoreException | InvalidKeyException | NoSuchPaddingException | IOException | NoSuchProviderException e) {
+                Timber.e(e);
+            }
+        }
+        return null;
+    }
+
+    public void removeWalletSeeds() {
+        try {
+            KeyStoreUtils.deleteKeyEntry(PREF_WALLET_SEEDS);
+            mPrefs.edit()
+                    .remove(PREF_WALLET_SEEDS)
+                    .apply();
+        } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
+            Timber.e(e);
+        }
+    }
+
+    public int getIssuedAddresses(String chain) {
+        return mPrefs.getInt(PREF_ISSUED_ADDRESSES + chain, 0);
+    }
+
+    public void incrementIssuedAddresses(String chain) {
+        int usedAddresses = mPrefs.getInt(PREF_ISSUED_ADDRESSES + chain, 0);
+        mPrefs.edit()
+                .putInt(PREF_ISSUED_ADDRESSES + chain, usedAddresses + 1)
+                .apply();
+    }
 }

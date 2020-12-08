@@ -9,10 +9,14 @@ import com.fluidcerts.android.app.R;
 import com.fluidcerts.android.app.data.IssuerManager;
 import com.fluidcerts.android.app.data.bitcoin.BitcoinManager;
 import com.fluidcerts.android.app.data.inject.Injector;
+import com.fluidcerts.android.app.data.preferences.SharedPreferencesManager;
 import com.fluidcerts.android.app.data.webservice.request.IssuerIntroductionRequest;
+import com.fluidcerts.android.app.data.webservice.response.IssuerResponse;
 import com.fluidcerts.android.app.util.DialogUtils;
 import com.fluidcerts.android.app.util.ErrorUtils;
 import com.fluidcerts.android.app.util.StringUtils;
+
+import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
@@ -20,6 +24,7 @@ import rx.Observable;
 import timber.log.Timber;
 
 public abstract class LMIssuerBaseFragment extends LMFragment {
+    protected static final String ARG_ISSUER_CHAIN = "LMIssuerBaseFragment.IssuerChain";
     protected static final String ARG_ISSUER_URL = "LMIssuerBaseFragment.IssuerUrl";
     protected static final String ARG_CERT_URL = "LMIssuerBaseFragment.CertUrl";
     protected static final String ARG_ISSUER_NONCE = "LMIssuerBaseFragment.IssuerNonce";
@@ -31,7 +36,9 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
 
     @Inject protected BitcoinManager mBitcoinManager;
     @Inject protected IssuerManager mIssuerManager;
+    @Inject protected SharedPreferencesManager mSharedPreferencesManager;
 
+    protected String mChain;
     protected String mIntroUrl;
     protected String mCertUrl;
     protected String mNounce;
@@ -50,6 +57,11 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
         Bundle args = getArguments();
         if (args == null) {
             return;
+        }
+        String issuerChainString = args.getString(ARG_ISSUER_CHAIN);
+        if (!StringUtils.isEmpty(issuerChainString)) {
+            Timber.d("karm: handleArgs" + issuerChainString);
+            mChain = issuerChainString;
         }
         String issuerUrlString = args.getString(ARG_ISSUER_URL);
         if (!StringUtils.isEmpty(issuerUrlString)) {
@@ -85,14 +97,15 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
 
     protected void introduceIssuer() {
         Timber.i("Starting process to identify and introduce issuer at " + mIntroUrl);
+        Timber.i(String.format("Issuer is using %s", mChain));
         if (mBitcoinManager == null || mIssuerManager == null) {
             Timber.e("Bitcoin Manager or Issuer Manager not available");
             return;
         }
 
         Observable.combineLatest(
-                mBitcoinManager.getFreshBitcoinAddress(),
-                Observable.just(mNounce),
+                mBitcoinManager.getFreshBitcoinAddress(mChain),
+                Observable.just(mNonce),
                 mIssuerManager.fetchIssuer(mIntroUrl),
                 IssuerIntroductionRequest::new)
                 .doOnSubscribe(this::addIssuerOnSubscribe)
