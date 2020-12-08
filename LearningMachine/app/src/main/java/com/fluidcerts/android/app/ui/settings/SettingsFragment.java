@@ -23,7 +23,6 @@ import com.fluidcerts.android.app.ui.issuer.AddIssuerActivity;
 import com.fluidcerts.android.app.ui.lock.SetPasswordActivity;
 import com.fluidcerts.android.app.ui.onboarding.OnboardingActivity;
 import com.fluidcerts.android.app.ui.settings.passphrase.RevealPassphraseActivity;
-import com.fluidcerts.android.app.ui.sync.SyncAdapterSettingsActivity;
 import com.fluidcerts.android.app.util.DialogUtils;
 import com.fluidcerts.android.app.util.FileLoggingTree;
 import com.fluidcerts.android.app.util.FileUtils;
@@ -148,8 +147,6 @@ public class SettingsFragment extends LMFragment {
         binding.settingsSyncSettings.setOnClickListener(v -> {
             Timber.i("Sync Settings tapped in settings");
             String actionBarTitle = getString(R.string.settings_sync);
-            Intent intent = SyncAdapterSettingsActivity.newIntent(getContext(), actionBarTitle);
-            startActivity(intent);
         });
 
         binding.settingsAbout.setOnClickListener(v -> {

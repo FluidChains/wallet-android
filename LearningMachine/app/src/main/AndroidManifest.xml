@@ -30,16 +30,13 @@
             android:theme="@style/NoToolbarTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <data
                     android:host="certs-test.exos.to"
                     android:scheme="https" />
-
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -131,24 +128,6 @@
                 android:resource="@xml/files" />
         </provider>
 
-        <service
-            android:name=".data.drive.DriveSyncAdapterService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
-        </service>
-
-        <provider
-            android:name=".data.drive.DriveContentProvider"
-            android:authorities="@string/sync_authority"
-            android:exported="false"
-            android:label="@string/sync_content_provider_label"
-            android:syncable="true" />
     </application>
 
 </manifest>

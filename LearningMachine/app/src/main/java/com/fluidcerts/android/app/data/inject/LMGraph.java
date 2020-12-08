@@ -24,8 +24,6 @@ import com.fluidcerts.android.app.ui.onboarding.ViewPassphraseFragment;
 import com.fluidcerts.android.app.ui.settings.SettingsFragment;
 import com.fluidcerts.android.app.ui.settings.passphrase.RevealPassphraseFragment;
 import com.fluidcerts.android.app.ui.splash.SplashActivity;
-import com.fluidcerts.android.app.ui.sync.SyncAdapterSettingsActivity;
-import com.fluidcerts.android.app.ui.sync.SyncAdapterSettingsFragment;
 
 public interface LMGraph {
     void inject(LMApplication application);
@@ -35,7 +33,6 @@ public interface LMGraph {
     void inject(IssuerActivity activity);
     void inject(IssuerInfoActivity activity);
     void inject(OnboardingActivity activity);
-    void inject(SyncAdapterSettingsActivity activity);
     void inject(SetPasswordActivity activity);
 
     // Fragments
@@ -56,6 +53,5 @@ public interface LMGraph {
     void inject(AddCertificateFileFragment fragment);
     void inject(IssuerInfoFragment fragment);
     void inject(CertificateInfoFragment fragment);
-    void inject(SyncAdapterSettingsFragment fragment);
     void inject(SetPasswordFragment fragment);
 }
