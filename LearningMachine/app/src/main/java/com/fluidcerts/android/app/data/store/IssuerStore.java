@@ -1,12 +1,14 @@
 package com.fluidcerts.android.app.data.store;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.VisibleForTesting;
 
 import com.fluidcerts.android.app.data.model.IssuerRecord;
 import com.fluidcerts.android.app.data.model.KeyRotation;
+import com.fluidcerts.android.app.data.provider.LMContentProvider;
 import com.fluidcerts.android.app.data.store.cursor.IssuerCursorWrapper;
 import com.fluidcerts.android.app.data.store.cursor.KeyRotationCursorWrapper;
 import com.fluidcerts.android.app.data.webservice.response.IssuerResponse;
@@ -20,10 +22,12 @@ import java.util.List;
 
 public class IssuerStore implements DataStore {
 
+    private Context mContext;
     private SQLiteDatabase mDatabase;
     private ImageStore mImageStore;
 
-    public IssuerStore(LMDatabaseHelper databaseHelper, ImageStore imageStore) {
+    public IssuerStore(Context context, LMDatabaseHelper databaseHelper, ImageStore imageStore) {
+        mContext = context;
         mDatabase = databaseHelper.getWritableDatabase();
         mImageStore = imageStore;
     }
@@ -72,12 +76,11 @@ public class IssuerStore implements DataStore {
 
         if (loadIssuer(issuerUuid) == null) {
             contentValues.put(LMDatabaseHelper.Column.Issuer.UUID, issuerUuid);
-            mDatabase.insert(LMDatabaseHelper.Table.ISSUER,
-                    null,
-                    contentValues);
+            mContext.getContentResolver().insert(LMContentProvider.CONTENT_URI_INSERT_ISSUERS, contentValues);
         } else {
-            mDatabase.update(LMDatabaseHelper.Table.ISSUER,
-                    contentValues, LMDatabaseHelper.Column.Issuer.UUID + " = ?",
+            mContext.getContentResolver().update(LMContentProvider.CONTENT_URI_UPDATE_ISSUERS,
+                    contentValues,
+                    LMDatabaseHelper.Column.Issuer.UUID + " = ?",
                     new String[] {issuerUuid});
         }
     }

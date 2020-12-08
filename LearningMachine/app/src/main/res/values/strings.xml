@@ -239,11 +239,13 @@
     <!--SAML login title-->
     <string name="login_to_issuer">Log In To Issuer</string>
 
+    <!--Content Provider-->
+    <string name="content_provider_authority" translatable="false">io.certifico.provider</string>
+
     <!--Drive SyncAdapter-->
     <string name="sync_content_provider_label" translatable="false">FluidcertsSync</string>
     <string name="sync_authenticator_label" translatable="false">FluidCertsSyncAdapter</string>
-    <string name="sync_authority" translatable="false">com.fluidcerts.android.app.ui.drive.DriveRestoreActivity</string>
-    <string name="sync_account_type" translatable="false">com.google</string>
+    <string name="sync_account_type" translatable="false">io.certifico</string>
     <string name="server_client_id" translatable="false">561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
 
     <!--SyncAdapterSettings Fragment-->

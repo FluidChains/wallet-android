@@ -2,9 +2,11 @@ package com.fluidcerts.android.app.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import com.fluidcerts.android.app.R;
+import com.fluidcerts.android.app.data.provider.LMContentProvider;
 import com.fluidcerts.android.app.ui.LMSingleFragmentActivity;
 import com.fluidcerts.android.app.util.FileLoggingTree;
 
@@ -22,6 +24,7 @@ public class HomeActivity extends LMSingleFragmentActivity {
     public static final String LINK_TYPE_CERT = "HomeActivity.LinkTypeCert";
 
     private HomeFragment mLastFragment;
+    protected LMContentObserver mContentObserver = null;
 
     public static Intent newIntentForIssuer(Context context, String chain, String issuerUrlString, String nonce) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -85,6 +88,25 @@ public class HomeActivity extends LMSingleFragmentActivity {
             getLastFragment().updateArgsCert(certUrl);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        Timber.i("Sync.HomeActivity onResume() Resumed");
+        super.onResume();
+        mContentObserver = new LMContentObserver(new Handler());
+        Timber.d("ContentObserver Registering Content Observer");
+        getContentResolver().registerContentObserver(LMContentProvider.CONTENT_URI, true, mContentObserver);
+    }
+
+    @Override
+    protected void onPause() {
+        Timber.i("Sync.HomeActivity onPause() Paused");
+        super.onPause();
+        if (mContentObserver != null) {
+            Timber.d("ContentObserver Unregistering Content Observer");
+            getContentResolver().unregisterContentObserver(mContentObserver);
+        }
     }
 
     @Override

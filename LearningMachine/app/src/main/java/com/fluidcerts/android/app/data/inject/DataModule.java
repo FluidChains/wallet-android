@@ -1,6 +1,7 @@
 package com.fluidcerts.android.app.data.inject;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.fluidcerts.android.app.data.CertificateManager;
 import com.fluidcerts.android.app.data.IssuerManager;
@@ -37,14 +38,20 @@ public class DataModule {
 
     @Provides
     @Singleton
+    SQLiteDatabase providesSQLiteDatabase(LMDatabaseHelper databaseHelper) {
+        return databaseHelper.getWritableDatabase();
+    }
+
+    @Provides
+    @Singleton
     ImageStore providesImageStore(Context context) {
         return new ImageStore(context);
     }
 
     @Provides
     @Singleton
-    IssuerStore providesIssuerStore(LMDatabaseHelper databaseHelper, ImageStore imageStore) {
-        return new IssuerStore(databaseHelper, imageStore);
+    IssuerStore providesIssuerStore(Context context, LMDatabaseHelper databaseHelper, ImageStore imageStore) {
+        return new IssuerStore(context, databaseHelper, imageStore);
     }
 
     @Provides

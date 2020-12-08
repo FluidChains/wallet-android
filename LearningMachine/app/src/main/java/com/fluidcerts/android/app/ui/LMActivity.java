@@ -4,9 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -17,6 +21,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.fluidcerts.android.app.data.drive.GoogleDriveFile;
 import com.fluidcerts.android.app.data.drive.GoogleDriveService;
+import com.fluidcerts.android.app.data.preferences.SharedPreferencesManager;
+import com.fluidcerts.android.app.data.provider.LMContentProvider;
 import com.fluidcerts.android.app.ui.home.HomeActivity;
 import com.fluidcerts.android.app.ui.issuer.IssuerActivity;
 import com.fluidcerts.android.app.ui.lock.EnterPasswordActivity;
@@ -36,9 +42,12 @@ import org.bitcoinj.wallet.Wallet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
+import java.util.List;
+import java.util.Scanner;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -112,7 +121,6 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     protected void onResume() {
         super.onResume();
         mLifecycleSubject.onNext(ActivityEvent.RESUME);
-        Timber.i("Sync.LMActivity onResume() Resumed");
 
         if (didReceivePermissionsCallback) {
             if (tempPassphrase != null && passphraseCallback != null) {
@@ -153,6 +161,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
     @Override
     protected void onDestroy() {
+        Timber.i("Sync.LMActivity onDestroy() Destroyed");
         mLifecycleSubject.onNext(ActivityEvent.DESTROY);
         super.onDestroy();
     }
@@ -197,6 +206,29 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class LMContentObserver extends ContentObserver {
+
+        public LMContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            this.onChange(selfChange, null);
+            Timber.d("onChange");
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            Timber.d("ContentObserver onChange triggered by URI: " + uri.toString());
+            if (uri.getPath().contains("/insert/issuer")) {
+                Timber.d("ContentObserver registered issuer insert");
+            } else if (uri.getPath().contains("/insert/certificate")) {
+                Timber.d("ContentObserver registered certificate insert");
+            }
+        }
     }
 
     /* Keyboard */
