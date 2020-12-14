@@ -48,6 +48,7 @@ public class IssuerStore implements DataStore {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(LMDatabaseHelper.Column.Issuer.NAME, issuer.getName());
+        contentValues.put(LMDatabaseHelper.Column.Issuer.CHAIN, issuer.getChain());
         contentValues.put(LMDatabaseHelper.Column.Issuer.EMAIL, issuer.getEmail());
         contentValues.put(LMDatabaseHelper.Column.Issuer.ISSUERURL, issuer.getIssuerURL());
         contentValues.put(LMDatabaseHelper.Column.Issuer.INTRODUCED_ON, issuer.getIntroducedOn());

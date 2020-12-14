@@ -227,10 +227,18 @@ public class SharedPreferencesManager {
         return mPrefs.getInt(PREF_ISSUED_ADDRESSES + chain, 0);
     }
 
-    public void incrementIssuedAddresses(String chain) {
-        int usedAddresses = mPrefs.getInt(PREF_ISSUED_ADDRESSES + chain, 0);
+    public void setIssuedAddresses(String chain, int index) {
         mPrefs.edit()
-                .putInt(PREF_ISSUED_ADDRESSES + chain, usedAddresses + 1)
+                .putInt(PREF_ISSUED_ADDRESSES + chain, index)
                 .apply();
+    }
+
+    public int incrementIssuedAddresses(String chain) {
+        int usedAddresses = mPrefs.getInt(PREF_ISSUED_ADDRESSES + chain, 0);
+        usedAddresses++;
+        mPrefs.edit()
+                .putInt(PREF_ISSUED_ADDRESSES + chain, usedAddresses)
+                .apply();
+        return usedAddresses;
     }
 }

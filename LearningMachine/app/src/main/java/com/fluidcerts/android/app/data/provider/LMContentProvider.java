@@ -140,6 +140,7 @@ public class LMContentProvider extends ContentProvider {
         init();
         String table;
         Uri contentUri;
+        String chain = null;
         switch (uriMatcher.match(uri)) {
             case CERTIFICATES:
             case CERTIFICATE_ID:
@@ -150,6 +151,7 @@ public class LMContentProvider extends ContentProvider {
             case ISSUER_ID:
                 table = LMDatabaseHelper.Table.ISSUER;
                 contentUri = CONTENT_URI_INSERT_ISSUERS;
+                chain = contentValues.getAsString(LMDatabaseHelper.Column.Issuer.CHAIN);
                 break;
             default:
                 throw new IllegalArgumentException("This is an Unknown URI " + uri);
@@ -159,6 +161,11 @@ public class LMContentProvider extends ContentProvider {
 
         if (_ID > 0) {
             Uri _uri = ContentUris.withAppendedId(contentUri, _ID);
+            if (chain != null) {
+                _uri = _uri.buildUpon()
+                        .appendQueryParameter("chain", chain)
+                        .build();
+            }
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(_uri, null);
             return _uri;
         }

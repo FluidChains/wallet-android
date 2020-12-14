@@ -67,7 +67,19 @@ public class IssuerRecord {
 
     public IssuerRecord(String name, String email, String issuerURL, String uuid, String certsUrl, String introUrl, String introducedOn, String analyticsUrlString, String recipientPubKey) {
         mName = name;
-//        mChain = chain;
+        mEmail = email;
+        mIssuerURL = issuerURL;
+        mUuid = uuid;
+        mCertsUrl = certsUrl;
+        mIntroUrl = introUrl;
+        mIntroducedOn = introducedOn;
+        mAnalyticsUrlString = analyticsUrlString;
+        mRecipientPubKey = recipientPubKey;
+    }
+
+    public IssuerRecord(String name, String chain, String email, String issuerURL, String uuid, String certsUrl, String introUrl, String introducedOn, String analyticsUrlString, String recipientPubKey) {
+        mName = name;
+        mChain = chain;
         mEmail = email;
         mIssuerURL = issuerURL;
         mUuid = uuid;

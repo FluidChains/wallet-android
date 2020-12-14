@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -19,10 +18,12 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+import com.fluidcerts.android.app.R;
+import com.fluidcerts.android.app.data.drive.BackupConstants;
 import com.fluidcerts.android.app.data.drive.GoogleDriveFile;
 import com.fluidcerts.android.app.data.drive.GoogleDriveService;
+import com.fluidcerts.android.app.data.inject.Injector;
 import com.fluidcerts.android.app.data.preferences.SharedPreferencesManager;
-import com.fluidcerts.android.app.data.provider.LMContentProvider;
 import com.fluidcerts.android.app.ui.home.HomeActivity;
 import com.fluidcerts.android.app.ui.issuer.IssuerActivity;
 import com.fluidcerts.android.app.ui.lock.EnterPasswordActivity;
@@ -39,11 +40,11 @@ import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
 import org.bitcoinj.wallet.Wallet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
-import java.util.List;
-import java.util.Scanner;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
@@ -71,6 +72,8 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     protected Function drivePendingFunction;
     protected String mEncryptionKey;
 
+    @Inject SharedPreferencesManager mSharedPreferencesManager;
+
     public void safeGoBack() {
 
         // ideallt what we want to do here is to safely go back to a known good activity in our flow.
@@ -95,6 +98,8 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Injector.obtain(this)
+                .inject(this);
 
         mLifecycleSubject.onNext(ActivityEvent.CREATE);
         Laba.setContext(getBaseContext());
@@ -225,6 +230,8 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             Timber.d("ContentObserver onChange triggered by URI: " + uri.toString());
             if (uri.getPath().contains("/insert/issuer")) {
                 Timber.d("ContentObserver registered issuer insert");
+                String chain = uri.getQueryParameter("chain");
+                askToSaveIndexToGoogleDrive(chain);
             } else if (uri.getPath().contains("/insert/certificate")) {
                 Timber.d("ContentObserver registered certificate insert");
             }
@@ -281,7 +288,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     private Callback passphraseCallback = null;
 
     public static String pathToSavedPassphraseFile() {
-        return Environment.getExternalStorageDirectory() + "/learningmachine.dat";
+        return Environment.getExternalStorageDirectory() + BackupConstants.PASSPHRASE_FILE_NAME;
     }
 
     private void savePassphraseToDevice(String passphrase, Callback passphraseCallback) {
@@ -408,6 +415,38 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         startActivityForResult(intent, REQUEST_CODE_DECRYPTION_KEY);
     }
 
+    public void askToSaveIndexToGoogleDrive(String chain) {
+        Timber.i("[Drive] askToSavePassphraseToGoogleDrive");
+        if (this.mDriveService == null) {
+            GoogleDriveService.requestSignIn(this);
+            this.drivePendingAction = () -> saveIndexToGoogleDrive(chain);
+        } else {
+            this.drivePendingAction = () -> saveIndexToGoogleDrive(chain);
+            saveIndexToGoogleDrive(chain);
+        }
+    }
+
+    public void saveIndexToGoogleDrive(String chain) {
+        Integer usedAddresses = mSharedPreferencesManager.getIssuedAddresses(chain);
+        if (usedAddresses > 0) {
+            usedAddresses = mSharedPreferencesManager.incrementIssuedAddresses(chain);
+        }
+        Integer finalUsedAddresses = usedAddresses;
+        mDriveService.queryIndex()
+                .flatMap((file) -> mDriveService.saveToDriveOrUpdate(
+                        file,
+                        chain + BackupConstants.INDEX_FILE_EXTENSION,
+                        Integer.toString(finalUsedAddresses))
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe((fileId) -> {
+                    if (fileId != null) {
+                        Timber.i("[Drive] backed up EXOS index");
+                    }
+                });
+    }
+
     public void askToSavePassphraseToGoogleDrive(String passphrase, Callback loadingCallback, Callback passphraseCallback) {
         Timber.i("[Drive] askToSavePassphraseToGoogleDrive");
         if (this.mDriveService == null) {
@@ -436,7 +475,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             loadingCallback.apply(true);
             String finalEncrypted = encrypted;
             this.mDriveService.querySeeds()
-                    .flatMap((file) -> this.mDriveService.saveToDriveOrUpdate(file, finalEncrypted))
+                    .flatMap((file) -> this.mDriveService.saveToDriveOrUpdate(file, BackupConstants.PASSPHRASE_FILE_NAME, finalEncrypted))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doAfterTerminate(() -> loadingCallback.apply(false))
@@ -479,10 +518,27 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         this.mDriveService.queryCertificates()
                 .subscribeOn(Schedulers.io())
                 .flatMap(file -> this.mDriveService.downloadFromDrive(file))
-                .flatMap(driveFile -> FileUtils.saveCertificate(this, driveFile))
-                .flatMap(wallet -> this.mDriveService.querySeeds())
+                .flatMap(certificate -> FileUtils.saveCertificate(this, certificate))
+                .flatMap(ok -> this.mDriveService.queryIndex())
                 .flatMap(file -> this.mDriveService.downloadFromDrive(file))
-                .flatMap(driveFile -> FileUtils.saveSeed(this, driveFile))
+                .flatMap(index -> {
+                    Timber.d(String.format("%s index", index));
+                    if (index != null) {
+                        try (BufferedReader reader = new BufferedReader(new InputStreamReader(index.stream))) {
+                            StringBuilder builder = new StringBuilder();
+                            builder.append(reader.readLine());
+                            String indexString = builder.toString();
+                            int indexInt = Integer.parseInt(indexString);
+                            mSharedPreferencesManager.setIssuedAddresses("EXOSMainnet", indexInt);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return Observable.just(true);
+                })
+                .flatMap(ok -> this.mDriveService.querySeeds())
+                .flatMap(file -> this.mDriveService.downloadFromDrive(file))
+                .flatMap(seeds -> FileUtils.saveSeed(this, seeds))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> {
                     Timber.i("[Drive] doOnTerminated");

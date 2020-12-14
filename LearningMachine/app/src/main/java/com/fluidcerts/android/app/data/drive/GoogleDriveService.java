@@ -33,7 +33,7 @@ public class GoogleDriveService {
     private final Drive mDriveService;
     public static final int REQUEST_CODE_SIGN_IN = 1;
     private static final String APP_DATA_FOLDER = "appDataFolder";
-    private static final String PASSPHRASE_FILE_NAME = "certifico.seeds";
+
 
     public static void log(String message) {
         Timber.d("[Drive] " + message);
@@ -55,7 +55,7 @@ public class GoogleDriveService {
         return queryFiles("name contains '.issuer'");
     }
 
-    public Observable<File> queryIssuedAddresses() {
+    public Observable<File> queryIndex() {
         return queryFiles("name contains '.index'");
     }
 
@@ -85,7 +85,7 @@ public class GoogleDriveService {
         });
     }
 
-    public Observable<String> saveToDriveOrUpdate(File file, String data) {
+    public Observable<String> saveToDriveOrUpdate(File file, String name, String data) {
         return Observable.defer(() -> {
             ByteArrayContent dataStream = ByteArrayContent.fromString("text/plain", data);
             File googleFile;
@@ -94,7 +94,7 @@ public class GoogleDriveService {
                     File metadata = new File()
                             .setParents(Collections.singletonList(APP_DATA_FOLDER))
                             .setMimeType("text/plain")
-                            .setName(PASSPHRASE_FILE_NAME);
+                            .setName(name);
                     googleFile = mDriveService.files().create(metadata, dataStream).execute();
 
                 } else {

@@ -7,6 +7,7 @@ import android.util.Pair;
 
 import com.fluidcerts.android.app.LMConstants;
 import com.fluidcerts.android.app.R;
+import com.fluidcerts.android.app.data.drive.BackupConstants;
 import com.fluidcerts.android.app.data.error.ExceptionWithResourceString;
 import com.fluidcerts.android.app.data.network.MultiChainMainNetParams;
 import com.fluidcerts.android.app.data.network.MultiChainParams;
@@ -169,7 +170,7 @@ public class BitcoinManager {
         mIssuerStore.reset();
         mCertificateStore.reset();
 
-        String passphraseFileOnExternalStorage = Environment.getExternalStorageDirectory() + "/learningmachine.dat";
+        String passphraseFileOnExternalStorage = Environment.getExternalStorageDirectory() + BackupConstants.PASSPHRASE_FILE_NAME;
         File file = new File(passphraseFileOnExternalStorage);
         if (file.delete()) {
             Timber.i("Seed backup successfully deleted");
@@ -178,8 +179,9 @@ public class BitcoinManager {
             if (getWalletFile(k).delete()) {
                 Timber.i(String.format("%s wallet successfully deleted", k));
             }
+            mSharedPreferencesManager.setIssuedAddresses(k, 0);
         }
-
+        mWallet = new HashMap<>();
     }
 
     public Observable<String> getCurrentBitcoinAddress(String chain) {
