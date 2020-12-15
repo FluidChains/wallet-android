@@ -110,7 +110,7 @@
     <string name="settings_reveal_passphrase">Mi Frase de Contraseña</string>
     <string name="settings_about_passphrases">Acerca de las Frases de Contraseñas</string>
     <string name="settings_privacy_policy">Política de Privacidad</string>
-    <string name="settings_email_logs">Registro de Correos Electrónicos</string>
+    <string name="settings_email_logs">Compartir Logs</string>
 
     <string name="settings_logout">Salir del Sistema y Reiniciar</string>
     <string name="settings_logout_title">Salir del Sistema y Limpiar Dispositivo</string>
