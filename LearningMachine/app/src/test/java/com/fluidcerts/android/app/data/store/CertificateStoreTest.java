@@ -3,12 +3,14 @@ package com.fluidcerts.android.app.data.store;
 import android.content.Context;
 
 import com.fluidcerts.android.app.BuildConfig;
-import com.fluidcerts.android.app.data.cert.BlockCert;
-import com.fluidcerts.android.app.data.cert.v12.BlockCertV12;
-import com.fluidcerts.android.app.data.cert.v20.Badge;
-import com.fluidcerts.android.app.data.cert.v20.BlockCertV20;
-import com.fluidcerts.android.app.data.cert.v20.Issuer;
-import com.fluidcerts.android.app.data.model.CertificateRecord;
+import io.certifico.app.data.cert.BlockCert;
+import io.certifico.app.data.cert.v12.BlockCertV12;
+import io.certifico.app.data.cert.v20.Badge;
+import io.certifico.app.data.cert.v20.BlockCertV20;
+import io.certifico.app.data.cert.v20.Issuer;
+import io.certifico.app.data.model.CertificateRecord;
+import io.certifico.app.data.store.CertificateStore;
+import io.certifico.app.data.store.LMDatabaseHelper;
 
 import org.junit.Before;
 import org.junit.Test;

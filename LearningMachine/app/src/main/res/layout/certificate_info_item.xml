@@ -3,7 +3,7 @@
     <data>
         <variable
             name="item"
-            type="com.fluidcerts.android.app.ui.cert.CertificateInfoItemViewModel"/>
+            type="io.certifico.app.ui.cert.CertificateInfoItemViewModel"/>
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

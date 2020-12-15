@@ -4,7 +4,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.fluidcerts.android.app.ui.home.HomeActivity;
+import io.certifico.app.ui.home.HomeActivity;
 
 import org.junit.After;
 import org.junit.Before;

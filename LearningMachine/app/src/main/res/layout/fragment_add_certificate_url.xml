@@ -12,7 +12,7 @@
         android:paddingStart="@dimen/fragment_add_certificate_linear_layout_start_padding"
         android:paddingTop="@dimen/fragment_add_certificate_linear_layout_top_padding"
         android:background="@color/white"
-        tools:context=".ui.cert.AddCertificateURLFragment">
+        tools:context="io.certifico.app.ui.cert.AddCertificateURLFragment">
 
         <TextView
             android:layout_width="wrap_content"

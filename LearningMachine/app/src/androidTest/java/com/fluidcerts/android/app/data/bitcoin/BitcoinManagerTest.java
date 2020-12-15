@@ -11,6 +11,8 @@ import org.bitcoinj.params.MainNetParams;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.certifico.app.data.bitcoin.BitcoinManager;
+
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;

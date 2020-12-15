@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.fluidcerts.android.app.ui.LMProgressView
+        <io.certifico.app.ui.LMProgressView
             android:id="@+id/progress_bar"
             android:layout_width="40dp"
             android:layout_height="40dp"

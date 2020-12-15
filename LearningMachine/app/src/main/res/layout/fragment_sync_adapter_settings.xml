@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            tools:context="com.fluidcerts.android.app.ui.settings.SettingsActivity">
+            tools:context="com.fluidcerts.android.app.io.app.ui.settings.SettingsActivity">
 
 <!--            <Switch-->
 <!--                android:id="@+id/sync_adapter_settings_enable_sync_switch"-->

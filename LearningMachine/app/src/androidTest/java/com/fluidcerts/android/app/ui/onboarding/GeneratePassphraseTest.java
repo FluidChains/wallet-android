@@ -17,6 +17,7 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 
+import io.certifico.app.ui.onboarding.OnboardingActivity;
 import timber.log.Timber;
 
 import static android.support.test.espresso.Espresso.onView;

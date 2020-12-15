@@ -3,13 +3,13 @@ package com.fluidcerts.android.app;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.fluidcerts.android.app.data.CertificateVerifier;
-import com.fluidcerts.android.app.data.cert.BlockCert;
-import com.fluidcerts.android.app.data.cert.BlockCertParser;
-import com.fluidcerts.android.app.data.model.TxRecord;
-import com.fluidcerts.android.app.data.webservice.BlockchainService;
-import com.fluidcerts.android.app.data.webservice.IssuerService;
-import com.fluidcerts.android.app.data.webservice.response.IssuerResponse;
+import io.certifico.app.data.CertificateVerifier;
+import io.certifico.app.data.cert.BlockCert;
+import io.certifico.app.data.cert.BlockCertParser;
+import io.certifico.app.data.model.TxRecord;
+import io.certifico.app.data.webservice.BlockchainService;
+import io.certifico.app.data.webservice.IssuerService;
+import io.certifico.app.data.webservice.response.IssuerResponse;
 
 import org.junit.Before;
 import org.mockito.Mockito;

@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.certifico.app.data.inject.DataModule;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 import timber.log.Timber.DebugTree;

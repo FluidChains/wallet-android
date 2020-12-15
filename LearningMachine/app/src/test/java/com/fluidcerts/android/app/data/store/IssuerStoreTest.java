@@ -3,9 +3,12 @@ package com.fluidcerts.android.app.data.store;
 import android.content.Context;
 
 import com.fluidcerts.android.app.BuildConfig;
-import com.fluidcerts.android.app.data.model.IssuerRecord;
-import com.fluidcerts.android.app.data.model.KeyRotation;
-import com.fluidcerts.android.app.util.ListUtils;
+import io.certifico.app.data.model.IssuerRecord;
+import io.certifico.app.data.model.KeyRotation;
+import io.certifico.app.data.store.ImageStore;
+import io.certifico.app.data.store.IssuerStore;
+import io.certifico.app.data.store.LMDatabaseHelper;
+import io.certifico.app.util.ListUtils;
 
 import org.junit.Before;
 import org.junit.Test;

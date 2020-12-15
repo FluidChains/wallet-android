@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.fluidcerts.android.app.ui.issuer.CertificateListItemViewModel"/>
+            type="io.certifico.app.ui.issuer.CertificateListItemViewModel"/>
     </data>
 
     <RelativeLayout

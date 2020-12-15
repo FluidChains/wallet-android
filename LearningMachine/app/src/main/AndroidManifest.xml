@@ -14,17 +14,17 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
-        android:name=".LMApplication"
+        android:name="io.certifico.app.LMApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.lock.EnterPasswordActivity"></activity>
-        <activity android:name=".ui.lock.SetPasswordActivity" />
-        <activity android:name=".ui.lock.LockScreenActivity" />
+        <activity android:name="io.certifico.app.ui.lock.EnterPasswordActivity"></activity>
+        <activity android:name="io.certifico.app.ui.lock.SetPasswordActivity" />
+        <activity android:name="io.certifico.app.ui.lock.LockScreenActivity" />
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="io.certifico.app.ui.splash.SplashActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/NoToolbarTheme.Splash">
@@ -45,78 +45,78 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.video.VideoActivity"
+            android:name="io.certifico.app.ui.video.VideoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullUser"
             android:theme="@style/NoToolbarTheme.Video" />
         <activity
-            android:name=".ui.onboarding.OnboardingActivity"
+            android:name="io.certifico.app.ui.onboarding.OnboardingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/NoToolbarTheme.Onboarding"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name="io.certifico.app.ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name="io.certifico.app.ui.settings.SettingsActivity"
             android:label="@string/settings_fragment"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.issuer.IssuerActivity"
+            android:name="io.certifico.app.ui.issuer.IssuerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.issuer.AddIssuerActivity"
+            android:name="io.certifico.app.ui.issuer.AddIssuerActivity"
             android:label="@string/fragment_add_issuer_title"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.LMWebActivity"
+            android:name="io.certifico.app.ui.LMWebActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.settings.passphrase.RevealPassphraseActivity"
+            android:name="io.certifico.app.ui.settings.passphrase.RevealPassphraseActivity"
             android:label="@string/settings_reveal_passphrase"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.cert.CertificateActivity"
+            android:name="io.certifico.app.ui.cert.CertificateActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeLight" />
         <activity
-            android:name=".ui.issuer.IssuerInfoActivity"
+            android:name="io.certifico.app.ui.issuer.IssuerInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.cert.AddCertificateActivity"
+            android:name="io.certifico.app.ui.cert.AddCertificateActivity"
             android:label="@string/fragment_add_certificate_title"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/NoToolbarTheme" />
         <activity
-            android:name=".ui.cert.CertificateInfoActivity"
+            android:name="io.certifico.app.ui.cert.CertificateInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.WebAuthActivity"
+            android:name="io.certifico.app.ui.WebAuthActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.cert.VerifyCertificateActivity"
+            android:name="io.certifico.app.ui.cert.VerifyCertificateActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.AboutActivity"
+            android:name="io.certifico.app.ui.home.AboutActivity"
             android:label="@string/settings_about"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.settings.LearnMoreActivity"
+            android:name="io.certifico.app.ui.settings.LearnMoreActivity"
             android:label="@string/settings_learn_more"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

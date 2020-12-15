@@ -7,6 +7,7 @@ import com.fluidcerts.android.app.R;
 import org.junit.Rule;
 import org.junit.Test;
 
+import io.certifico.app.ui.issuer.AddIssuerActivity;
 import timber.log.Timber;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -34,7 +35,7 @@ public class AddAcceptingIssuerTest {
         onView(withId(R.id.fragment_add_issuer_verify)).perform(click());
 
 //        intended(hasComponent(IssuerActivity.class.getName()));
-//        intended(toPackage("com.fluidcerts.android.app.ui.issuer.IssuerActivity"));
+//        intended(toPackage("IssuerActivity"));
         Timber.i("Did it work??");
     }
 }

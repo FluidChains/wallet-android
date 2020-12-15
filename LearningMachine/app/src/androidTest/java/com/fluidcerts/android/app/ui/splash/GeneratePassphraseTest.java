@@ -18,6 +18,7 @@ import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 
+import io.certifico.app.ui.splash.SplashActivity;
 import timber.log.Timber;
 
 import static android.support.test.espresso.Espresso.onView;

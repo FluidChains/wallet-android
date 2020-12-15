@@ -2,7 +2,9 @@ package com.fluidcerts.android.app.data.url;
 
 import org.junit.Test;
 
-import static com.fluidcerts.android.app.data.url.LaunchType.*;
+import io.certifico.app.data.url.LaunchData;
+import io.certifico.app.data.url.SplashUrlDecoder;
+
 import static junit.framework.Assert.assertEquals;
 
 public class SplashUrlDecoderTest {

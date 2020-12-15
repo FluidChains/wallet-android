@@ -5,6 +5,9 @@ import android.app.Application;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import io.certifico.app.data.inject.ApiModule;
+import io.certifico.app.data.inject.LMGraph;
+import io.certifico.app.data.inject.LMModule;
 
 @Singleton
 @Component(modules = {LMModule.class, DevDataModule.class, ApiModule.class})

@@ -11,6 +11,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import io.certifico.app.data.cert.metadata.Field;
+import io.certifico.app.data.cert.metadata.Metadata;
+import io.certifico.app.data.cert.metadata.MetadataParser;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
