@@ -1,5 +1,5 @@
 <resources>
-    <string name="home_issuers">Fluidcerts Wallet</string>
+    <string name="home_issuers">Certifico Wallet</string>
     <string name="home_settings_menu_item_title">Settings</string>
 
     <string name="settings_privacy_policy_endpoint">https://www.blockcerts.org/mobile-privacy</string>
@@ -47,7 +47,7 @@
     <string name="error_passphrase_backup_not_found_device" translatable="false">Unable to restore from device</string>
     <string name="error_passphrase_backup_not_found_gdrive" translatable="false">Unable to restore from Google Drive</string>
 
-    <string name="onboarding_welcome_title">Welcome to the new Fluidcerts Wallet!</string>
+    <string name="onboarding_welcome_title">Welcome to the new Certifico Wallet!</string>
     <string name="onboarding_welcome_desc">We\'ve improved the experience, but you\'ll be able to receive and manage your credentials as before. Please note that you are now required to back up your passphrase, but you can do so easily in the app. Tap continue to begin.</string>
     <string name="onboarding_welcome_button_title">Continue</string>
 
@@ -112,7 +112,7 @@
 
     <!-- Settings -->
     <string name="settings_sync" translatable="false">Back-up Settings</string>
-    <string name="settings_about" translatable="false">About Fluidcerts</string>
+    <string name="settings_about" translatable="false">About Certifico</string>
     <string name="settings_add_issuer">Add Issuer</string>
     <string name="settings_add_credential">Add Credential</string>
     <string name="settings_reveal_passphrase">My Passphrase</string>
@@ -175,8 +175,8 @@
     <string name="onboarding_passphrase_email_before">This is a low-security backup method. Do you want to continue?</string>
 
     <string name="onboarding_passphrase_permissions_error_title">Backup Error</string>
-    <string name="onboarding_passphrase_permissions_error">To save your passphrase to this device you must give Fluidcerts Wallet permission to access your files.</string>
-    <string name="onboarding_passphrase_permissions_error_gdrive" translatable="false">To save your passphrase to this device you must give Fluidcerts Wallet permission to access Google Drive.</string>
+    <string name="onboarding_passphrase_permissions_error">To save your passphrase to this device you must give Certifico Wallet permission to access your files.</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" translatable="false">To save your passphrase to this device you must give Certifico Wallet permission to access Google Drive.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Complete</string>
     <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as certifico.seeds.</string>
@@ -218,8 +218,8 @@
     <string name="fragment_certificate_info_delete_warning_negative_title">Delete</string>
 
     <!-- Check version -->
-    <string name="check_version_title">Please Update Fluidcerts Wallet</string>
-    <string name="check_version_message">In order to add an issuer or credential, you must have the latest version of Fluidcerts Wallet.</string>
+    <string name="check_version_title">Please Update Certifico Wallet</string>
+    <string name="check_version_message">In order to add an issuer or credential, you must have the latest version of Certifico Wallet.</string>
     <string name="check_version_message_cancel_title">Cancel</string>
 
     <!-- Certificate Verification -->
@@ -243,8 +243,8 @@
     <string name="content_provider_authority" translatable="false">io.certifico.provider</string>
 
     <!--Drive SyncAdapter-->
-    <string name="sync_content_provider_label" translatable="false">FluidcertsSync</string>
-    <string name="sync_authenticator_label" translatable="false">FluidCertsSyncAdapter</string>
+    <string name="sync_content_provider_label" translatable="false">CertificoSync</string>
+    <string name="sync_authenticator_label" translatable="false">CertificoSyncAdapter</string>
     <string name="sync_account_type" translatable="false">io.certifico</string>
     <string name="server_client_id" translatable="false">561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
 
@@ -256,7 +256,7 @@
     <!--Lock Screen-->
     <string name="activity_lock_screen_auth_failed" translatable="false">Authentication Failed</string>
     <string name="activity_lock_screen_auth_success" translatable="false">Success</string>
-    <string name="activity_lock_screen_auth_error" translatable="false">Please enable lock screen on device to use FluidCerts</string>
+    <string name="activity_lock_screen_auth_error" translatable="false">Please enable lock screen on device to use Certifico</string>
 
     <!--Encrypt/Decrypt Seeds-->
     <string name="activity_paste_passphrase_encrypt" translatable="false">Enter password to encrypt seed</string>

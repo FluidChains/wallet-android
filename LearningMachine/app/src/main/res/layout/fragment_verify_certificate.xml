@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@color/c5"
-            android:fontFamily="@font/opensans_bold"
+            android:fontFamily="@font/inter_bold"
             android:gravity="center_vertical"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
