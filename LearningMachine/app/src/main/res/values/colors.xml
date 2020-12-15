@@ -5,9 +5,9 @@
 
     <color name="c1">#FFFFFF</color>
     <color name="c2">#F0F3F5</color>
-    <color name="c3">#062451</color>
-    <color name="c4">#2AB27B</color>
-    <color name="c5">#156DCB</color>
+    <color name="c3">#581689</color>
+    <color name="c4">#66D0F7</color>
+    <color name="c5">#9C84FF</color>
     <color name="c6">#333333</color>
     <color name="c7">#666666</color>
     <color name="c8">#E3E3E3</color>
@@ -15,10 +15,10 @@
     <color name="c10">#ECF5FE</color>
     <color name="c11">#006239</color>
     <color name="c12">#9F9F9F</color>
-    <color name="c14">#7CE4B4</color>
+    <color name="c14">#66D0F7</color>
     <color name="c15">#FDE6E6</color>
 
-    <color name="colorBackground">#062451</color>
+    <color name="colorBackground">#581689</color>
     <color name="colorBackgroundDark">#031126</color>
     <color name="primaryButtonNormal">@color/c14</color>
     <color name="primaryButtonPressed">@color/c4</color>
@@ -32,7 +32,7 @@
     <color name="secondaryButtonPressed">#062451</color>
     <color name="clear">#00000000</color>
 
-    <color name="off_white_background">#F0F3F5</color>
+    <color name="off_white_background">#F0FBFE</color>
 
     <color name="linkColor">@color/c11</color>
 

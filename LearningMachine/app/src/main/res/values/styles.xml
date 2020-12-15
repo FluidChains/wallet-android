@@ -14,34 +14,34 @@
     </style>
 
     <style name="Text" >
-        <item name="android:fontFamily">@font/opensans_reg</item>
+        <item name="android:fontFamily">@font/inter_reg</item>
     </style>
 
     <style name="Text.Title" >
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/c3</item>
-        <item name="android:fontFamily">@font/opensans_bold</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
     </style>
 
     <style name="Text.Title.1">
         <item name="android:textSize">22sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
     </style>
 
     <style name="Text.Title.2">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
     </style>
 
     <style name="Text.Title.3">
         <item name="android:textSize">18sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
 
     </style>
 
     <style name="Text.Title.4">
         <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
     </style>
 
     <style name="Text.Body">
@@ -73,7 +73,7 @@
 
     <style name="Text.ListHeader">
         <item name="android:textColor">@color/c5</item>
-        <item name="android:fontFamily">@font/opensans_bold</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -83,12 +83,12 @@
 
     <style name="Text.Footer.1">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
     </style>
 
     <style name="Text.Footer.2">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
     </style>
 
     <style name="Text.Footer.3">
@@ -97,7 +97,7 @@
 
     <style name="Text.Footer.4">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:textColor">@color/c3</item>
     </style>
 
@@ -105,47 +105,47 @@
     <style name="Text.Passphrase">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/c3</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:background">@drawable/rounded_passphrase_background</item>
     </style>
 
 
     <style name="Text.VerifierItem">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:textColor">@color/c7</item>
     </style>
 
     <style name="Text.VerifierItem.Active">
-        <item name="android:fontFamily">@font/opensans_bold</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
         <item name="android:textColor">@color/c6</item>
     </style>
 
     <style name="Text.VerifierSubItem">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/opensans_reg</item>
+        <item name="android:fontFamily">@font/inter_reg</item>
         <item name="android:textColor">@color/c7</item>
     </style>
 
     <style name="Text.VerifierSubItem.Active">
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:textColor">@color/c6</item>
     </style>
 
     <style name="Text.VerifierSubItem.Active.Error">
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:textColor">@color/c9</item>
     </style>
 
     <style name="ButtonTitleWhite">
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/c3</item>
     </style>
 
     <style name="RoundedButton" parent="@style/Widget.AppCompat.Button">
         <item name="android:background">@drawable/rounded_button_background_light</item>
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
@@ -153,7 +153,7 @@
 
     <style name="RoundedButton.Light">
         <item name="android:background">@drawable/rounded_button_background_light</item>
-        <item name="android:textColor">@color/c3</item>
+        <item name="android:textColor">@color/button_text_color</item>
     </style>
 
     <style name="RoundedButton.Red">
@@ -257,11 +257,11 @@
     <!-- Base -->
 
     <style name="LearningMachineTextView" parent="android:style/Widget.TextView">
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
     </style>
 
     <style name="LearningMachineTextView.Medium" parent="android:style/Widget.TextView">
-        <item name="android:fontFamily">@font/opensans_semibold</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
     </style>
 
     <style name="LearningMachineDialog" parent="AlertDialog.AppCompat">

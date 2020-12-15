@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fluidcerts</string>
+    <string name="app_name">Certifico</string>
     <string name="fragment_issuer_info_url">URL</string>
     <string name="cert_metadata_boolean_true">True</string>
     <string name="cert_metadata_boolean_false">False</string>

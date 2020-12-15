@@ -95,7 +95,7 @@
             android:layout_marginTop="4dp"
             android:layout_centerVertical="true"
             android:textSize="@dimen/text_style_text_size"
-            android:fontFamily="@font/opensans_bold"
+            android:fontFamily="@font/inter_bold"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/verified_icon"
             android:gravity="center_vertical"
