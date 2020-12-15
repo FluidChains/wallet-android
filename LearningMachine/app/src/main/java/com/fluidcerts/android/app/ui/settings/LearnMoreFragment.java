@@ -37,7 +37,7 @@ public class LearnMoreFragment extends LMFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_learn_more, container, false);
 
-        String fileName = "android.resource://" + getActivity().getPackageName() + "/raw/background";
+        String fileName = "android.resource://" + getActivity().getPackageName() + "/raw/background_white";
 
         mBinding.backgroundVideoCover.setAlpha(1.0f);
         mBinding.backgroundVideo.setVideoURI(Uri.parse(fileName));

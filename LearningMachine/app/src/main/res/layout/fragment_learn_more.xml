@@ -58,7 +58,7 @@
             android:id="@+id/background_video_cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/colorBackground"
+            android:background="@color/white"
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/background_video"
             app:layout_constraintTop_toTopOf="@+id/background_video"
