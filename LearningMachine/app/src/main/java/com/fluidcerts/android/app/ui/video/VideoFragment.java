@@ -29,6 +29,7 @@ import com.fluidcerts.android.app.R;
 import com.fluidcerts.android.app.databinding.FragmentVideoBinding;
 import com.fluidcerts.android.app.ui.LMFragment;
 
+import java.util.Locale;
 
 public class VideoFragment extends LMFragment {
 
@@ -140,9 +141,21 @@ public class VideoFragment extends LMFragment {
 
 
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
-                    Util.getUserAgent(getContext(), "Fluidcerts Wallet"), null);
+                    Util.getUserAgent(getContext(), "Certifico Wallet"), null);
 
-            String filename = "rawresource:///" + R.raw.video_es;
+
+            String filename = "rawresource:///";
+
+            String displayLanguage = Locale.getDefault().getDisplayLanguage().substring(0,2).toUpperCase();
+
+            switch(displayLanguage) {
+                case "ES":
+                    filename = filename + R.raw.video_es;
+                    break;
+                default:
+                    filename = filename + R.raw.video_en;
+            }
+
             MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(filename));
 
             player.prepare(videoSource);
