@@ -31,10 +31,10 @@ jobs:
       - name: Java Version
         run: java -version
 
-      - name: Generate Android Debug Keystore
+      - name: Copy package Debug Keystore to runner
         run: |
           mkdir -p /home/runner/.android
-          keytool -genkey -v -dname "cn=Karim Boucher, ou=DevOps, o=Fluidchains, l=Ft.Lauderdale, st=FL, c=US" -keystore /home/runner/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+          cp ./keys/debug.keystore /home/runner/.android
 
       - name: Generate Production *.apk
         run: ./gradlew assembleProduction
