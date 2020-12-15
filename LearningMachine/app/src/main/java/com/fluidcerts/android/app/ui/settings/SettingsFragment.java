@@ -124,7 +124,7 @@ public class SettingsFragment extends LMFragment {
             emailIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
             emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             // the mail subject
-            emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Logcat content for Fluidcerts");
+            emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Logcat content for Certifico");
             emailIntent.setType("message/rfc822");
             startActivity(Intent.createChooser(emailIntent , "Send email..."));
         });

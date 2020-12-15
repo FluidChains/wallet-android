@@ -130,7 +130,7 @@ public class RevealPassphraseFragment extends LMFragment {
                     if((int)btnIdx == 0) {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "Fluidcerts Backup");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Certifico Backup");
                         intent.putExtra(Intent.EXTRA_TEXT, mPassphrase);
                         Intent mailer = Intent.createChooser(intent, null);
                         startActivity(mailer);

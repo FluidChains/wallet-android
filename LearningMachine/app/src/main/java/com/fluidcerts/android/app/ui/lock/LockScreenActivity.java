@@ -39,7 +39,7 @@ import timber.log.Timber;
 
 public class LockScreenActivity extends AppCompatActivity {
 
-    private static final String KEY_NAME = "Fluidcerts.Keystore.LockScreenPass";
+    private static final String KEY_NAME = "Certifico.Keystore.LockScreenPass";
     private static final byte[] SECRET_BYTE_ARRAY = new byte[] {1, 2, 3, 4, 5, 6};
 
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;

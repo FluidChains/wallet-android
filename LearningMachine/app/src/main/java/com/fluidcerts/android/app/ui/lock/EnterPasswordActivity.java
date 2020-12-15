@@ -43,7 +43,7 @@ import timber.log.Timber;
 
 public class EnterPasswordActivity extends AppCompatActivity {
 
-    private static final String KEY_NAME = "Fluidcerts.Keystore.PassAttemptTimeout";
+    private static final String KEY_NAME = "Certifico.Keystore.PassAttemptTimeout";
     private static final int AUTHENTICATION_DURATION_SECONDS = 30;
 
     private Boolean mIsGoogleFlow;

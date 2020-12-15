@@ -46,7 +46,7 @@ import timber.log.Timber;
 
 public class SetPasswordActivity extends AppCompatActivity {
 
-    public static final String KEYSTORE_ENCRYPTION_KEY_ALIAS = "Fluidcerts.Keystore.EncryptionKey";
+    public static final String KEYSTORE_ENCRYPTION_KEY_ALIAS = "Certifico.Keystore.EncryptionKey";
 
     @Inject SharedPreferencesManager mSharedPreferencesManager;
 
