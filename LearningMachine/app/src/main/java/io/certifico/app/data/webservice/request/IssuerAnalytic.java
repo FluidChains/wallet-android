@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 
 import com.google.gson.annotations.SerializedName;
-import com.fluidcerts.android.app.BuildConfig;
+import io.certifico.app.BuildConfig;
 
 public class IssuerAnalytic {
 

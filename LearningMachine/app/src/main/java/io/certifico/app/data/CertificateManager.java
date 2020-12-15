@@ -6,7 +6,7 @@ import android.content.res.AssetManager;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import io.certifico.app.LMConstants;
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.cert.BlockCert;
 import io.certifico.app.data.cert.BlockCertParser;

@@ -11,7 +11,7 @@
             android:id="@+id/web_view_controller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.fluidcerts.android.app.io.app.ui.LMWebActivity"/>
+            tools:context="io.certifico.app.io.app.ui.LMWebActivity"/>
 
         <io.certifico.app.ui.LMProgressView
             android:id="@+id/progress_bar"

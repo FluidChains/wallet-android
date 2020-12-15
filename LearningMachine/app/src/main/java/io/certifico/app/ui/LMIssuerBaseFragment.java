@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.IssuerManager;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;

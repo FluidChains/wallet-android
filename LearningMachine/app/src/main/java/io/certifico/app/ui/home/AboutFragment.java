@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.fluidcerts.android.app.BuildConfig;
+import io.certifico.app.BuildConfig;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.FragmentAboutBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.FragmentAboutBinding;
 import io.certifico.app.ui.LMFragment;
 
 import timber.log.Timber;

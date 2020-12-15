@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.FragmentAddIssuerBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.FragmentAddIssuerBinding;
 import io.certifico.app.ui.LMIssuerBaseFragment;
 import io.certifico.app.ui.home.HomeActivity;
 import io.certifico.app.util.StringUtils;

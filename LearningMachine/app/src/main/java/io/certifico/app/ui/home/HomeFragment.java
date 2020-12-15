@@ -15,14 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.data.model.IssuerRecord;
 import io.certifico.app.data.preferences.SharedPreferencesManager;
-import com.fluidcerts.android.app.databinding.FragmentHomeBinding;
-import com.fluidcerts.android.app.databinding.ListIssuerHeaderBinding;
-import com.fluidcerts.android.app.databinding.ListItemIssuerBinding;
+import io.certifico.app.databinding.FragmentHomeBinding;
+import io.certifico.app.databinding.ListIssuerHeaderBinding;
+import io.certifico.app.databinding.ListItemIssuerBinding;
 import io.certifico.app.ui.LMIssuerBaseFragment;
 import io.certifico.app.ui.cert.CertificateActivity;
 import io.certifico.app.ui.settings.SettingsActivity;

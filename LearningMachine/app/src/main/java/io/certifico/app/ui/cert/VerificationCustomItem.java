@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.verifier.VerifierStatus;
 
 public class VerificationCustomItem extends RelativeLayout {

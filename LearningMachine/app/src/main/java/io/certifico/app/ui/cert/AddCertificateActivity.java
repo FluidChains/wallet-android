@@ -12,8 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.ActivityAddCertificateBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.ActivityAddCertificateBinding;
 import io.certifico.app.ui.LMActivity;
 
 import java.util.ArrayList;

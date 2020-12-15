@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import io.certifico.app.data.model.IssuerRecord;
-import com.fluidcerts.android.app.databinding.ListCertificateHeaderBinding;
+import io.certifico.app.databinding.ListCertificateHeaderBinding;
 
 import io.certifico.app.util.ImageUtils;
 

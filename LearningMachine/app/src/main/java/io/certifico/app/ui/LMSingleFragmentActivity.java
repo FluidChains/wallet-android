@@ -8,7 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.ui.lock.LockScreenActivity;
 
 public abstract class LMSingleFragmentActivity extends LMActivity {

@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.data.preferences.SharedPreferencesManager;
-import com.fluidcerts.android.app.databinding.ActivityOnboardingBinding;
+import io.certifico.app.databinding.ActivityOnboardingBinding;
 import io.certifico.app.ui.LMActivity;
 import io.certifico.app.ui.onboarding.OnboardingFlow.FlowType;
 

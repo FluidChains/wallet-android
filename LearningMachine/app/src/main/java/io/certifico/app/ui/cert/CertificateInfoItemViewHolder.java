@@ -2,7 +2,7 @@ package io.certifico.app.ui.cert;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.fluidcerts.android.app.databinding.CertificateInfoItemBinding;
+import io.certifico.app.databinding.CertificateInfoItemBinding;
 
 public class CertificateInfoItemViewHolder extends RecyclerView.ViewHolder {
     private final CertificateInfoItemBinding mBinding;

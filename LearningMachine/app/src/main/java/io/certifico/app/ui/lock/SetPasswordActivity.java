@@ -12,10 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.data.preferences.SharedPreferencesManager;
-import com.fluidcerts.android.app.databinding.ActivitySetPasswordBinding;
+import io.certifico.app.databinding.ActivitySetPasswordBinding;
 import io.certifico.app.dialog.AlertDialogFragment;
 
 import java.io.IOException;

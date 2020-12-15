@@ -18,6 +18,6 @@ public class LMConstants {
     public static final String ECDSA_KOBLITZ_PUBKEY_PREFIX = "ecdsa-koblitz-pubkey:";
 
     public static final boolean SHOULD_PERFORM_OWNERSHIP_CHECK = false;
-    public static final String PLAY_STORE_URL = "market://details?id=com.fluidcerts.android.app";
+    public static final String PLAY_STORE_URL = "market://details?id=io.certifico.app";
     public static final String PLAY_STORE_EXTERNAL_URL = "https://play.google.com/store/apps/details?id=com.learningmachine.android.app";
 }

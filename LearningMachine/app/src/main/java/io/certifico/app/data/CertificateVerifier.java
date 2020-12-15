@@ -2,7 +2,7 @@ package io.certifico.app.data;
 
 import android.content.Context;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.cert.BlockCert;
 import io.certifico.app.data.cert.BlockCertParser;
 import io.certifico.app.data.error.ExceptionWithResourceString;

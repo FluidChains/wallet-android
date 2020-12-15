@@ -13,12 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.cert.v20.Anchor;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.data.verifier.VerificationSteps;
 import io.certifico.app.data.verifier.VerifierStatus;
-import com.fluidcerts.android.app.databinding.FragmentVerifyCertificateBinding;
+import io.certifico.app.databinding.FragmentVerifyCertificateBinding;
 import io.certifico.app.util.DialogUtils;
 import io.certifico.app.util.FileUtils;
 

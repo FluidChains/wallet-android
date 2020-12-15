@@ -14,9 +14,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import com.fluidcerts.android.app.BuildConfig;
+import io.certifico.app.BuildConfig;
 import io.certifico.app.LMConstants;
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.data.webservice.VersionService;
 import io.certifico.app.util.DialogUtils;

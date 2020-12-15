@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.model.IssuerRecord;
 
 public class IssuerListItemViewModel extends BaseObservable {

@@ -15,8 +15,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Toast;
 
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.ActivityEnterPasswordBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.ActivityEnterPasswordBinding;
 
 import io.certifico.app.util.AESCrypt;
 import io.certifico.app.util.FileUtils;

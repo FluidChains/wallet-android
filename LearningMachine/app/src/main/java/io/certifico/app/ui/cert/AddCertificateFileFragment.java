@@ -18,10 +18,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.databinding.FragmentAddCertificateFileBinding;
+import io.certifico.app.databinding.FragmentAddCertificateFileBinding;
 import io.certifico.app.ui.LMFragment;
 import io.certifico.app.util.DialogUtils;
 

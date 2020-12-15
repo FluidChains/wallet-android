@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.webservice.request.IssuerIntroductionRequest;
 import io.certifico.app.data.webservice.response.IssuerResponse;
 

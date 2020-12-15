@@ -14,8 +14,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.ActivityLockScreenBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.ActivityLockScreenBinding;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;

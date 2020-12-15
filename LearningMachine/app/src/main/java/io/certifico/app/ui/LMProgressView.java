@@ -5,7 +5,7 @@ import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import com.smallplanet.labalib.Laba;
 
 public class LMProgressView extends ConstraintLayout {

@@ -12,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.inject.Injector;
 
-import com.fluidcerts.android.app.databinding.FragmentSetPasswordBinding;
+import io.certifico.app.databinding.FragmentSetPasswordBinding;
 import io.certifico.app.ui.LMActivity;
 import io.certifico.app.ui.LMFragment;
 

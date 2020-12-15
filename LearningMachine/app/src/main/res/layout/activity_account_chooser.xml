@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fluidcerts.android.app.ui.drive.DriveRestoreActivity">
+    tools:context="io.certifico.app.ui.drive.DriveRestoreActivity">
 
 </android.support.constraint.ConstraintLayout>

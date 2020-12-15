@@ -6,7 +6,7 @@ android {
         javaMaxHeapSize "4g"
     }
     defaultConfig {
-        applicationId "com.fluidcerts.android.app"
+        applicationId "io.certifico.app"
         minSdkVersion 19
         targetSdkVersion 28
         versionName "1.0.0-rc.1"
@@ -31,7 +31,7 @@ android {
         LearningMachineRelease {
             keyAlias System.getenv("SIGNING_KEY_ALIAS")
             keyPassword System.getenv("SIGNING_KEY_PASSWORD")
-            storeFile file('../../keys/fluidcerts.jks')
+            storeFile file('../../keys/certifico.jks')
             storePassword System.getenv("SIGNING_STORE_PASSWORD")
         }
     }
@@ -58,7 +58,7 @@ android {
 
     productFlavors {
         dev {
-            applicationId "com.fluidcerts.android.app.dev"
+            applicationId "io.certifico.app.dev"
             dimension "env"
             if (project.hasProperty("devBuild")) {
                 // don't package all resources for dev builds
@@ -69,7 +69,7 @@ android {
             }
         }
         staging {
-            applicationId "com.fluidcerts.android.app.staging"
+            applicationId "io.certifico.app.staging"
             dimension "env"
         }
         production {
@@ -85,7 +85,7 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "fluidcerts-${variant.name}-${versionName}.apk"
+                    outputFileName = "certifico-${variant.name}-${versionName}.apk"
                 }
             }
 

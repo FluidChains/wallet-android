@@ -14,10 +14,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.databinding.FragmentBackupPassphraseBinding;
+import io.certifico.app.databinding.FragmentBackupPassphraseBinding;
 import io.certifico.app.dialog.AlertDialogFragment;
 import io.certifico.app.ui.home.HomeActivity;
 import io.certifico.app.util.DialogUtils;

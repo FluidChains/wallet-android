@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import io.certifico.app.data.model.CertificateRecord;
-import com.fluidcerts.android.app.databinding.ListItemCertificateBinding;
+import io.certifico.app.databinding.ListItemCertificateBinding;
 import io.certifico.app.ui.cert.CertificateActivity;
 
 import timber.log.Timber;

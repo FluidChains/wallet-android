@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.JsonParseException;
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.error.ExceptionWithResourceString;
 import io.certifico.app.dialog.AlertDialogFragment;
 

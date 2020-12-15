@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.FragmentWebBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.FragmentWebBinding;
 
 public class LMWebFragment extends LMFragment {
 

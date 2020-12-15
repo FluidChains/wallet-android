@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 
 import java.io.Reader;
 import java.text.NumberFormat;

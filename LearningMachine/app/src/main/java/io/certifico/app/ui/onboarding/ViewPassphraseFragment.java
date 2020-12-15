@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
 
-import com.fluidcerts.android.app.databinding.FragmentViewPassphraseBinding;
+import io.certifico.app.databinding.FragmentViewPassphraseBinding;
 import com.smallplanet.labalib.Laba;
 
 import java.util.Timer;

@@ -18,11 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.databinding.FragmentPastePassphraseBinding;
+import io.certifico.app.databinding.FragmentPastePassphraseBinding;
 import io.certifico.app.ui.LMActivity;
 import io.certifico.app.ui.home.HomeActivity;
 import io.certifico.app.util.DialogUtils;

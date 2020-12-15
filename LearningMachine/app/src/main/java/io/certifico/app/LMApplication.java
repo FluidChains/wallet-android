@@ -9,12 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 import android.webkit.WebView;
 
-import com.fluidcerts.android.app.BuildConfig;
+import io.certifico.app.BuildConfig;
 
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.IssuerManager;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.data.inject.LMComponent;
+import io.certifico.app.data.inject.LMComponent;
 import io.certifico.app.data.inject.LMGraph;
 import io.certifico.app.data.preferences.SharedPreferencesManager;
 import io.certifico.app.util.BitcoinUtils;

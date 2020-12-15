@@ -9,7 +9,7 @@ import io.certifico.app.data.store.db.Migration;
 
 public class LMDatabaseHelper extends SQLiteOpenHelper {
 
-    @VisibleForTesting static final String DB_NAME = "com.fluidcerts.android.app.sqlite";
+    @VisibleForTesting static final String DB_NAME = "io.certifico.app.sqlite";
 
     private static final int DB_VERSION = 6;
 

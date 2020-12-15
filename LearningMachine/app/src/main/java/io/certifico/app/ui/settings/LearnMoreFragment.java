@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.FragmentLearnMoreBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.FragmentLearnMoreBinding;
 import io.certifico.app.ui.LMFragment;
 import io.certifico.app.ui.video.VideoActivity;
 import com.smallplanet.labalib.Laba;

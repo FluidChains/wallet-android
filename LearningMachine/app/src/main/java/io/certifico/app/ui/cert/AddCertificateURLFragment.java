@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.databinding.FragmentAddCertificateUrlBinding;
+import io.certifico.app.databinding.FragmentAddCertificateUrlBinding;
 import io.certifico.app.ui.LMFragment;
 import io.certifico.app.util.DialogUtils;
 import io.certifico.app.util.StringUtils;

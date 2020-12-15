@@ -10,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.BuildConfig;
-import com.fluidcerts.android.app.R;
+import io.certifico.app.BuildConfig;
+import io.certifico.app.R;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.databinding.FragmentSettingsBinding;
+import io.certifico.app.databinding.FragmentSettingsBinding;
 import io.certifico.app.ui.LMFragment;
 import io.certifico.app.ui.LMWebActivity;
 import io.certifico.app.ui.home.AboutActivity;
@@ -110,7 +110,7 @@ public class SettingsFragment extends LMFragment {
 
             Uri fileUri = FileProvider.getUriForFile(
                     getContext(),
-                    "com.fluidcerts.android.app.fileprovider",
+                    "io.certifico.app.fileprovider",
                     file);
 
 

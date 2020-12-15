@@ -20,7 +20,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.CertificateVerifier;
 import io.certifico.app.data.IssuerManager;
@@ -30,7 +30,7 @@ import io.certifico.app.data.error.ExceptionWithResourceString;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.data.model.CertificateRecord;
 import io.certifico.app.data.model.IssuerRecord;
-import com.fluidcerts.android.app.databinding.FragmentCertificateBinding;
+import io.certifico.app.databinding.FragmentCertificateBinding;
 import io.certifico.app.dialog.AlertDialogFragment;
 import io.certifico.app.ui.LMFragment;
 import io.certifico.app.util.DialogUtils;
@@ -46,7 +46,7 @@ import timber.log.Timber;
 public class CertificateFragment extends LMFragment {
 
     private static final String ARG_CERTIFICATE_UUID = "CertificateFragment.CertificateUuid";
-    private static final String FILE_PROVIDER_AUTHORITY = "com.fluidcerts.android.app.fileprovider";
+    private static final String FILE_PROVIDER_AUTHORITY = "io.certifico.app.fileprovider";
     private static final String TEXT_MIME_TYPE = "text/plain";
 
     @Inject protected CertificateManager mCertificateManager;

@@ -6,7 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.model.IssuerRecord;
 
 public class CertificateHeaderViewModel extends BaseObservable {

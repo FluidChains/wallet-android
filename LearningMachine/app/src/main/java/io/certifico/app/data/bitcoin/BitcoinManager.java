@@ -6,7 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Pair;
 
 import io.certifico.app.LMConstants;
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.error.ExceptionWithResourceString;
 import io.certifico.app.data.preferences.SharedPreferencesManager;
 import io.certifico.app.data.store.CertificateStore;

@@ -25,16 +25,16 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.fluidcerts.android.app.R;
-import com.fluidcerts.android.app.databinding.FragmentVideoBinding;
+import io.certifico.app.R;
+import io.certifico.app.databinding.FragmentVideoBinding;
 import io.certifico.app.ui.LMFragment;
 
 import java.util.Locale;
 
 public class VideoFragment extends LMFragment {
 
-    public static final String RESUME_POSITION_KEY = "com.fluidcerts.android.app.ui.video.resumePosition";
-    public static final String IS_PAUSED_KEY = "com.fluidcerts.android.app.ui.video.isPaused";
+    public static final String RESUME_POSITION_KEY = "io.certifico.app.ui.video.resumePosition";
+    public static final String IS_PAUSED_KEY = "io.certifico.app.ui.video.isPaused";
     private boolean mIsPaused;
 
     public static VideoFragment newInstance() {

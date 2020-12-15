@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.CertificateManager;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.data.preferences.SharedPreferencesManager;
-import com.fluidcerts.android.app.databinding.FragmentSyncAdapterSettingsBinding;
+import io.certifico.app.databinding.FragmentSyncAdapterSettingsBinding;
 import io.certifico.app.ui.LMFragment;
 import io.certifico.app.util.DialogUtils;
 import io.certifico.app.util.FileUtils;

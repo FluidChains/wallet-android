@@ -7,11 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.IssuerManager;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
-import com.fluidcerts.android.app.databinding.FragmentIssuerInfoBinding;
+import io.certifico.app.databinding.FragmentIssuerInfoBinding;
 import io.certifico.app.ui.LMFragment;
 
 import javax.inject.Inject;

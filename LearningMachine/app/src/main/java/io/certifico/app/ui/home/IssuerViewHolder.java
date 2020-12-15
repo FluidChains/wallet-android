@@ -7,9 +7,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.fluidcerts.android.app.R;
+import io.certifico.app.R;
 import io.certifico.app.data.model.IssuerRecord;
-import com.fluidcerts.android.app.databinding.ListItemIssuerBinding;
+import io.certifico.app.databinding.ListItemIssuerBinding;
 import io.certifico.app.ui.issuer.IssuerActivity;
 import io.certifico.app.util.ImageUtils;
 import com.squareup.picasso.Callback;
