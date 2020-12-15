@@ -229,4 +229,32 @@
     <!--SAML login title-->
     <string name="login_to_issuer">Accede tu cuenta</string>
 
+    <string name="onboarding_returning_user_gdrive" >Restaurar desde la cuenta de Google</string>
+    <string name="error_passphrase_backup_not_found_title" >Restaurar falló</string>
+    <string name="error_passphrase_backup_not_found_device" >No se pudo restaurar desde el dispositivo</string>
+    <string name="error_passphrase_backup_not_found_gdrive" >No se pudo restaurar desde Google Drive </string>
+    <string name="settings_learn_more" >Conoce más</string>
+    <string name="settings_about" >Acerca de Certifico</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" >Para guardar su semilla en este dispositivo debe dar permisos a Certifico para acceder a Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_progress" >Buscando en Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Cargando credenciales.</string>
+    <string name="onboarding_passphrase_save_gdrive_progress" >Guardando en Google Drive.</string>
+    <string name="about_contact_title" >Contacto:\nSi tiene algún problema por favor comuníquese con ...</string>
+    <string name="about_contact_email" >help@certifico.io</string>
+    <string name="learn_more_visit_text" >Para aprender más, visite:</string>
+    <string name="learn_more_visit_link" >www.certifico.io</string>
+    <string name="sync_content_provider_label" >CertificoSync</string>
+    <string name="sync_authenticator_label" >CertificoSyncAdapter</string>
+    <string name="sync_account_type" >io.certifico</string>
+    <string name="server_client_id" >561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
+    <string name="fragment_sync_adapter_settings_switch_enable" >Activar Google Drive Sync</string>
+    <string name="fragment_sync_adapter_settings_backup_button" >Copia de seguridad certificados</string>
+    <string name="fragment_sync_adapter_settings_restore_button" >Restaurar certificados</string>
+    <string name="activity_lock_screen_auth_failed" >Falló la autenticación</string>
+    <string name="activity_lock_screen_auth_success" >Completado</string>
+    <string name="activity_lock_screen_auth_error" >Por favor activar el bloqueo de pantalla de su dispositivo para usar Certifico</string>
+    <string name="activity_paste_passphrase_encrypt" >Ingrese contraseña para encriptar la semilla</string>
+    <string name="activity_paste_passphrase_decrypt" >Ingrese contraseña para desencriptar la semilla</string>
+    <string name="fragment_set_password_warning" >Por favor crear una contraseña para encriptar las copias de seguridad de Certifico. \n\nEsta contraseña será usada para proteger el acceso a su información. SIN EMBARGO, si usted pierde esta contraseña, en casos como daño o pérdida de su dispositivo, usted NO podrá recuperar sus datos nuevamente. Guarde su contraseña en un lugar seguro.</string>
+
 </resources>

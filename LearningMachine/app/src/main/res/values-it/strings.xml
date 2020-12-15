@@ -232,4 +232,33 @@
     <!--SAML login title-->
     <string name="login_to_issuer">Accedi all\'Issuer</string>
 
+    <string name="onboarding_returning_user_gdrive" >Restore From Google Account</string>
+    <string name="error_passphrase_backup_not_found_title" >Restore failed</string>
+    <string name="error_passphrase_backup_not_found_device" >Unable to restore from device</string>
+    <string name="error_passphrase_backup_not_found_gdrive" >Unable to restore from Google Drive</string>
+    <string name="settings_learn_more" >Learn More</string>
+    <string name="settings_about" >About Certifico</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" >To save your passphrase to this device you must give Certifico Wallet permission to access Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_progress" >Searching Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Loading credentials.</string>
+    <string name="onboarding_passphrase_save_gdrive_progress" >Saving to Google Drive.</string>
+    <string name="about_contact_title" >Contact Info:\nFor any problems please contact ..</string>
+    <string name="about_contact_email" >help@certifico.io</string>
+    <string name="learn_more_visit_text" >To learn more visit:</string>
+    <string name="learn_more_visit_link" >www.certifico.io</string>
+    <string name="sync_content_provider_label" >CertificoSync</string>
+    <string name="sync_authenticator_label" >CertificoSyncAdapter</string>
+    <string name="sync_account_type" >io.certifico</string>
+    <string name="server_client_id" >561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
+    <string name="fragment_sync_adapter_settings_switch_enable" >Enable Google Drive Sync</string>
+    <string name="fragment_sync_adapter_settings_backup_button" >Back-up Certificates</string>
+    <string name="fragment_sync_adapter_settings_restore_button" >Restore Certificates</string>
+    <string name="activity_lock_screen_auth_failed" >Authentication Failed</string>
+    <string name="activity_lock_screen_auth_success" >Success</string>
+    <string name="activity_lock_screen_auth_error" >Please enable lock screen on device to use Certifico</string>
+    <string name="activity_paste_passphrase_encrypt" >Enter password to encrypt seed</string>
+    <string name="activity_paste_passphrase_decrypt" >Enter password to decrypt seed</string>
+    <string name="fragment_set_password_warning" >Please create a password to encrypt your wallet backups.\n\nThis password will be used to add a layer of security to the recovery information for your credentials. HOWEVER, if you lose this password, in an event of an emergency such as a broken or lost phone, you will NOT be able to recover your data. Keep your password in a safe place.</string>
+
+
 </resources>

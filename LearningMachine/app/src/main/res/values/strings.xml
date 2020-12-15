@@ -9,7 +9,7 @@
 
     <string name="onboarding_new_user">New User</string>
     <string name="onboarding_returning_user">Current User</string>
-    <string name="onboarding_returning_user_gdrive" translatable="false">Restore From Google Account</string>
+    <string name="onboarding_returning_user_gdrive" >Restore From Google Account</string>
 
     <!--This is for accessibility-->
     <string name="play_intro_video">Play intro video</string>
@@ -43,9 +43,9 @@
 
     <string name="error_invalid_passphrase_malformed">Invalid passphrase</string>
 
-    <string name="error_passphrase_backup_not_found_title" translatable="false">Restore failed</string>
-    <string name="error_passphrase_backup_not_found_device" translatable="false">Unable to restore from device</string>
-    <string name="error_passphrase_backup_not_found_gdrive" translatable="false">Unable to restore from Google Drive</string>
+    <string name="error_passphrase_backup_not_found_title" >Restore failed</string>
+    <string name="error_passphrase_backup_not_found_device" >Unable to restore from device</string>
+    <string name="error_passphrase_backup_not_found_gdrive" >Unable to restore from Google Drive</string>
 
     <string name="onboarding_welcome_title">Welcome to the new Certifico Wallet!</string>
     <string name="onboarding_welcome_desc">We\'ve improved the experience, but you\'ll be able to receive and manage your credentials as before. Please note that you are now required to back up your passphrase, but you can do so easily in the app. Tap continue to begin.</string>
@@ -111,8 +111,8 @@
     <string name="certificate_delete_button">Delete Credential</string>
 
     <!-- Settings -->
-    <string name="settings_learn_more" translatable="false">Learn More</string>
-    <string name="settings_about" translatable="false">About Certifico</string>
+    <string name="settings_learn_more" >Learn More</string>
+    <string name="settings_about" >About Certifico</string>
     <string name="settings_add_issuer">Add Issuer</string>
     <string name="settings_add_credential">Add Credential</string>
     <string name="settings_reveal_passphrase">My Passphrase</string>
@@ -176,14 +176,14 @@
 
     <string name="onboarding_passphrase_permissions_error_title">Backup Error</string>
     <string name="onboarding_passphrase_permissions_error">To save your passphrase to this device you must give Certifico Wallet permission to access your files.</string>
-    <string name="onboarding_passphrase_permissions_error_gdrive" translatable="false">To save your passphrase to this device you must give Certifico Wallet permission to access Google Drive.</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" >To save your passphrase to this device you must give Certifico Wallet permission to access Google Drive.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Complete</string>
     <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as learningmachine.dat.</string>
     <string name="onboarding_passphrase_save_gdrive_complete">Your passphrase has been saved to Google Drive.</string>
-    <string name="onboarding_passphrase_load_gdrive_progress" translatable="false">Searching Google Drive.</string>
-    <string name="onboarding_passphrase_load_gdrive_credentials_progress" translatable="false">Loading credentials.</string>
-    <string name="onboarding_passphrase_save_gdrive_progress" translatable="false">Saving to Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_progress" >Searching Google Drive.</string>
+    <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Loading credentials.</string>
+    <string name="onboarding_passphrase_save_gdrive_progress" >Saving to Google Drive.</string>
 
 
     <string name="onboarding_passphrase_cancel">Cancel</string>
@@ -193,12 +193,12 @@
     <string name="settings_fragment">Settings</string>
 
     <!-- About -->
-    <string name="about_contact_title" translatable="false">Contact Info:\nFor any problems please contact ..</string>
-    <string name="about_contact_email" translatable="false">help@certifico.io</string>
+    <string name="about_contact_title" >Contact Info:\nFor any problems please contact ..</string>
+    <string name="about_contact_email" >help@certifico.io</string>
 
     <!-- LearnMore -->
-    <string name="learn_more_visit_text" translatable="false">To learn more visit:</string>
-    <string name="learn_more_visit_link" translatable="false">www.certifico.io</string>
+    <string name="learn_more_visit_text" >To learn more visit:</string>
+    <string name="learn_more_visit_link" >www.certifico.io</string>
 
     <!-- Add Issuer -->
     <string name="fragment_add_issuer_title">Add Issuer</string>
@@ -248,27 +248,27 @@
     <string name="login_to_issuer">Log In To Issuer</string>
 
     <!--Drive SyncAdapter-->
-    <string name="sync_content_provider_label" translatable="false">CertificoSync</string>
-    <string name="sync_authenticator_label" translatable="false">CertificoSyncAdapter</string>
-    <string name="sync_account_type" translatable="false">io.certifico</string>
-    <string name="server_client_id" translatable="false">561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
+    <string name="sync_content_provider_label" >CertificoSync</string>
+    <string name="sync_authenticator_label" >CertificoSyncAdapter</string>
+    <string name="sync_account_type" >io.certifico</string>
+    <string name="server_client_id" >561472999319-brd5ublukbvq2h6a5hpga9fpo509gvin.apps.googleusercontent.com</string>
 
     <!--SyncAdapterSettings Fragment-->
-    <string name="fragment_sync_adapter_settings_switch_enable" translatable="false">Enable Google Drive Sync</string>
-    <string name="fragment_sync_adapter_settings_backup_button" translatable="false">Back-up Certificates</string>
-    <string name="fragment_sync_adapter_settings_restore_button" translatable="false">Restore Certificates</string>
+    <string name="fragment_sync_adapter_settings_switch_enable" >Enable Google Drive Sync</string>
+    <string name="fragment_sync_adapter_settings_backup_button" >Back-up Certificates</string>
+    <string name="fragment_sync_adapter_settings_restore_button" >Restore Certificates</string>
 
     <!--Lock Screen-->
-    <string name="activity_lock_screen_auth_failed" translatable="false">Authentication Failed</string>
-    <string name="activity_lock_screen_auth_success" translatable="false">Success</string>
-    <string name="activity_lock_screen_auth_error" translatable="false">Please enable lock screen on device to use Certifico</string>
+    <string name="activity_lock_screen_auth_failed" >Authentication Failed</string>
+    <string name="activity_lock_screen_auth_success" >Success</string>
+    <string name="activity_lock_screen_auth_error" >Please enable lock screen on device to use Certifico</string>
 
     <!--Encrypt/Decrypt Seeds-->
-    <string name="activity_paste_passphrase_encrypt" translatable="false">Enter password to encrypt seed</string>
-    <string name="activity_paste_passphrase_decrypt" translatable="false">Enter password to decrypt seed</string>
+    <string name="activity_paste_passphrase_encrypt" >Enter password to encrypt seed</string>
+    <string name="activity_paste_passphrase_decrypt" >Enter password to decrypt seed</string>
 
     <!--SetPasswordFragment-->
-    <string name="fragment_set_password_warning" translatable="false">Please create a password to encrypt your wallet backups.\n\nThis password will be used to add a layer of security to the recovery information for your credentials. HOWEVER, if you lose this password, in an event of an emergency such as a broken or lost phone, you will NOT be able to recover your data.</string>
+    <string name="fragment_set_password_warning" >Please create a password to encrypt your wallet backups.\n\nThis password will be used to add a layer of security to the recovery information for your credentials. HOWEVER, if you lose this password, in an event of an emergency such as a broken or lost phone, you will NOT be able to recover your data.</string>
 
 
 </resources>
