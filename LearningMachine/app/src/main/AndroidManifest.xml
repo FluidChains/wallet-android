@@ -116,8 +116,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.sync.SyncAdapterSettingsActivity"
-            android:label="@string/settings_sync"
+            android:name=".ui.settings.LearnMoreActivity"
+            android:label="@string/settings_learn_more"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
@@ -131,24 +131,6 @@
                 android:resource="@xml/files" />
         </provider>
 
-        <service
-            android:name=".data.drive.DriveSyncAdapterService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
-        </service>
-
-        <provider
-            android:name=".data.drive.DriveContentProvider"
-            android:authorities="@string/sync_authority"
-            android:exported="false"
-            android:label="@string/sync_content_provider_label"
-            android:syncable="true" />
     </application>
 
 </manifest>

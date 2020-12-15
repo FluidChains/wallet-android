@@ -1,39 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:background="@color/off_white_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <TextView
+            android:id="@+id/app_version_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AppName Version"
+            style="@style/Text.Title.1"
+            android:textColor="@color/c3"
+            android:layout_marginTop="160dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
 
-                <TextView
-                    android:id="@+id/SettingsAboutTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fluidcerts Version: "
-                    android:layout_column="1"/>
+        <TextView
+            android:id="@+id/about_version_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="0.0.0"
+            style="@style/Text.Title.1"
+            android:textColor="@color/c4"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_version_title"/>
 
-                <TextView
-                    android:id="@+id/SettingsAboutVersion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_column="2"/>
+        <TextView
+            android:id="@+id/contact_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="180dp"
+            android:text="@string/about_contact_title"
+            style="@style/Text.Body.2"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/about_version_code"/>
 
-            </TableRow>
+        <TextView
+            android:id="@+id/contact_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/about_contact_email"
+            style="@style/Text.Link"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_title"/>
 
-        </TableLayout>
-
-    </ScrollView>
+    </android.support.constraint.ConstraintLayout>
 
 </layout>

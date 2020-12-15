@@ -142,7 +142,7 @@ public class VideoFragment extends LMFragment {
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
                     Util.getUserAgent(getContext(), "Fluidcerts Wallet"), null);
 
-            String filename = "rawresource:///" + R.raw.video;
+            String filename = "rawresource:///" + R.raw.video_es;
             MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(filename));
 
             player.prepare(videoSource);

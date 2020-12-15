@@ -145,10 +145,10 @@ public class SettingsFragment extends LMFragment {
             startActivity(intent);
         });
 
-        binding.settingsSyncSettings.setOnClickListener(v -> {
+        binding.settingsLearnMore.setOnClickListener(v -> {
             Timber.i("Sync Settings tapped in settings");
-            String actionBarTitle = getString(R.string.settings_sync);
-            Intent intent = SyncAdapterSettingsActivity.newIntent(getContext(), actionBarTitle);
+            String actionBarTitle = getString(R.string.settings_learn_more);
+            Intent intent = LearnMoreActivity.newIntent(getContext(), actionBarTitle);
             startActivity(intent);
         });
 

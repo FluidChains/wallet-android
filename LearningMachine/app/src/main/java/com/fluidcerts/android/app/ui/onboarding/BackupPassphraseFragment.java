@@ -68,22 +68,22 @@ public class BackupPassphraseFragment extends OnboardingFragment {
 
         mBinding.onboardingDoneButton.setOnClickListener(view -> onDone());
         mBinding.onboardingEmailButton.setOnClickListener(view -> onEmail());
-        mBinding.onboardingGdriveButton.setOnClickListener(view -> onGDrive());
+//        mBinding.onboardingGdriveButton.setOnClickListener(view -> onGDrive());
         mBinding.onboardingSaveButton.setOnClickListener(view -> onSave());
         mBinding.onboardingWriteButton.setOnClickListener(view -> onWrite());
 
-        int numCompleted = 3;
+        int numCompleted = 2;
 
 
         if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingSaveCheckmark")) {
             mBinding.onboardingSaveCheckmark.setVisibility(View.INVISIBLE);
             numCompleted--;
         }
-        if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingGDriveCheckmark")) {
-            mBinding.onboardingGdriveCheckmark.setVisibility(View.INVISIBLE);
-            gDriveCompleted = false;
-            numCompleted--;
-        }
+//        if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingGDriveCheckmark")) {
+//            mBinding.onboardingGdriveCheckmark.setVisibility(View.INVISIBLE);
+//            gDriveCompleted = false;
+//            numCompleted--;
+//        }
         if (savedInstanceState == null || !savedInstanceState.getBoolean("onboardingEmailCheckmark")) {
             mBinding.onboardingEmailCheckmark.setVisibility(View.INVISIBLE);
             numCompleted--;
@@ -97,10 +97,15 @@ public class BackupPassphraseFragment extends OnboardingFragment {
             mPassphrase = savedInstanceState.getString("p");
         }
 
-        if(!gDriveCompleted || numCompleted < 3) {
+        if(numCompleted < 2) {
             mBinding.onboardingDoneButton.setText(R.string.select_two_to_continue);
             mBinding.onboardingDoneButton.setEnabled(false);
         }
+
+//        if(!gDriveCompleted || numCompleted < 3) {
+//            mBinding.onboardingDoneButton.setText(R.string.select_two_to_continue);
+//            mBinding.onboardingDoneButton.setEnabled(false);
+//        }
 
         return mBinding.getRoot();
     }
@@ -169,53 +174,6 @@ public class BackupPassphraseFragment extends OnboardingFragment {
         });
     }
 
-    protected void onGDrive() {
-        ((OnboardingActivity)getActivity()).askToSavePassphraseToGoogleDrive(mPassphrase, (loading) -> {
-            if ((boolean) loading) {
-                displayProgressDialog(R.string.onboarding_passphrase_save_gdrive_progress);
-            } else {
-                hideProgressDialog();
-            }
-            return null;
-        },(passphrase) -> {
-            Timber.i("Sync.BackupPassphraseFragment onGdrive() -> " + passphrase);
-            if(passphrase == null) {
-
-                DialogUtils.showAlertDialog(getContext(), this,
-                        R.drawable.ic_dialog_failure,
-                        getResources().getString(R.string.onboarding_passphrase_permissions_error_title),
-                        getResources().getString(R.string.onboarding_passphrase_permissions_error_gdrive),
-                        getResources().getString(R.string.ok_button),
-                        null,
-                        (btnIdx) -> {
-                            HandleBackupOptionCompleted(null);
-                            return null;
-                        });
-                return null;
-            }
-
-            DialogUtils.showAlertDialog(getContext(), this,
-                    R.drawable.ic_dialog_success,
-                    getResources().getString(R.string.onboarding_passphrase_complete_title),
-                    getResources().getString(R.string.onboarding_passphrase_save_gdrive_complete),
-                    getResources().getString(R.string.ok_button),
-                    null,
-                    (btnIdx) -> {
-                        if(mBinding != null) {
-                            gDriveCompleted = true;
-                            HandleBackupOptionCompleted(mBinding.onboardingGdriveCheckmark);
-                        }
-                        return null;
-                    }, (cancel) -> {
-                        if(mBinding != null) {
-                            gDriveCompleted = true;
-                            HandleBackupOptionCompleted(mBinding.onboardingGdriveCheckmark);
-                        }
-                        return null;
-                    });
-            return null;
-        });
-    }
 
     protected void onEmail() {
 
@@ -295,10 +253,15 @@ public class BackupPassphraseFragment extends OnboardingFragment {
 
             numberOfBackupOptionsUsed++;
 
-            if (numberOfBackupOptionsUsed >= 3 && gDriveCompleted && !mBinding.onboardingDoneButton.isEnabled()) {
+            if (numberOfBackupOptionsUsed >= 2 && !mBinding.onboardingDoneButton.isEnabled()) {
                 mBinding.onboardingDoneButton.setText(R.string.onboarding_backup_done_button);
                 mBinding.onboardingDoneButton.setEnabled(true);
             }
+
+//            if (numberOfBackupOptionsUsed >= 3 && gDriveCompleted && !mBinding.onboardingDoneButton.isEnabled()) {
+//                mBinding.onboardingDoneButton.setText(R.string.onboarding_backup_done_button);
+//                mBinding.onboardingDoneButton.setEnabled(true);
+//            }
         }
     }
 

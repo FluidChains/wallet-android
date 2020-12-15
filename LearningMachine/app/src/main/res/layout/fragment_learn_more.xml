@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:background="@color/off_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/visit_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:text="@string/learn_more_visit_text"
+            style="@style/Text.Title.1"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/visit_link"/>
+
+        <TextView
+            android:id="@+id/visit_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/learn_more_visit_link"
+            style="@style/Text.Link"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/visit_title"
+            app:layout_constraintBottom_toTopOf="@+id/background_video_spacer"/>
+
+        <View
+            android:id="@+id/background_video_spacer"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toTopOf="@+id/background_video"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <VideoView
+            android:id="@+id/background_video"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintDimensionRatio="H,720:720"
+            app:layout_constraintTop_toBottomOf="@+id/background_video_spacer"
+            app:layout_constraintLeft_toLeftOf="@+id/background_video_spacer"
+            app:layout_constraintRight_toRightOf="@+id/background_video_spacer" />
+
+        <View
+            android:id="@+id/background_video_cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorBackground"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@+id/background_video"
+            app:layout_constraintTop_toTopOf="@+id/background_video"
+            app:layout_constraintLeft_toLeftOf="@+id/background_video"
+            app:layout_constraintRight_toRightOf="@+id/background_video" />
+
+        <View
+            android:id="@+id/background_video_spacer_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintTop_toBottomOf="@+id/background_video"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
+        <ImageButton
+            android:id="@+id/play_video"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@null"
+            android:src="@drawable/ic_play_button"
+            android:contentDescription="@string/play_intro_video"
+            app:layout_constraintBottom_toBottomOf="@+id/background_video"
+            app:layout_constraintLeft_toLeftOf="@+id/background_video"
+            app:layout_constraintRight_toRightOf="@+id/background_video"
+            app:layout_constraintTop_toTopOf="@+id/background_video" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

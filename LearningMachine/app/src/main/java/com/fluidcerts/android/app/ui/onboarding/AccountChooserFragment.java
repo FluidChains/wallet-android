@@ -58,9 +58,9 @@ public class AccountChooserFragment extends OnboardingFragment {
         Laba.Animate(mBinding.existingAccountButton, "!^300", () -> {
             return null;
         });
-        Laba.Animate(mBinding.existingAccountGdriveButton, "!^300", () -> {
-            return null;
-        });
+//        Laba.Animate(mBinding.existingAccountGdriveButton, "!^300", () -> {
+//            return null;
+//        });
 
         String fileName = "android.resource://" + getActivity().getPackageName() + "/raw/background";
 
@@ -86,7 +86,7 @@ public class AccountChooserFragment extends OnboardingFragment {
 
         mBinding.newAccountButton.setOnClickListener(view -> mCallback.onNewAccount());
         mBinding.existingAccountButton.setOnClickListener(view -> mCallback.onExistingAccount(false));
-        mBinding.existingAccountGdriveButton.setOnClickListener(view -> mCallback.onExistingAccount(true));
+//        mBinding.existingAccountGdriveButton.setOnClickListener(view -> mCallback.onExistingAccount(true));
 //        mBinding.existingAccountGdriveButton.setOnClickListener(view -> {
 //            mCallback.onExistingDriveAccount(this::loadingGDrive, this::onDone);
 //        });

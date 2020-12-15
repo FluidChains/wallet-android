@@ -8,7 +8,7 @@
     <!-- Onboarding -->
 
     <string name="onboarding_new_user">New User</string>
-    <string name="onboarding_returning_user">Restore From Device</string>
+    <string name="onboarding_returning_user">Current User</string>
     <string name="onboarding_returning_user_gdrive" translatable="false">Restore From Google Account</string>
 
     <!--This is for accessibility-->
@@ -24,12 +24,12 @@
 
 
     <string name="onboarding_backup_methods">Select Backup Methods</string>
-    <string name="onboarding_backup_description">Please select at least three options below.</string>
+    <string name="onboarding_backup_description">Please select at least two options below.</string>
     <string name="onboarding_backup_write_button">Manual Hard Copy</string>
     <string name="onboarding_backup_save_button">Save to Device</string>
     <string name="onboarding_backup_gdrive_button">Save to Google Drive (Required)</string>
     <string name="onboarding_backup_email_button">Copy to Email or Clipboard</string>
-    <string name="select_two_to_continue">Select At Least Three to Continue</string>
+    <string name="select_two_to_continue">Select At Least Two to Continue</string>
     <string name="onboarding_backup_done_button">Done</string>
 
 
@@ -111,7 +111,7 @@
     <string name="certificate_delete_button">Delete Credential</string>
 
     <!-- Settings -->
-    <string name="settings_sync" translatable="false">Back-up Settings</string>
+    <string name="settings_learn_more" translatable="false">Learn More</string>
     <string name="settings_about" translatable="false">About Certifico</string>
     <string name="settings_add_issuer">Add Issuer</string>
     <string name="settings_add_credential">Add Credential</string>
@@ -191,6 +191,14 @@
 
     <!-- Settings -->
     <string name="settings_fragment">Settings</string>
+
+    <!-- About -->
+    <string name="about_contact_title" translatable="false">Contact Info:\nFor any problems please contact ..</string>
+    <string name="about_contact_email" translatable="false">help@certifico.io</string>
+
+    <!-- LearnMore -->
+    <string name="learn_more_visit_text" translatable="false">To learn more visit:</string>
+    <string name="learn_more_visit_link" translatable="false">www.certifico.io</string>
 
     <!-- Add Issuer -->
     <string name="fragment_add_issuer_title">Add Issuer</string>
