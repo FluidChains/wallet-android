@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "io.certifico.app"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionName "1.0.0-rc.1"
         def buildNumber = System.getenv("BUILD_NUMBER")
         if (buildNumber != null) {
