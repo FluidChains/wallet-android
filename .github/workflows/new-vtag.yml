@@ -62,8 +62,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.build-directory }}/release/fluidcerts-productionRelease-${{ steps.get_version.outputs.version }}.apk
-          asset_name: fluidcerts-productionRelease-${{ steps.get_version.outputs.version }}.apk
+          asset_path: ${{ env.build-directory }}/release/certifico-productionRelease-${{ steps.get_version.outputs.version }}.apk
+          asset_name: certifico-productionRelease-${{ steps.get_version.outputs.version }}.apk
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload Debug Asset 
@@ -73,6 +73,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.build-directory }}/debug/fluidcerts-productionDebug-${{ steps.get_version.outputs.version }}-debug.apk
-          asset_name: fluidcerts-productionDebug-${{ steps.get_version.outputs.version }}-debug.apk
+          asset_path: ${{ env.build-directory }}/debug/certifico-productionDebug-${{ steps.get_version.outputs.version }}-debug.apk
+          asset_name: certifico-productionDebug-${{ steps.get_version.outputs.version }}-debug.apk
           asset_content_type: application/vnd.android.package-archive
