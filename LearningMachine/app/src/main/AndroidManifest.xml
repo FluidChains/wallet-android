@@ -35,7 +35,7 @@
             </intent-filter>
             <intent-filter>
                 <data
-                    android:host="certs-test.exos.to"
+                    android:host="me.certifico.io"
                     android:scheme="https" />
 
                 <action android:name="android.intent.action.VIEW" />
