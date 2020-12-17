@@ -133,11 +133,8 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                 if (didSucceedInPermissionsRequest) {
                     startEnterEncryptionKeyActivity(false);
 //                    getSavedPassphraseFromDevice(passphraseCallback);
-                } else {
-                    startEnterEncryptionKeyActivity(false);
-//                    getSavedPassphraseFromDevice(passphraseCallback);
                 }
-                passphraseCallback = null;
+//                passphraseCallback = null;
             }
 
             didReceivePermissionsCallback = false;
@@ -315,14 +312,13 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
     public void askToGetPassphraseFromDevice(Callback passphraseCallback) {
 
-        String encryptedMsg = FileUtils.getSeedFromFile(this, false,false);
-        if (encryptedMsg == null) {
-            passphraseCallback.apply(null);
-            return;
-        }
-
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                String encryptedMsg = FileUtils.getSeedFromFile(this, false,false);
+                if (encryptedMsg == null) {
+                    passphraseCallback.apply(null);
+                    return;
+                }
 //                getSavedPassphraseFromDevice(passphraseCallback);
                 this.passphraseCallback = passphraseCallback;
 //                this.drivePendingAction = () -> getSavedPassphraseFromDevice(passphraseCallback);
@@ -331,9 +327,13 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                 this.passphraseCallback = passphraseCallback;
 //                this.drivePendingAction = () -> getSavedPassphraseFromDevice(passphraseCallback);
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                startEnterEncryptionKeyActivity(false);
             }
         } else {
+            String encryptedMsg = FileUtils.getSeedFromFile(this, false,false);
+            if (encryptedMsg == null) {
+                passphraseCallback.apply(null);
+                return;
+            }
 //            getSavedPassphraseFromDevice(passphraseCallback);
             this.passphraseCallback = passphraseCallback;
 //            this.drivePendingAction = () -> getSavedPassphraseFromDevice(passphraseCallback);
