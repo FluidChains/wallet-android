@@ -667,8 +667,15 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
         // Note: this really sucks, but android will crash if we try and display dialogs in the permissions
         // result callback.  So we delay this until onResume is called on the activity
-        didReceivePermissionsCallback = true;
-        didSucceedInPermissionsRequest = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        if (permissions.length > 0) {
+            didReceivePermissionsCallback = true;
+            didSucceedInPermissionsRequest = true;
+            for (int i=0; i < permissions.length-1; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    didSucceedInPermissionsRequest = false;
+                }
+            }
+        }
     }
 
 }
