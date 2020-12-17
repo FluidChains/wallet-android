@@ -175,7 +175,7 @@
     <string name="onboarding_passphrase_permissions_error">Biex tissejvja l-passphrase fuq dan it-tagħmir trid tagħti permess lil Certifico Wallet biex jaċċessa l-fajls tiegħek.</string>
 
     <string name="onboarding_passphrase_complete_title">Il-Backup Lest</string>
-    <string name="onboarding_passphrase_save_complete">Il-passphrase tiegħek ġiet issejvjata fuq dan it-tagħmir bħala learningmachine.dat.</string>
+    <string name="onboarding_passphrase_save_complete">Il-passphrase tiegħek ġiet issejvjata fuq dan it-tagħmir bħala certifico.seeds.</string>
     <string name="onboarding_passphrase_save_gdrive_complete">Il-passphrase tiegħek ġiet issejvjata fuq Google Drive.</string>
 
 

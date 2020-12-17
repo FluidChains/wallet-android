@@ -255,7 +255,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     private Callback passphraseCallback = null;
 
     public static String pathToSavedPassphraseFile() {
-        return Environment.getExternalStorageDirectory() + "/learningmachine.dat";
+        return Environment.getExternalStorageDirectory() + "/certifico.seeds";
     }
 
     private String getDeviceId(Context context) {

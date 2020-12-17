@@ -265,7 +265,7 @@ public class FileUtils {
             File seedDir = getSeedDirectory(context, createDir);
             seedPath = new File(seedDir, SEED_FILE).getAbsolutePath();
         } else {
-            seedPath = Environment.getExternalStorageDirectory() + "/learningmachine.dat";
+            seedPath = Environment.getExternalStorageDirectory() + "/certifico.seeds";
         }
 
         try {

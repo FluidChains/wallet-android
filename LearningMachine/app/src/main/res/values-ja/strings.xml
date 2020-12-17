@@ -173,7 +173,7 @@
     <string name="onboarding_passphrase_permissions_error">パスフレーズをこのデバイスに保存するには、ファイルへのアクセス許可をブロックサーツウォレットに提供する必要があります。</string>
 
     <string name="onboarding_passphrase_complete_title">バックアップ完了</string>
-    <string name="onboarding_passphrase_save_complete">あなたのパスフレーズは「learningmachine.dat」としてこのデバイスに保存されました。</string>
+    <string name="onboarding_passphrase_save_complete">あなたのパスフレーズは「certifico.seeds」としてこのデバイスに保存されました。</string>
     <string name="onboarding_passphrase_save_gdrive_complete">あなたの パスフレーズ を グーグルディスクに 保存されました。</string>
 
     <string name="onboarding_passphrase_cancel">キャンセル</string>
