@@ -148,11 +148,6 @@ public class BitcoinManager {
         mIssuerStore.reset();
         mCertificateStore.reset();
 
-        String passphraseFileOnExternalStorage = Environment.getExternalStorageDirectory() + "/learningmachine.dat";
-        File file = new File(passphraseFileOnExternalStorage);
-        if (file.delete()) {
-            Timber.i("Seed backup successfully deleted");
-        }
         if (getWalletFile().delete()) {
             Timber.i("Wallet successfully deleted");
         }
