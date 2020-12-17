@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -239,7 +240,7 @@ public class FileUtils {
     }
 
 
-    public static String convertStreamToString(InputStream is) throws Exception {
+    public static String convertStreamToString(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         String line = null;
@@ -250,7 +251,7 @@ public class FileUtils {
         return sb.toString();
     }
 
-    public static String getStringFromFile (String filePath) throws Exception {
+    public static String getStringFromFile (String filePath) throws IOException {
         File fl = new File(filePath);
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
@@ -271,7 +272,7 @@ public class FileUtils {
         try {
             return getStringFromFile(seedPath);
         } catch (Exception e) {
-            Timber.i("FileUtil getStringFromFileError" + e);
+            Timber.e("FileUtil getStringFromFileError" + e);
             return null;
         }
     }
