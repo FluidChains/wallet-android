@@ -302,11 +302,10 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                 this.drivePendingAction = () -> savePassphraseToDevice(passphrase, passphraseCallback);
                 savePassphraseToDevice(passphrase, passphraseCallback);
             } else {
-//                tempPassphrase = passphrase;
-//                this.passphraseCallback = passphraseCallback;
+                tempPassphrase = passphrase;
+                this.passphraseCallback = passphraseCallback;
                 this.drivePendingAction = () -> savePassphraseToDevice(passphrase, passphraseCallback);
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                savePassphraseToDevice(passphrase, passphraseCallback);
             }
         } else {
             this.drivePendingAction = () -> savePassphraseToDevice(passphrase, passphraseCallback);
