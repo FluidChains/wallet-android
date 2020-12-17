@@ -292,7 +292,6 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
             }
         } catch (Exception e) {
             Timber.e(e, "Could not write to passphrase file");
-            passphraseCallback.apply(null);
         }
     }
 
