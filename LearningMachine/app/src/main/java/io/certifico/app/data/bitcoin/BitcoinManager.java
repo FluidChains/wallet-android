@@ -179,6 +179,8 @@ public class BitcoinManager {
             }
         }
 
+        mWallet = new HashMap<>();
+
     }
 
     public Observable<String> getCurrentBitcoinAddress(String chain) {
