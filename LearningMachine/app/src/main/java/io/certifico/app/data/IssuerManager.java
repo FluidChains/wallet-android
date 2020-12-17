@@ -2,6 +2,9 @@ package io.certifico.app.data;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import io.certifico.app.data.error.IssuerAnalyticsException;
 import io.certifico.app.data.model.IssuerRecord;
 import io.certifico.app.data.store.IssuerStore;
@@ -28,18 +31,6 @@ public class IssuerManager {
         mIssuerService = issuerService;
     }
 
-    public Observable<Void> loadSampleIssuer(Context context) {
-        try {
-            GsonUtil gsonUtil = new GsonUtil(context);
-            IssuerResponse issuerResponse = gsonUtil.loadModelObject("sample-issuer", IssuerResponse.class);
-            mIssuerStore.saveIssuerResponse(issuerResponse, null);
-            return Observable.just(null);
-        } catch (IOException e) {
-            Timber.e(e, "Unable to load Sample Issuer");
-            return Observable.error(e);
-        }
-    }
-
     public Observable<IssuerRecord> getIssuer(String issuerUuid) {
         return Observable.just(mIssuerStore.loadIssuer(issuerUuid));
     }
@@ -54,6 +45,18 @@ public class IssuerManager {
 
     public Observable<IssuerResponse> fetchIssuer(String url) {
         return mIssuerService.getIssuer(url);
+    }
+
+    public Observable<String> serializeIssuer(IssuerResponse response) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String serialized = gson.toJson(response);
+        return Observable.just(serialized);
+    }
+
+    public Observable<IssuerResponse> deserializeIssuer(String json) {
+        Gson gson = new Gson();
+        IssuerResponse issuerResponse = (IssuerResponse) gson.fromJson(json, IssuerResponse.class);
+        return Observable.just(issuerResponse);
     }
 
     public Observable<String> addIssuer(IssuerIntroductionRequest request) {

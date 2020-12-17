@@ -9,6 +9,7 @@ import io.certifico.app.R;
 import io.certifico.app.data.IssuerManager;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
+import io.certifico.app.data.preferences.SharedPreferencesManager;
 import io.certifico.app.data.webservice.request.IssuerIntroductionRequest;
 import io.certifico.app.util.DialogUtils;
 import io.certifico.app.util.ErrorUtils;
@@ -20,6 +21,7 @@ import rx.Observable;
 import timber.log.Timber;
 
 public abstract class LMIssuerBaseFragment extends LMFragment {
+    protected static final String ARG_ISSUER_CHAIN = "LMIssuerBaseFragment.IssuerChain";
     protected static final String ARG_ISSUER_URL = "LMIssuerBaseFragment.IssuerUrl";
     protected static final String ARG_CERT_URL = "LMIssuerBaseFragment.CertUrl";
     protected static final String ARG_ISSUER_NONCE = "LMIssuerBaseFragment.IssuerNonce";
@@ -31,10 +33,12 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
 
     @Inject protected BitcoinManager mBitcoinManager;
     @Inject protected IssuerManager mIssuerManager;
+    @Inject protected SharedPreferencesManager mSharedPreferencesManager;
 
+    protected String mChain;
     protected String mIntroUrl;
     protected String mCertUrl;
-    protected String mNounce;
+    protected String mNonce;
     protected String mLinkType;
 
 
@@ -51,13 +55,18 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
         if (args == null) {
             return;
         }
+        String issuerChainString = args.getString(ARG_ISSUER_CHAIN);
+        if (!StringUtils.isEmpty(issuerChainString)) {
+            Timber.d("karim: handleArgs" + issuerChainString);
+            mChain = issuerChainString;
+        }
         String issuerUrlString = args.getString(ARG_ISSUER_URL);
         if (!StringUtils.isEmpty(issuerUrlString)) {
             mIntroUrl = issuerUrlString;
         }
         String issuerNonce = args.getString(ARG_ISSUER_NONCE);
         if (!StringUtils.isEmpty(issuerNonce)) {
-            mNounce = issuerNonce;
+            mNonce = issuerNonce;
         }
 
         String certUrl = args.getString(ARG_CERT_URL);
@@ -85,14 +94,15 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
 
     protected void introduceIssuer() {
         Timber.i("Starting process to identify and introduce issuer at " + mIntroUrl);
+        Timber.i(String.format("Issuer is using %s", mChain));
         if (mBitcoinManager == null || mIssuerManager == null) {
             Timber.e("Bitcoin Manager or Issuer Manager not available");
             return;
         }
 
         Observable.combineLatest(
-                mBitcoinManager.getFreshBitcoinAddress(),
-                Observable.just(mNounce),
+                mBitcoinManager.getFreshBitcoinAddress(mChain),
+                Observable.just(mNonce),
                 mIssuerManager.fetchIssuer(mIntroUrl),
                 IssuerIntroductionRequest::new)
                 .doOnSubscribe(this::addIssuerOnSubscribe)

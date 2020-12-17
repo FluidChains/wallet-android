@@ -28,7 +28,7 @@ public class FileUtils {
     private static final String LOGS_DIR = "logs";
     private static final String SEED_DIR = "seed";
     private static final String JSON_EXT = ".json";
-    private static final String SEED_FILE = "fluid_certs.dat";
+    private static final String SEED_FILE = "/certifico.seeds";
     private static final String LOGS_FILE = "logs.txt";
 
     public static boolean saveCertificate(Context context, Buffer buffer, String uuid) {
@@ -266,7 +266,7 @@ public class FileUtils {
             File seedDir = getSeedDirectory(context, createDir);
             seedPath = new File(seedDir, SEED_FILE).getAbsolutePath();
         } else {
-            seedPath = Environment.getExternalStorageDirectory() + "/certifico.seeds";
+            seedPath = Environment.getExternalStorageDirectory() + SEED_FILE;
         }
 
         try {

@@ -111,15 +111,16 @@ public class CertificateManager {
             String recipientKey = blockCert.getRecipientPublicKey();
 
             if (LMConstants.SHOULD_PERFORM_OWNERSHIP_CHECK) {
-                // Reject on address mismatch
-                boolean isSampleCert = recipientKey.equals("sample-certificate");
-                // TODO: certificate ownership check must compare against all addresses
-                // recipient key must match one of the bitcoin addresses
-                boolean isCertOwner = mBitcoinManager.isMyIssuedAddress(recipientKey);
-
-                if (!isSampleCert && !isCertOwner) {
-                    return Observable.error(new CertificateOwnershipException());
-                }
+                Timber.w(String.format("Skipping ownership check TODO"));
+//                // Reject on address mismatch
+//                boolean isSampleCert = recipientKey.equals("sample-certificate");
+//                // TODO: certificate ownership check must compare against all addresses
+//                // recipient key must match one of the bitcoin addresses
+//                boolean isCertOwner = mBitcoinManager.isMyIssuedAddress(recipientKey);
+//
+//                if (!isSampleCert && !isCertOwner) {
+//                    return Observable.error(new CertificateOwnershipException());
+//                }
             }
 
             // Save to DB
@@ -175,12 +176,13 @@ public class CertificateManager {
         String recipientKey = blockCert.getRecipientPublicKey();
 
         if (LMConstants.SHOULD_PERFORM_OWNERSHIP_CHECK) {
-            // Reject on address mismatch
-            boolean isMyKey = mBitcoinManager.isMyIssuedAddress(recipientKey);
-            if (!isMyKey) {
-                FileUtils.deleteCertificate(mContext, tempFilename);
-                return Observable.error(new CertificateOwnershipException());
-            }
+            Timber.w(String.format("Skipping ownership check TODO"));
+//            // Reject on address mismatch
+//            boolean isMyKey = mBitcoinManager.isMyIssuedAddress(recipientKey);
+//            if (!isMyKey) {
+//                FileUtils.deleteCertificate(mContext, tempFilename);
+//                return Observable.error(new CertificateOwnershipException());
+//            }
         }
 
         // Save to DB

@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import io.certifico.app.data.network.MultiChainMainNetParams;
 import timber.log.Timber;
 
 public class BitcoinUtils {
@@ -54,7 +55,21 @@ public class BitcoinUtils {
         return null;
     }
 
-    public static Wallet createWallet(NetworkParameters params, String seedPhrase) {
+    @NonNull
+    public static DeterministicSeed createDeterministicSeed(byte[] entropy) {
+        return new DeterministicSeed(entropy,
+                LMConstants.WALLET_PASSPHRASE,
+                LMConstants.WALLET_CREATION_TIME_SECONDS);
+    }
+
+    @NonNull
+    public static Wallet createWallet(byte[] entropy, String chain, int usedAddresses) {
+        Wallet wallet = MultiChainMainNetParams.createWallet(chain, entropy, usedAddresses);
+        wallet.setVersion(WALLET_VERSION);
+        return wallet;
+    }
+
+    public static Wallet createWallet(String seedPhrase, String chain, int usedAddresses) {
         byte[] entropy;
         try {
             entropy = MnemonicCode.INSTANCE.toEntropy(Arrays.asList(seedPhrase.split(" ")));
@@ -62,21 +77,7 @@ public class BitcoinUtils {
             Timber.e(e, "Could not convert passphrase to entropy");
             return null;
         }
-        return createWallet(params, entropy);
-    }
-
-    @NonNull
-    public static Wallet createWallet(NetworkParameters params, byte[] entropy) {
-        DeterministicSeed deterministicSeed = new DeterministicSeed(entropy,
-                LMConstants.WALLET_PASSPHRASE,
-                LMConstants.WALLET_CREATION_TIME_SECONDS);
-
-        ImmutableList<ChildNumber> accountPath = ImmutableList.of(new ChildNumber(44 | ChildNumber.HARDENED_BIT),
-                new ChildNumber(248 | ChildNumber.HARDENED_BIT), new ChildNumber(0|ChildNumber.HARDENED_BIT));
-
-        Wallet wallet = Wallet.fromSeed(params, deterministicSeed, accountPath);
-        wallet.setVersion(WALLET_VERSION);
-        return wallet;
+        return createWallet(entropy, chain, usedAddresses);
     }
 
     public static Wallet loadWallet(InputStream walletStream, NetworkParameters networkParameters) throws IOException, UnreadableWalletException {

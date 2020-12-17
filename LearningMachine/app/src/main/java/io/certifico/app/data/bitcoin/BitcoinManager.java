@@ -5,9 +5,12 @@ import android.os.Environment;
 import android.support.annotation.VisibleForTesting;
 import android.util.Pair;
 
+import com.google.common.collect.Multimap;
+
 import io.certifico.app.LMConstants;
 import io.certifico.app.R;
 import io.certifico.app.data.error.ExceptionWithResourceString;
+import io.certifico.app.data.network.MultiChainMainNetParams;
 import io.certifico.app.data.preferences.SharedPreferencesManager;
 import io.certifico.app.data.store.CertificateStore;
 import io.certifico.app.data.store.IssuerStore;
@@ -26,7 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.util.List;
+import java.util.HashMap;
 
 import rx.Observable;
 import timber.log.Timber;
@@ -40,7 +43,7 @@ public class BitcoinManager {
     private final IssuerStore mIssuerStore;
     private final CertificateStore mCertificateStore;
     private final SharedPreferencesManager mSharedPreferencesManager;
-    private Wallet mWallet;
+    private HashMap<String,Wallet> mWallet = new HashMap<>();
 
     public BitcoinManager(Context context, NetworkParameters networkParameters, IssuerStore issuerStore, CertificateStore certificateStore, SharedPreferencesManager sharedPreferencesManager) {
         mContext = context;
@@ -50,61 +53,91 @@ public class BitcoinManager {
         mSharedPreferencesManager = sharedPreferencesManager;
     }
 
-    private Observable<Wallet> getWallet() {
+    public Observable<String> getPassphrase() {
         return Observable.defer(() -> {
-            if (mWallet != null) {
-                return Observable.just(mWallet);
-            }
-            if (getWalletFile().exists()) {
-                return loadWallet();
+            String seeds = mSharedPreferencesManager.getWalletSeeds();
+            if (seeds != null) {
+                return Observable.just(seeds);
             } else {
-                return createWallet();
+                return createPassphrase();
+            }
+        });
+    }
+
+    public Observable<String> createPassphrase() {
+        SecureRandom random = new SecureRandom();
+        byte[] entropy = random.generateSeed(LMConstants.WALLET_SEED_BYTE_SIZE);
+        DeterministicSeed seed = BitcoinUtils.createDeterministicSeed(entropy);
+        String mnemonicCode = StringUtils.join(PASSPHRASE_DELIMETER, seed.getMnemonicCode());
+        mSharedPreferencesManager.removeWalletSeeds();
+        mSharedPreferencesManager.setWalletSeeds(mContext, mnemonicCode);
+        return Observable.just(mSharedPreferencesManager.getWalletSeeds());
+    }
+
+    public Observable<String> setPassphrase(String newPassphrase) {
+        if (StringUtils.isEmpty(newPassphrase) || !BitcoinUtils.isValidPassphrase(newPassphrase)) {
+            return Observable.error(new ExceptionWithResourceString(R.string.error_invalid_passphrase_malformed));
+        }
+        mIssuerStore.reset();
+        mCertificateStore.reset();
+        mSharedPreferencesManager.removeWalletSeeds();
+        mSharedPreferencesManager.setWalletSeeds(mContext, newPassphrase);
+        return Observable.just(mSharedPreferencesManager.getWalletSeeds());
+    }
+
+    private Observable<Wallet> getWallet(String chain) {
+        return Observable.defer(() -> {
+            Wallet wallet = mWallet.get(chain);
+            if (wallet != null) {
+                return Observable.just(wallet);
+            }
+            if (getWalletFile(chain).exists()) {
+                return loadWallet(chain);
+            } else {
+                return createWallet(chain);
             }
         });
     }
 
     @VisibleForTesting
-    protected File getWalletFile() {
-        return new File(mContext.getFilesDir(), LMConstants.WALLET_FILE);
+    protected File getWalletFile(String chain) {
+        return new File(mContext.getFilesDir(), String.format("%s.wallet", chain));
     }
 
-    public SharedPreferencesManager getSharedPreferences() {
-        return mSharedPreferencesManager;
+    private Observable<Wallet> createWallet(String chain) {
+        String seed = mSharedPreferencesManager.getWalletSeeds();
+        int usedAddresses = mSharedPreferencesManager.getIssuedAddresses(chain);
+        buildWallet(seed, chain, usedAddresses);
+        return Observable.just(mWallet.get(chain));
     }
 
-    private Observable<Wallet> createWallet() {
-        SecureRandom random = new SecureRandom();
-        byte[] entropy = random.generateSeed(LMConstants.WALLET_SEED_BYTE_SIZE);
-        buildWallet(entropy);
-        return Observable.just(mWallet);
-    }
-
-    private Observable<Wallet> buildWallet(byte[] entropy) {
-        mWallet = BitcoinUtils.createWallet(mNetworkParameters, entropy);
-        return saveWallet();
-    }
-
-    private Observable<Wallet> buildWallet(String seedPhrase) {
-        mWallet = BitcoinUtils.createWallet(mNetworkParameters, seedPhrase);
-        return saveWallet();
+    private Observable<Wallet> buildWallet(String seedPhrase, String chain, int usedAddresses) {
+        if (seedPhrase == null) {
+            throw new IllegalArgumentException("'seedPhrase' cannot be null");
+        }
+        mWallet.put(chain, BitcoinUtils.createWallet(seedPhrase, chain, usedAddresses));
+        return saveWallet(chain);
     }
 
     /**
      * @return true if wallet was loaded successfully
      */
-    private Observable<Wallet> loadWallet() {
-        try (FileInputStream walletStream = new FileInputStream(getWalletFile())) {
-            Wallet wallet = BitcoinUtils.loadWallet(walletStream, mNetworkParameters);
+    private Observable<Wallet> loadWallet(String chain) {
+        try (FileInputStream walletStream = new FileInputStream(getWalletFile(chain))) {
+            NetworkParameters networkParameters = MultiChainMainNetParams.getNetParams(chain);
+            org.bitcoinj.core.Context context = new org.bitcoinj.core.Context(networkParameters);
+            org.bitcoinj.core.Context.propagate(context);
+            Wallet wallet = BitcoinUtils.loadWallet(walletStream, networkParameters);
             if (BitcoinUtils.updateRequired(wallet)) {
                 Address currentReceiveAddress = wallet.currentReceiveAddress();
                 mSharedPreferencesManager.setLegacyReceiveAddress(currentReceiveAddress.toString());
                 wallet = BitcoinUtils.updateWallet(wallet);
-                wallet.saveToFile(getWalletFile());
+                wallet.saveToFile(getWalletFile(chain));
                 Timber.d("Wallet successfully updated");
             }
-            mWallet = wallet;
-            Timber.d("Wallet successfully loaded");
-            return Observable.just(mWallet);
+            mWallet.put(chain, wallet);
+            Timber.d(String.format("Wallet successfully loaded chain -> %s", chain));
+            return Observable.just(mWallet.get(chain));
         } catch (UnreadableWalletException e) {
             Timber.e(e, "Wallet is corrupted");
             return Observable.error(e);
@@ -120,66 +153,55 @@ public class BitcoinManager {
     /**
      * @return true if wallet was saved successfully
      */
-    private Observable<Wallet> saveWallet() {
+    private Observable<Wallet> saveWallet(String chain) {
         if (mWallet == null) {
             Exception e = new Exception("Wallet doesn't exist");
             Timber.e(e, "Wallet doesn't exist");
             return Observable.error(e);
         }
         try {
-            mWallet.saveToFile(getWalletFile());
+            mWallet.get(chain).saveToFile(getWalletFile(chain));
             Timber.d("Wallet successfully saved");
-            return Observable.just(mWallet);
+            return Observable.just(mWallet.get(chain));
         } catch (IOException e) {
             Timber.e(e, "Unable to save Wallet");
             return Observable.error(e);
         }
     }
 
-    public Observable<String> getPassphrase() {
-        return getWallet().map(wallet -> {
-            DeterministicSeed seed = wallet.getKeyChainSeed();
-            List<String> mnemonicCode = seed.getMnemonicCode();
-            return StringUtils.join(PASSPHRASE_DELIMETER, mnemonicCode);
-        });
-    }
-
     public void resetEverything() {
         mIssuerStore.reset();
         mCertificateStore.reset();
 
-        if (getWalletFile().delete()) {
-            Timber.i("Wallet successfully deleted");
+        for (String k: mWallet.keySet()) {
+            if (getWalletFile(k).delete()) {
+                Timber.i(String.format("%s wallet successfully deleted", k));
+            }
         }
+
     }
 
-    public Observable<Wallet> setPassphrase(String newPassphrase) {
-        if (StringUtils.isEmpty(newPassphrase) || !BitcoinUtils.isValidPassphrase(newPassphrase)) {
-            return Observable.error(new ExceptionWithResourceString(R.string.error_invalid_passphrase_malformed));
-        }
-        mIssuerStore.reset();
-        mCertificateStore.reset();
-        return buildWallet(newPassphrase);
+    public Observable<String> getCurrentBitcoinAddress(String chain) {
+        return getWallet(chain).map(wallet -> wallet.currentReceiveAddress().toString());
     }
 
-    public Observable<String> getCurrentBitcoinAddress() {
-        return getWallet().map(wallet -> wallet.currentReceiveAddress().toString());
-    }
-
-    public Observable<String> getFreshBitcoinAddress() {
-        return getWallet().map(wallet -> wallet.freshReceiveAddress().toString())
-                .flatMap(address -> Observable.combineLatest(Observable.just(address), saveWallet(), Pair::new))
+    public Observable<String> getFreshBitcoinAddress(String chain) {
+        return getWallet(chain).map(wallet -> wallet.freshReceiveAddress().toString())
+                .flatMap(address -> {
+                    mSharedPreferencesManager.incrementIssuedAddresses(chain);
+                    return Observable.combineLatest(Observable.just(address), saveWallet(chain), Pair::new);
+                })
                 .map(pair -> pair.first);
     }
 
-    public boolean isMyIssuedAddress(String addressString) {
+    public boolean isMyIssuedAddress(String chain, String addressString) {
         String legacyReceiveAddress = mSharedPreferencesManager.getLegacyReceiveAddress();
         if (legacyReceiveAddress != null) {
             if (legacyReceiveAddress.equals(addressString)) {
                 return true;
             }
         }
-        Address address = LegacyAddress.fromBase58(mNetworkParameters, addressString);
-        return mWallet.getIssuedReceiveAddresses().contains(address);
+        Address address = LegacyAddress.fromBase58(MultiChainMainNetParams.getNetParams(chain), addressString);
+        return mWallet.get(chain).getIssuedReceiveAddresses().contains(address);
     }
 }

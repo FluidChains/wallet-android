@@ -48,7 +48,7 @@ public class HomeFragment extends LMIssuerBaseFragment {
         return new HomeFragment();
     }
 
-    public static HomeFragment newInstanceForIssuer(String issuerUrlString, String nonce) {
+    public static HomeFragment newInstanceForIssuer(String issuerChainString, String issuerUrlString, String nonce) {
         Bundle args = new Bundle();
         args.putString(ARG_ISSUER_URL, issuerUrlString);
         args.putString(ARG_ISSUER_NONCE, nonce);
@@ -89,7 +89,7 @@ public class HomeFragment extends LMIssuerBaseFragment {
 
         handleArgs();
 
-        if (ARG_LINK_TYPE_ISSUER.equals(mLinkType) && !StringUtils.isEmpty(super.mIntroUrl) && !StringUtils.isEmpty(super.mNounce)) {
+        if (ARG_LINK_TYPE_ISSUER.equals(mLinkType) && !StringUtils.isEmpty(super.mIntroUrl) && !StringUtils.isEmpty(super.mNonce)) {
             startIssuerIntroduction();
         } else if (ARG_LINK_TYPE_CERT.equals(mLinkType) && !StringUtils.isEmpty(super.mCertUrl)) {
             addCertificate();
@@ -253,12 +253,16 @@ public class HomeFragment extends LMIssuerBaseFragment {
         }
     }
 
-    public void updateArgsIssuer(String issuerUrlString, String issuerNonce) {
+    public void updateArgsIssuer(String chain, String issuerUrlString, String issuerNonce) {
+        if (!StringUtils.isEmpty(chain)) {
+            Timber.d("karim: updateArgsIssuer " + chain);
+            mChain = chain;
+        }
         if (!StringUtils.isEmpty(issuerUrlString)) {
             mIntroUrl = issuerUrlString;
         }
         if (!StringUtils.isEmpty(issuerNonce)) {
-            mNounce = issuerNonce;
+            mNonce = issuerNonce;
         }
         startIssuerIntroduction();
     }
