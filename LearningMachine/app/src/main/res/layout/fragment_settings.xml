@@ -62,10 +62,10 @@
                 android:background="@color/off_white_background"/>
 
             <TextView
-                android:id="@+id/settings_about_passphrase_text_view"
+                android:id="@+id/settings_email_logs_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="@string/settings_about_passphrases"
+                android:text="@string/settings_email_logs"
                 android:gravity="center_vertical"
                 android:paddingStart="17dp"
                 android:paddingEnd="17dp"
@@ -92,10 +92,25 @@
                 android:background="@color/off_white_background"/>
 
             <TextView
-                android:id="@+id/settings_email_logs_text_view"
+                android:id="@+id/settings_learn_more"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="@string/settings_email_logs"
+                android:text="@string/settings_learn_more"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="17dp"
+                style="@style/Text.Title.2"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white_background"/>
+
+            <TextView
+                android:id="@+id/settings_about_passphrase_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/settings_about_passphrases"
                 android:gravity="center_vertical"
                 android:paddingStart="17dp"
                 android:paddingEnd="17dp"
@@ -111,21 +126,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="@string/settings_about"
-                android:gravity="center_vertical"
-                android:paddingStart="17dp"
-                android:paddingEnd="17dp"
-                style="@style/Text.Title.2"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/off_white_background"/>
-
-            <TextView
-                android:id="@+id/settings_learn_more"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="@string/settings_learn_more"
                 android:gravity="center_vertical"
                 android:paddingStart="17dp"
                 android:paddingEnd="17dp"
