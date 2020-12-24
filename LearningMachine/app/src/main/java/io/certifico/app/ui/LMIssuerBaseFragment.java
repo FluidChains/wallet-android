@@ -57,7 +57,6 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
         }
         String issuerChainString = args.getString(ARG_ISSUER_CHAIN);
         if (!StringUtils.isEmpty(issuerChainString)) {
-            Timber.d("karim: handleArgs" + issuerChainString);
             mChain = issuerChainString;
         }
         String issuerUrlString = args.getString(ARG_ISSUER_URL);
