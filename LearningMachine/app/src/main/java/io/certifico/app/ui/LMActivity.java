@@ -371,7 +371,6 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
         if (requestCode == REQUEST_CODE_SET_ENCRYPTION_KEY) {
             if (resultCode == RESULT_OK) {
                 mEncryptionKey = resultData.getStringExtra("encryptionKey");
-                Timber.i("[Drive] mEncryptionKey: " + mEncryptionKey);
                 if (this.drivePendingAction != null) {
                     this.drivePendingAction.call();
                     //                this.drivePendingAction = null;
@@ -528,7 +527,6 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
                     loadingAction.call(false);
                 })
                 .subscribe(seed -> {
-                    Timber.i("[Drive] seed: " + seed);
                     if (seed) {
                         drivePendingFunction = passphraseLoadedFunc;
                         startEnterEncryptionKeyActivity(true);
@@ -634,7 +632,6 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     private String getEncryptedPassphrase(String passphrase, String key) throws GeneralSecurityException {
         String mneumonicString = "mneumonic:" + passphrase;
         String encryptedMsg = AESCrypt.encrypt(key, mneumonicString);
-        Timber.i("[Drive] encryptedMsg: " + encryptedMsg);
         return encryptedMsg;
     }
 

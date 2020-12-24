@@ -97,7 +97,6 @@ public class EnterPasswordFragment extends LMFragment {
         String encryptedMsg = FileUtils.getSeedFromFile(getActivity(), gDrive,false);
         try {
             String content = AESCrypt.decrypt(encryptionKey, encryptedMsg);
-            Timber.i("[Drive] decryptedMsg: " + content);
             if (content.startsWith("mneumonic:")) {
                 return content.substring(10).trim();
             }

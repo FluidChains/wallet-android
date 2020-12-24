@@ -169,13 +169,11 @@ public class EnterPasswordActivity extends AppCompatActivity {
 
     private String getPassphraseFromEncrypted(String encryptionKey, boolean gDrive) {
         String encryptedMsg = FileUtils.getSeedFromFile(this, gDrive,false);
-        Timber.i("[Drive] encryptedMsg: " + encryptedMsg);
         if (encryptedMsg == null) {
             return null;
         }
         try {
             String content = AESCrypt.decrypt(encryptionKey, encryptedMsg);
-            Timber.i("[Drive] decryptedMsg: " + content);
             if (content.startsWith("mneumonic:")) {
                 return content.substring(10).trim();
             }
