@@ -232,7 +232,7 @@
 
     <!-- Certificate Verification -->
 
-    <string name="cert_verification_success_title">Verified!</string>
+    <string name="cert_verification_success_title">Blockchain Verified!</string>
     <string name="cert_verification_failure_title">Fail</string>
 
 

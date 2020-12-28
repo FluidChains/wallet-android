@@ -218,7 +218,7 @@
 
     <!-- Certificate Verification -->
 
-    <string name="cert_verification_success_title">Ivverifikat!</string>
+    <string name="cert_verification_success_title">Blockchain Ivverifikat!</string>
     <string name="cert_verification_failure_title">Ma rnexxietx</string>
 
 

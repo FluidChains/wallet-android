@@ -217,7 +217,7 @@
 
     <!-- Certificate Verification -->
 
-    <string name="cert_verification_success_title">Verificato!</string>
+    <string name="cert_verification_success_title">Blockchain Verificato!</string>
     <string name="cert_verification_failure_title">Fallimento</string>
 
 
