@@ -82,6 +82,7 @@
     <string name="issuer_info_menu_item_title">Info</string>
     <string name="fragment_issuer_info_title">Issuer</string>
     <string name="fragment_issuer_info_email">Issuer Contact</string>
+    <string name="fragment_issuer_info_chain" translatable="false">Issuer Chain</string>
 
     <string name="issuer_name">Issuer name</string>
 

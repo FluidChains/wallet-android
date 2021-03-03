@@ -63,6 +63,14 @@ public class IssuerInfoViewModel extends BaseObservable {
     }
 
     @Bindable
+    public String getChain() {
+        if (mIssuer == null) {
+            return null;
+        }
+        return mIssuer.getChain();
+    }
+
+    @Bindable
     public String getDescription() {
         if (mIssuer == null) {
             return null;
