@@ -36,6 +36,14 @@ jobs:
           mkdir -p /home/runner/.android
           cp ./keys/debug.keystore /home/runner/.android
 
+      - name: Generate Development *.apk
+        run: ./gradlew assembleDev
+        working-directory: ${{ env.working-directory }}
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
       - name: Generate Production *.apk
         run: ./gradlew assembleProduction
         working-directory: ${{ env.working-directory }}
