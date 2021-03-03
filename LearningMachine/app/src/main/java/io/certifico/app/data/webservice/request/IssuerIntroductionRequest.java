@@ -2,6 +2,7 @@ package io.certifico.app.data.webservice.request;
 
 import com.google.gson.annotations.SerializedName;
 import io.certifico.app.data.webservice.response.IssuerResponse;
+import timber.log.Timber;
 
 public class IssuerIntroductionRequest {
     @SerializedName("bitcoinAddress")

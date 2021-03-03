@@ -4,7 +4,6 @@ public class LaunchData {
 
     private LaunchType mLaunchType;
 
-    private String mChain;
     private String mIntroUrl;
     private String mNonce;
 
@@ -14,11 +13,10 @@ public class LaunchData {
         mLaunchType = launchType;
     }
 
-    public LaunchData(LaunchType launchType, String chain, String introUrl, String nonce) {
+    public LaunchData(LaunchType launchType, String introUrl, String nonce) {
         mLaunchType = launchType;
         mIntroUrl = introUrl;
         mNonce = nonce;
-        mChain = chain;
     }
 
     public LaunchData(LaunchType launchType, String certUrl) {
@@ -28,10 +26,6 @@ public class LaunchData {
 
     public LaunchType getLaunchType() {
         return mLaunchType;
-    }
-
-    public String getChain() {
-        return mChain;
     }
 
     public String getIntroUrl() {

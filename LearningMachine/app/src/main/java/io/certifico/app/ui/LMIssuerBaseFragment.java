@@ -21,7 +21,6 @@ import rx.Observable;
 import timber.log.Timber;
 
 public abstract class LMIssuerBaseFragment extends LMFragment {
-    protected static final String ARG_ISSUER_CHAIN = "LMIssuerBaseFragment.IssuerChain";
     protected static final String ARG_ISSUER_URL = "LMIssuerBaseFragment.IssuerUrl";
     protected static final String ARG_CERT_URL = "LMIssuerBaseFragment.CertUrl";
     protected static final String ARG_ISSUER_NONCE = "LMIssuerBaseFragment.IssuerNonce";
@@ -35,7 +34,6 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
     @Inject protected IssuerManager mIssuerManager;
     @Inject protected SharedPreferencesManager mSharedPreferencesManager;
 
-    protected String mChain;
     protected String mIntroUrl;
     protected String mCertUrl;
     protected String mNonce;
@@ -54,10 +52,6 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
         Bundle args = getArguments();
         if (args == null) {
             return;
-        }
-        String issuerChainString = args.getString(ARG_ISSUER_CHAIN);
-        if (!StringUtils.isEmpty(issuerChainString)) {
-            mChain = issuerChainString;
         }
         String issuerUrlString = args.getString(ARG_ISSUER_URL);
         if (!StringUtils.isEmpty(issuerUrlString)) {
@@ -93,23 +87,26 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
 
     protected void introduceIssuer() {
         Timber.i("Starting process to identify and introduce issuer at " + mIntroUrl);
-        Timber.i(String.format("Issuer is using %s", mChain));
         if (mBitcoinManager == null || mIssuerManager == null) {
             Timber.e("Bitcoin Manager or Issuer Manager not available");
             return;
         }
 
-        Observable.combineLatest(
-                mBitcoinManager.getFreshBitcoinAddress(mChain),
-                Observable.just(mNonce),
-                mIssuerManager.fetchIssuer(mIntroUrl),
-                IssuerIntroductionRequest::new)
+        mIssuerManager.fetchIssuer(mIntroUrl)
                 .doOnSubscribe(this::addIssuerOnSubscribe)
                 .doOnCompleted(this::addIssuerOnCompleted)
                 .doOnError(throwable -> addIssuerOnError())
                 .compose(bindToMainThread())
+                .flatMap(response -> Observable.combineLatest(
+                        mBitcoinManager.getFreshBitcoinAddress(response.getChain()),
+                        Observable.just(mNonce),
+                        Observable.just(response),
+                        IssuerIntroductionRequest::new)
+                )
                 .subscribe(request -> {
+                    Timber.i("Issuer is using %s chain", request.getIssuerResponse().getChain());
                     Timber.i(String.format("Issuer identification at %s succeeded. Beginning introduction step.", mIntroUrl));
+                    Timber.i("Skipping introduction for testing purposes");
                     if (request.getIssuerResponse().usesWebAuth()) {
                         performWebAuth(request);
                     } else {
@@ -120,6 +117,7 @@ public abstract class LMIssuerBaseFragment extends LMFragment {
                     Timber.e(throwable, "Error during issuer identification: " + ErrorUtils.getErrorFromThrowable(throwable));
                     displayErrors(throwable, DialogUtils.ErrorCategory.ISSUER, R.string.error_title_message);
                 });
+
     }
 
     private void performStandardIssuerIntroduction(IssuerIntroductionRequest request) {

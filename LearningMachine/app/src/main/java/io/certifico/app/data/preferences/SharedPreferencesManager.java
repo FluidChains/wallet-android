@@ -27,7 +27,6 @@ public class SharedPreferencesManager {
     private static final String PREF_SEEN_BACKUP_PASSPHRASE= "SharedPreferencesManager.SeenBackupPassphrase";
     private static final String PREF_LEGACY_RECEIVE_ADDRESS = "SharedPreferencesManager.LegacyReceiveAddress";
 
-    private static final String DELAYED_ISSUER_CHAIN = "SharedPreferencesManager.DelayedIssuer.Chain";
     private static final String DELAYED_ISSUER_URL = "SharedPreferencesManager.DelayedIssuer.URL";
     private static final String DELAYED_ISSUER_NONCE = "SharedPreferencesManager.DelayedIssuer.Nonce";
 
@@ -50,9 +49,6 @@ public class SharedPreferencesManager {
         mPrefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
-    public String getDelayedIssuerChain() {
-        return mPrefs.getString(DELAYED_ISSUER_CHAIN, "");
-    }
     public String getDelayedIssuerURL() {
         return mPrefs.getString(DELAYED_ISSUER_URL, "");
     }
@@ -60,9 +56,8 @@ public class SharedPreferencesManager {
         return mPrefs.getString(DELAYED_ISSUER_NONCE, "");
     }
 
-    public void setDelayedIssuerURL(String chain, String issuerURL, String issuerNonce) {
+    public void setDelayedIssuerURL(String issuerURL, String issuerNonce) {
         mPrefs.edit()
-                .putString(DELAYED_ISSUER_CHAIN, chain)
                 .putString(DELAYED_ISSUER_URL, issuerURL)
                 .putString(DELAYED_ISSUER_NONCE, issuerNonce)
                 .apply();

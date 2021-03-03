@@ -43,8 +43,7 @@ public class SplashUrlDecoder {
             Uri issuerUri = Uri.parse(uriString);
             String introUrl = URLDecoder.decode(issuerUri.getQueryParameter("issuerProfile"), "UTF-8");
             String nonce = URLDecoder.decode(issuerUri.getQueryParameter("otc"), "UTF-8");
-            String chain = URLDecoder.decode(issuerUri.getQueryParameter("chain"), "UTF-8");
-            return new LaunchData(ADD_ISSUER, chain, introUrl, nonce);
+            return new LaunchData(ADD_ISSUER, introUrl, nonce);
         } catch (IOException e) {
             Timber.e(e, "Unable to decode Urls.");
         }

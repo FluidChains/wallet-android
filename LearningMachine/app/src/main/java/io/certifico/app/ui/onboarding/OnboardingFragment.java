@@ -48,10 +48,9 @@ public class OnboardingFragment extends LMFragment {
         }
         if (mSharedPreferencesManager.getDelayedIssuerURL().length() > 0) {
             startActivityAndFinish(HomeActivity.newIntentForIssuer(getContext(),
-                    mSharedPreferencesManager.getDelayedIssuerChain(),
                     mSharedPreferencesManager.getDelayedIssuerURL(),
                     mSharedPreferencesManager.getDelayedIssuerNonce()));
-            mSharedPreferencesManager.setDelayedIssuerURL("", "", "");
+            mSharedPreferencesManager.setDelayedIssuerURL("", "");
             return true;
         }
         return false;

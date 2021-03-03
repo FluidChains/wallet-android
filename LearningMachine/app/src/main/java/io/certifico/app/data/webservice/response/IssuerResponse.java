@@ -25,6 +25,11 @@ public class IssuerResponse extends IssuerRecord {
         mImageData = imageData;
     }
 
+    public IssuerResponse(String name, String chain, String email, String issuerURL, String uuid, String certsUrl, String introUrl, String introducedOn, String imageData, String analyticsUrlString) {
+        super(name, chain, email, issuerURL, uuid, certsUrl, introUrl, introducedOn, analyticsUrlString, null);
+        mImageData = imageData;
+    }
+
     public String getImageData() {
         return mImageData;
     }
