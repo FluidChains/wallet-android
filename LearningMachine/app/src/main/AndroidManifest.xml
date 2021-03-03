@@ -43,6 +43,10 @@
                 <data
                     android:host="me-dev.certifico.io"
                     android:scheme="https" />
+                <data
+                    android:host="mars.certifico.io"
+                    android:scheme="https" />
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
