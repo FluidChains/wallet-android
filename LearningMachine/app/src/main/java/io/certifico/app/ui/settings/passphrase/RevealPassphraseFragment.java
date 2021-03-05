@@ -101,7 +101,7 @@ public class RevealPassphraseFragment extends LMFragment {
             DialogUtils.showAlertDialog(getContext(), this,
                     R.drawable.ic_dialog_success,
                     getResources().getString(R.string.onboarding_passphrase_complete_title),
-                    getResources().getString(R.string.onboarding_passphrase_save_complete),
+                    String.format("%s %s.", getResources().getString(R.string.onboarding_passphrase_save_complete), getResources().getString(R.string.seeds_file)),
                     getResources().getString(R.string.ok_button),
                     null,
                     (btnIdx) -> {

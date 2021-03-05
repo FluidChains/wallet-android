@@ -1,6 +1,7 @@
 package io.certifico.app.data.model;
 
 import com.google.gson.annotations.SerializedName;
+
 import io.certifico.app.LMConstants;
 import io.certifico.app.util.ImageUtils;
 import io.certifico.app.util.ListUtils;

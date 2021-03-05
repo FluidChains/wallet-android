@@ -1,11 +1,12 @@
 package io.certifico.app.data.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.certifico.app.LMConstants;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+
+import io.certifico.app.LMConstants;
 
 public class KeyRotation {
 

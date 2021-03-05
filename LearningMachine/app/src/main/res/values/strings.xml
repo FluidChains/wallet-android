@@ -180,7 +180,7 @@
     <string name="onboarding_passphrase_permissions_error_gdrive" >To save your passphrase to this device you must give Certifico Wallet permission to access Google Drive.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Complete</string>
-    <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as certifico.seeds.</string>
+    <string name="onboarding_passphrase_save_complete">Your passphrase has been saved to this device as</string>
     <string name="onboarding_passphrase_save_gdrive_complete">Your passphrase has been saved to Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_progress" >Searching Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Loading credentials.</string>

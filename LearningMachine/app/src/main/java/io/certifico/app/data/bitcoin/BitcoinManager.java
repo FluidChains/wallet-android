@@ -1,11 +1,8 @@
 package io.certifico.app.data.bitcoin;
 
 import android.content.Context;
-import android.os.Environment;
 import android.support.annotation.VisibleForTesting;
 import android.util.Pair;
-
-import com.google.common.collect.Multimap;
 
 import io.certifico.app.LMConstants;
 import io.certifico.app.R;

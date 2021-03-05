@@ -5,6 +5,7 @@ public class LMConstants {
     public static final String INJECTOR_SERVICE = "Injector";
 
     public static final String WALLET_FILE = "fluidcerts.wallet";
+    public static final String SEED_FILE = "certifico.seeds";
     public static final int WALLET_SEED_BYTE_SIZE = 16;
     public static final String WALLET_PASSPHRASE = "";
     public static final int WALLET_CREATION_TIME_SECONDS = 0;

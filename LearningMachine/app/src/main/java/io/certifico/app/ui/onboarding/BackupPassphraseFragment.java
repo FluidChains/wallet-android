@@ -155,7 +155,7 @@ public class BackupPassphraseFragment extends OnboardingFragment {
             DialogUtils.showAlertDialog(getContext(), this,
                     R.drawable.ic_dialog_success,
                     getActivity().getResources().getString(R.string.onboarding_passphrase_complete_title),
-                    getActivity().getResources().getString(R.string.onboarding_passphrase_save_complete),
+                    String.format("%s %s.", getResources().getString(R.string.onboarding_passphrase_save_complete), getResources().getString(R.string.seeds_file)),
                     getActivity().getResources().getString(R.string.ok_button),
                     null,
                     (btnIdx) -> {

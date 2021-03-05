@@ -3,14 +3,15 @@ package io.certifico.app.util;
 import android.content.Context;
 import android.os.Environment;
 
+import io.certifico.app.LMConstants;
 import io.certifico.app.data.drive.GoogleDriveFile;
+
 import com.google.common.io.Files;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class FileUtils {
     private static final String LOGS_DIR = "logs";
     private static final String SEED_DIR = "seed";
     private static final String JSON_EXT = ".json";
-    private static final String SEED_FILE = "/certifico.seeds";
+    private static final String SEED_FILE = "/" + LMConstants.SEED_FILE;
     private static final String LOGS_FILE = "logs.txt";
 
     public static boolean saveCertificate(Context context, Buffer buffer, String uuid) {

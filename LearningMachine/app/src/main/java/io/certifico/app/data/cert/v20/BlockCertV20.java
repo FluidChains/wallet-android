@@ -3,6 +3,7 @@ package io.certifico.app.data.cert.v20;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import io.certifico.app.LMConstants;
 import io.certifico.app.data.cert.BlockCert;
 import io.certifico.app.data.webservice.response.IssuerResponse;

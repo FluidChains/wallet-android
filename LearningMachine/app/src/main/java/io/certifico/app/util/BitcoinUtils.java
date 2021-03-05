@@ -4,11 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
 
-import io.certifico.app.LMConstants;
-import com.google.common.collect.ImmutableList;
-
 import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicKeyChain;
@@ -24,6 +20,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import io.certifico.app.LMConstants;
 import io.certifico.app.data.network.MultiChainMainNetParams;
 import timber.log.Timber;
 

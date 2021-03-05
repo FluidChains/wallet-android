@@ -174,7 +174,7 @@
     <string name="onboarding_passphrase_permissions_error">Per salvare la tua frase di accesso su questo device tu devi dare i permessi del Portafoglio Certifico per accedere ai tuoi files.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Completo</string>
-    <string name="onboarding_passphrase_save_complete">La tua frase di accesso è stata salvata sul device come certifico.seeds.</string>
+    <string name="onboarding_passphrase_save_complete">La tua frase di accesso è stata salvata sul device come</string>
     <string name="onboarding_passphrase_save_gdrive_complete">La tua frase di accesso è stata salvata sul Google Drive.</string>
 
 

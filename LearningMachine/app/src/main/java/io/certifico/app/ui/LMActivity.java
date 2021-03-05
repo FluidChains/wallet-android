@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+import io.certifico.app.LMConstants;
 import io.certifico.app.data.drive.GoogleDriveFile;
 import io.certifico.app.data.drive.GoogleDriveService;
 import io.certifico.app.ui.home.HomeActivity;
@@ -26,6 +27,7 @@ import io.certifico.app.ui.onboarding.OnboardingActivity;
 import io.certifico.app.ui.settings.SettingsActivity;
 import io.certifico.app.util.AESCrypt;
 import io.certifico.app.util.FileUtils;
+
 import com.smallplanet.labalib.Laba;
 import com.trello.rxlifecycle.LifecycleProvider;
 import com.trello.rxlifecycle.LifecycleTransformer;
@@ -131,6 +133,12 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
 
             if (passphraseCallback != null) {
                 if (didSucceedInPermissionsRequest) {
+                    String encryptedMsg = FileUtils.getSeedFromFile(this, false,false);
+                    if (encryptedMsg == null) {
+                        passphraseCallback.apply(null);
+                        return;
+                    }
+
                     startEnterEncryptionKeyActivity(false);
 //                    getSavedPassphraseFromDevice(passphraseCallback);
                 }
@@ -252,7 +260,7 @@ public abstract class LMActivity extends AppCompatActivity implements LifecycleP
     private Callback passphraseCallback = null;
 
     public static String pathToSavedPassphraseFile() {
-        return Environment.getExternalStorageDirectory() + "/certifico.seeds";
+        return Environment.getExternalStorageDirectory() + "/" + LMConstants.SEED_FILE;
     }
 
     private String getDeviceId(Context context) {

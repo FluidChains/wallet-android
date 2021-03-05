@@ -5,13 +5,13 @@ import android.content.res.AssetManager;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+
 import io.certifico.app.LMConstants;
 import io.certifico.app.R;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.cert.BlockCert;
 import io.certifico.app.data.cert.BlockCertParser;
 import io.certifico.app.data.error.CertificateFileImportException;
-import io.certifico.app.data.error.CertificateOwnershipException;
 import io.certifico.app.data.error.ExceptionWithResourceString;
 import io.certifico.app.data.model.CertificateRecord;
 import io.certifico.app.data.store.CertificateStore;

@@ -174,7 +174,7 @@
     <string name="onboarding_passphrase_permissions_error">Para guardar tu frase de contraseña en éste dispositivo deberás permitirle a Certifico Wallet que acceda tus archivos.</string>
 
     <string name="onboarding_passphrase_complete_title">Respaldo Completo</string>
-    <string name="onboarding_passphrase_save_complete">Tu frase de contraseña ha sido guardada en éste dispositivo como certifico.seeds.</string>
+    <string name="onboarding_passphrase_save_complete">Tu frase de contraseña ha sido guardada en éste dispositivo como</string>
     <string name="onboarding_passphrase_save_gdrive_complete">Tu frase de contraseña ha sido guardada en Google Drive.</string>
 
     <string name="onboarding_passphrase_cancel">Rechazar</string>

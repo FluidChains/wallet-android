@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Certifico (Staging)</string>
+    <string name="seeds_file">certifico-staging.seeds</string>
     <string name="fragment_issuer_info_url">URL</string>
     <string name="cert_metadata_boolean_true">True</string>
     <string name="cert_metadata_boolean_false">False</string>
