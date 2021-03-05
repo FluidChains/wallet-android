@@ -58,7 +58,7 @@ android {
 
     productFlavors {
         dev {
-            applicationId "io.certifico.app.dev"
+            applicationIdSuffix ".dev"
             dimension "env"
             if (project.hasProperty("devBuild")) {
                 // don't package all resources for dev builds
@@ -67,13 +67,16 @@ android {
                 // avoid legacy multidex
                 minSdkVersion 21
             }
+            manifestPlaceholders = [fileprovider_authority: "io.certifico.app.dev.fileprovider"]
         }
         staging {
-            applicationId "io.certifico.app.staging"
+            applicationIdSuffix ".staging"
             dimension "env"
+            manifestPlaceholders = [fileprovider_authority: "io.certifico.app.staging.fileprovider"]
         }
         production {
             dimension "env"
+            manifestPlaceholders = [fileprovider_authority: "io.certifico.app.fileprovider"]
         }
     }
 
