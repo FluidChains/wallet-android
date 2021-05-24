@@ -208,7 +208,7 @@ public class GoogleDriveService {
                                 AndroidHttp.newCompatibleTransport(),
                                 new GsonFactory(),
                                 credential)
-                                .setApplicationName("FluidCerts")
+                                .setApplicationName("Certifico")
                                 .build();
 
                 return Single.just(new GoogleDriveService(drive));

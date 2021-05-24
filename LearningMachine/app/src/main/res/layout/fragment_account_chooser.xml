@@ -90,14 +90,32 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginBottom="12dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="12dp"
             android:layout_marginStart="20dp"
             android:text="@string/onboarding_returning_user"
             android:textColor="@color/c14"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/existing_account_gdrive_button"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/existing_account_gdrive_button"
+            style="@style/RoundedButton.Light"
+            android:layout_width="85dp"
+            android:layout_height="52dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="0dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_gsuite_small"
+            android:contentDescription="@string/play_intro_video"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/existing_account_button"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -24,12 +24,12 @@
 
 
     <string name="onboarding_backup_methods">Selecciona Método de Respaldo</string>
-    <string name="onboarding_backup_description">Selecciona al menos dos de las siguientes opciones:</string>
+    <string name="onboarding_backup_description">Selecciona al menos tres de las siguientes opciones:</string>
     <string name="onboarding_backup_write_button">Copia Manual</string>
     <string name="onboarding_backup_save_button">Guardar en el dispositivo</string>
     <string name="onboarding_backup_gdrive_button">Guardar en el Google Drive</string>
     <string name="onboarding_backup_email_button">Copiar a un correo electrónico o al portapapeles</string>
-    <string name="select_two_to_continue">Selecciona al menos dos para continuar</string>
+    <string name="select_two_to_continue">Selecciona al menos tres para continuar</string>
     <string name="onboarding_backup_done_button">Finalizar</string>
 
 

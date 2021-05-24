@@ -61,7 +61,7 @@ public class DriveSyncAdapter extends AbstractThreadedSyncAdapter {
                 AndroidHttp.newCompatibleTransport(),
                 new GsonFactory(),
                 credential)
-                .setApplicationName("FluidCerts")
+                .setApplicationName("Certifico")
                 .build();
     }
 

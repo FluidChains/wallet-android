@@ -103,7 +103,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="8dp"
             android:text="@string/onboarding_backup_save_button"
-            app:layout_constraintBottom_toTopOf="@+id/onboarding_email_button"
+            app:layout_constraintBottom_toTopOf="@+id/onboarding_gdrive_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/onboarding_write_button" />
@@ -121,6 +121,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/onboarding_save_button" />
 
+        <Button
+            android:id="@+id/onboarding_gdrive_button"
+            style="@style/RoundedButton.Light"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/onboarding_backup_gdrive_button"
+            app:layout_constraintBottom_toTopOf="@+id/onboarding_email_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/onboarding_save_button" />
+
+        <ImageView
+            android:id="@+id/onboarding_gdrive_checkmark"
+            android:layout_width="@dimen/backup_checkmark_size"
+            android:layout_height="@dimen/backup_checkmark_size"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_checkmark"
+            app:layout_constraintBottom_toBottomOf="@+id/onboarding_gdrive_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.92"
+            app:layout_constraintRight_toRightOf="@+id/onboarding_gdrive_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/onboarding_gdrive_button" />
 
         <Button
             android:id="@+id/onboarding_email_button"
@@ -138,7 +164,7 @@
             app:layout_constraintBottom_toTopOf="@+id/spreader3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/onboarding_save_button" />
+            app:layout_constraintTop_toBottomOf="@+id/onboarding_gdrive_button" />
 
         <ImageView
             android:id="@+id/onboarding_email_checkmark"
