@@ -15,6 +15,7 @@ import io.certifico.app.R;
 import io.certifico.app.data.bitcoin.BitcoinManager;
 import io.certifico.app.data.inject.Injector;
 import io.certifico.app.databinding.FragmentSettingsBinding;
+import io.certifico.app.ui.LMActivity;
 import io.certifico.app.ui.LMFragment;
 import io.certifico.app.ui.LMWebActivity;
 import io.certifico.app.ui.home.AboutActivity;
@@ -126,6 +127,44 @@ public class SettingsFragment extends LMFragment {
             emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Logcat content for Certifico");
             emailIntent.setType("message/rfc822");
             startActivity(Intent.createChooser(emailIntent , "Send email..."));
+        });
+
+        binding.settingsBackupGdriveTextView.setOnClickListener(v -> {
+            Timber.i("Backup to Google Drive tapped in settings");
+            mBitcoinManager.getPassphrase().subscribe(mPassphrase -> {
+                ((LMActivity)getActivity()).askToSavePassphraseToGoogleDrive(mPassphrase, (loading) -> {
+                    if ((boolean) loading) {
+                        displayProgressDialog(R.string.onboarding_passphrase_save_gdrive_progress);
+                    } else {
+                        hideProgressDialog();
+                    }
+                    return null;
+                },(passphrase) -> {
+                    Timber.i("Sync.BackupPassphraseFragment onGdrive() -> " + passphrase);
+                    if(passphrase == null) {
+
+                        DialogUtils.showAlertDialog(getContext(), this,
+                                R.drawable.ic_dialog_failure,
+                                getResources().getString(R.string.onboarding_passphrase_permissions_error_title),
+                                getResources().getString(R.string.onboarding_passphrase_permissions_error_gdrive),
+                                getResources().getString(R.string.ok_button),
+                                null,
+                                (btnIdx) -> null);
+                        return null;
+                    }
+
+                    DialogUtils.showAlertDialog(getContext(), this,
+                            R.drawable.ic_dialog_success,
+                            getResources().getString(R.string.onboarding_passphrase_complete_title),
+                            getResources().getString(R.string.onboarding_passphrase_save_gdrive_complete),
+                            getResources().getString(R.string.ok_button),
+                            null,
+                            (btnIdx) -> null);
+                    return null;
+                });
+
+            });
+
         });
 
         binding.settingsAboutPassphraseTextView.setOnClickListener(v -> {

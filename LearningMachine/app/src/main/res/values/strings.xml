@@ -117,6 +117,7 @@
     <string name="settings_add_issuer">Add Issuer</string>
     <string name="settings_add_credential">Add Credential</string>
     <string name="settings_reveal_passphrase">My Passphrase</string>
+    <string name="settings_backup_gdrive">Backup to Google Drive</string>
     <string name="settings_about_passphrases">About Passphrases</string>
     <string name="settings_privacy_policy">Privacy Policy</string>
     <string name="settings_email_logs">Email Logs</string>

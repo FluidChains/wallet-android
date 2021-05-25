@@ -108,6 +108,7 @@
     <string name="settings_add_issuer">Añadir Emisor</string>
     <string name="settings_add_credential">Añadir Credencial</string>
     <string name="settings_reveal_passphrase">Mi Frase de Contraseña</string>
+    <string name="settings_backup_gdrive">Guardar en el Google Drive</string>
     <string name="settings_about_passphrases">Acerca de las Frases de Contraseñas</string>
     <string name="settings_privacy_policy">Política de Privacidad</string>
     <string name="settings_email_logs">Compartir Logs</string>

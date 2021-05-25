@@ -114,6 +114,7 @@
     <string name="settings_about_passphrases">Dwar il-Passphrases</string>
     <string name="settings_privacy_policy">Strateġija tal-Privatezza</string>
     <string name="settings_email_logs">Email Logs</string>
+    <string name="settings_backup_gdrive">Backup to Google Drive</string>
 
     <string name="settings_logout">Illoggja \'l barra u Rrisettja</string>
     <string name="settings_logout_title">Illoggja \'l barra u neħħi mit-tagħmir</string>

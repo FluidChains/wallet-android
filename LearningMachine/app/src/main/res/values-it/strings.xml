@@ -113,6 +113,7 @@
     <string name="settings_about_passphrases">Circa la Frase di Accesso</string>
     <string name="settings_privacy_policy">Privacy Policy</string>
     <string name="settings_email_logs">Invia Log a Email</string>
+    <string name="settings_backup_gdrive">Backup su Google Drive</string>
 
     <string name="settings_logout">Disconnetti e resetta</string>
     <string name="settings_logout_title">Disconnetti e pulisci il Device</string>

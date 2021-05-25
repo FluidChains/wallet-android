@@ -112,6 +112,7 @@
     <string name="settings_about_passphrases">パスフレーズについて</string>
     <string name="settings_privacy_policy">プライバシーポリシー</string>
     <string name="settings_email_logs">メールのログ</string>
+    <string name="settings_backup_gdrive">Backup to Google Drive</string>
 
     <string name="settings_logout">ログアウトしてリセットする</string>
     <string name="settings_logout_title">ログアウトしてデバイスをクリアする</string>
