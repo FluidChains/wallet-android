@@ -269,6 +269,9 @@
     <string name="activity_paste_passphrase_encrypt" >Enter password to encrypt seed</string>
     <string name="activity_paste_passphrase_decrypt" >Enter password to decrypt seed</string>
 
+    <!--EnterPasswordFragment-->
+    <string name="fragment_enter_password_info" translatable="false">An encrypted seed was found while searching backup locations. Please enter the password you set, to decrypt.\n\nOptionally, if you have the plaintext seed press back and enter them manually.</string>
+
     <!--SetPasswordFragment-->
     <string name="fragment_set_password_warning" >Please create a password to encrypt your wallet backups.\n\nThis password will be used to add a layer of security to the recovery information for your credentials. HOWEVER, if you lose this password, in an event of an emergency such as a broken or lost phone, you will NOT be able to recover your data.</string>
 
