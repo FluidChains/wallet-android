@@ -141,7 +141,7 @@ public class VideoFragment extends LMFragment {
 
 
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
-                    Util.getUserAgent(getContext(), "Certifico Wallet"), null);
+                    Util.getUserAgent(getContext(), "Chertero Wallet"), null);
 
 
             String filename = "rawresource:///";

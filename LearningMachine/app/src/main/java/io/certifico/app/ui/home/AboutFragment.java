@@ -57,7 +57,7 @@ public class AboutFragment extends LMFragment {
             // recipient
             emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{getString(R.string.about_contact_email)});
             // subject
-            emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Help with Certifico version " + BuildConfig.VERSION_NAME);
+            emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Help with Chertero version " + BuildConfig.VERSION_NAME);
             emailIntent.setType("message/rfc822");
             try {
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));

@@ -236,8 +236,8 @@
     <string name="error_passphrase_backup_not_found_device" >Unable to restore from device</string>
     <string name="error_passphrase_backup_not_found_gdrive" >Unable to restore from Google Drive</string>
     <string name="settings_learn_more" >Learn More</string>
-    <string name="settings_about" >About Certifico</string>
-    <string name="onboarding_passphrase_permissions_error_gdrive" >To save your passphrase to this device you must give Certifico Wallet permission to access Google Drive.</string>
+    <string name="settings_about" >About Chertero</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" >To save your passphrase to this device you must give Chertero Wallet permission to access Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_progress" >Searching Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Loading credentials.</string>
     <string name="onboarding_passphrase_save_gdrive_progress" >Saving to Google Drive.</string>
@@ -254,7 +254,7 @@
     <string name="fragment_sync_adapter_settings_restore_button" >Restore Certificates</string>
     <string name="activity_lock_screen_auth_failed" >Authentication Failed</string>
     <string name="activity_lock_screen_auth_success" >Success</string>
-    <string name="activity_lock_screen_auth_error" >Please enable lock screen on device to use Certifico</string>
+    <string name="activity_lock_screen_auth_error" >Please enable lock screen on device to use Chertero</string>
     <string name="activity_paste_passphrase_encrypt" >Enter password to encrypt seed</string>
     <string name="activity_paste_passphrase_decrypt" >Enter password to decrypt seed</string>
     <string name="fragment_set_password_warning" >Please create a password to encrypt your wallet backups.\n\nThis password will be used to add a layer of security to the recovery information for your credentials. HOWEVER, if you lose this password, in an event of an emergency such as a broken or lost phone, you will NOT be able to recover your data. Keep your password in a safe place.</string>

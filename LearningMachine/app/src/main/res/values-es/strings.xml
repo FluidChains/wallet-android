@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="home_issuers">Certifico Wallet</string>
+    <string name="home_issuers">Chertero Wallet</string>
     <string name="home_settings_menu_item_title">Ajustes</string>
 
     <string name="settings_privacy_policy_endpoint">https://sun.certifico.io/es/mobile-privacy/mobile-es.html</string>
@@ -43,7 +43,7 @@
 
     <string name="error_invalid_passphrase_malformed">Frase de Contraseña Inválida</string>
 
-    <string name="onboarding_welcome_title">¡Bienvenido al nuevo Certifico Wallet!</string>
+    <string name="onboarding_welcome_title">¡Bienvenido al nuevo Chertero Wallet!</string>
     <string name="onboarding_welcome_desc">Hemos mejorado la experiencia, pero podrás continuar recibiendo y organizando tus credenciales como siempre. Es importante notar que ahora deberás hacer un respaldo de tu frase de contraseña, pero esto lo puedes hacer fácilmente en la aplicación.</string>
     <string name="onboarding_welcome_button_title">Continuar</string>
 
@@ -172,7 +172,7 @@
 
 
     <string name="onboarding_passphrase_permissions_error_title">Error de Respaldo</string>
-    <string name="onboarding_passphrase_permissions_error">Para guardar tu frase de contraseña en éste dispositivo deberás permitirle a Certifico Wallet que acceda tus archivos.</string>
+    <string name="onboarding_passphrase_permissions_error">Para guardar tu frase de contraseña en éste dispositivo deberás permitirle a Chertero Wallet que acceda tus archivos.</string>
 
     <string name="onboarding_passphrase_complete_title">Respaldo Completo</string>
     <string name="onboarding_passphrase_save_complete">Tu frase de contraseña ha sido guardada en éste dispositivo como</string>
@@ -210,7 +210,7 @@
 
     <!-- Check version -->
     <string name="check_version_title">Favor de Actualizar Bockcerts Wallet</string>
-    <string name="check_version_message">Para poder añadir un emisor o una credencial, es necesario instalar la nueva versión de Certifico Wallet.</string>
+    <string name="check_version_message">Para poder añadir un emisor o una credencial, es necesario instalar la nueva versión de Chertero Wallet.</string>
     <string name="check_version_message_cancel_title">Cancelar</string>
 
     <!-- Certificate Verification -->
@@ -235,8 +235,8 @@
     <string name="error_passphrase_backup_not_found_device" >No se pudo restaurar desde el dispositivo</string>
     <string name="error_passphrase_backup_not_found_gdrive" >No se pudo restaurar desde Google Drive </string>
     <string name="settings_learn_more" >Conoce más</string>
-    <string name="settings_about" >Acerca de Certifico</string>
-    <string name="onboarding_passphrase_permissions_error_gdrive" >Para guardar su semilla en este dispositivo debe dar permisos a Certifico para acceder a Google Drive.</string>
+    <string name="settings_about" >Acerca de Chertero</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" >Para guardar su semilla en este dispositivo debe dar permisos a Chertero para acceder a Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_progress" >Buscando en Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Cargando credenciales.</string>
     <string name="onboarding_passphrase_save_gdrive_progress" >Guardando en Google Drive.</string>
@@ -253,9 +253,9 @@
     <string name="fragment_sync_adapter_settings_restore_button" >Restaurar certificados</string>
     <string name="activity_lock_screen_auth_failed" >Falló la autenticación</string>
     <string name="activity_lock_screen_auth_success" >Completado</string>
-    <string name="activity_lock_screen_auth_error" >Por favor activar el bloqueo de pantalla de su dispositivo para usar Certifico</string>
+    <string name="activity_lock_screen_auth_error" >Por favor activar el bloqueo de pantalla de su dispositivo para usar Chertero</string>
     <string name="activity_paste_passphrase_encrypt" >Ingrese contraseña para encriptar la semilla</string>
     <string name="activity_paste_passphrase_decrypt" >Ingrese contraseña para desencriptar la semilla</string>
-    <string name="fragment_set_password_warning" >Por favor crear una contraseña para encriptar las copias de seguridad de Certifico. \n\nEsta contraseña será usada para proteger el acceso a su información. SIN EMBARGO, si usted pierde esta contraseña, en casos como daño o pérdida de su dispositivo, usted NO podrá recuperar sus datos nuevamente. Guarde su contraseña en un lugar seguro.</string>
+    <string name="fragment_set_password_warning" >Por favor crear una contraseña para encriptar las copias de seguridad de Chertero. \n\nEsta contraseña será usada para proteger el acceso a su información. SIN EMBARGO, si usted pierde esta contraseña, en casos como daño o pérdida de su dispositivo, usted NO podrá recuperar sus datos nuevamente. Guarde su contraseña en un lugar seguro.</string>
 
 </resources>

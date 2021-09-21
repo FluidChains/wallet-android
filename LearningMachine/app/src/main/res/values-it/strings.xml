@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_issuers">Portafoglio Certifico</string>
+    <string name="home_issuers">Portafoglio Chertero</string>
     <string name="home_settings_menu_item_title">Impostazioni</string>
 
     <string name="settings_privacy_policy_endpoint">https://sun.certifico.io/it/mobile-privacy/mobile-it.html</string>
@@ -43,7 +43,7 @@
 
     <string name="error_invalid_passphrase_malformed">Frase di accesso non valida</string>
 
-    <string name="onboarding_welcome_title">Benvenuto al nuovo Portafoglio Certifico!</string>
+    <string name="onboarding_welcome_title">Benvenuto al nuovo Portafoglio Chertero!</string>
     <string name="onboarding_welcome_desc">Abbiamo migliorato l\'esperienza, ma sarai in grado di ricevere e gestire le tue credenziali come prima. Si prega di notare che ora è necessario eseguire il backup della frase di accesso, ma è possibile farlo facilmente nell\'app. Premi Continua per iniziare.</string>
     <string name="onboarding_welcome_button_title">Continua</string>
 
@@ -172,7 +172,7 @@
     <string name="onboarding_passphrase_email_before">Questo è un metodo di backup a bassa sicurezza. Vuoi continuare?</string>
 
     <string name="onboarding_passphrase_permissions_error_title">Errore di Backup</string>
-    <string name="onboarding_passphrase_permissions_error">Per salvare la tua frase di accesso su questo device tu devi dare i permessi del Portafoglio Certifico per accedere ai tuoi files.</string>
+    <string name="onboarding_passphrase_permissions_error">Per salvare la tua frase di accesso su questo device tu devi dare i permessi del Portafoglio Chertero per accedere ai tuoi files.</string>
 
     <string name="onboarding_passphrase_complete_title">Backup Completo</string>
     <string name="onboarding_passphrase_save_complete">La tua frase di accesso è stata salvata sul device come</string>
@@ -212,8 +212,8 @@
     <string name="fragment_certificate_info_delete_warning_negative_title">Cancella</string>
 
     <!-- Check version -->
-    <string name="check_version_title">Per piacere aggiorna il Portafoglio Certifico</string>
-    <string name="check_version_message">Per poter aggiungere un issuer o credenziali, tu devi essere in possesso dell\'ultima versione del Portafoglio Certifico.</string>
+    <string name="check_version_title">Per piacere aggiorna il Portafoglio Chertero</string>
+    <string name="check_version_message">Per poter aggiungere un issuer o credenziali, tu devi essere in possesso dell\'ultima versione del Portafoglio Chertero.</string>
     <string name="check_version_message_cancel_title">Annulla</string>
 
     <!-- Certificate Verification -->
@@ -238,8 +238,8 @@
     <string name="error_passphrase_backup_not_found_device" >Unable to restore from device</string>
     <string name="error_passphrase_backup_not_found_gdrive" >Unable to restore from Google Drive</string>
     <string name="settings_learn_more" >Learn More</string>
-    <string name="settings_about" >About Certifico</string>
-    <string name="onboarding_passphrase_permissions_error_gdrive" >To save your passphrase to this device you must give Certifico Wallet permission to access Google Drive.</string>
+    <string name="settings_about" >About Chertero</string>
+    <string name="onboarding_passphrase_permissions_error_gdrive" >To save your passphrase to this device you must give Chertero Wallet permission to access Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_progress" >Searching Google Drive.</string>
     <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Loading credentials.</string>
     <string name="onboarding_passphrase_save_gdrive_progress" >Saving to Google Drive.</string>
@@ -256,7 +256,7 @@
     <string name="fragment_sync_adapter_settings_restore_button" >Restore Certificates</string>
     <string name="activity_lock_screen_auth_failed" >Authentication Failed</string>
     <string name="activity_lock_screen_auth_success" >Success</string>
-    <string name="activity_lock_screen_auth_error" >Please enable lock screen on device to use Certifico</string>
+    <string name="activity_lock_screen_auth_error" >Please enable lock screen on device to use Chertero</string>
     <string name="activity_paste_passphrase_encrypt" >Enter password to encrypt seed</string>
     <string name="activity_paste_passphrase_decrypt" >Enter password to decrypt seed</string>
     <string name="fragment_set_password_warning" >Please create a password to encrypt your wallet backups.\n\nThis password will be used to add a layer of security to the recovery information for your credentials. HOWEVER, if you lose this password, in an event of an emergency such as a broken or lost phone, you will NOT be able to recover your data. Keep your password in a safe place.</string>
