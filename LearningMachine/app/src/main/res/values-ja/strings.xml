@@ -2,8 +2,8 @@
     <string name="home_issuers">ブロックサーツウォレット</string>
     <string name="home_settings_menu_item_title">設定</string>
 
-    <string name="settings_privacy_policy_endpoint">https://sun.certifico.io/mobile.html</string>
-    <string name="about_passphrases_endpoint">https://sun.certifico.io/mobile.html</string>
+    <string name="settings_privacy_policy_endpoint">https://sun.chertero.com/mobile.html</string>
+    <string name="about_passphrases_endpoint">https://sun.chertero.com/mobile.html</string>
 
     <!-- Onboarding -->
 
@@ -242,9 +242,9 @@
     <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Loading credentials.</string>
     <string name="onboarding_passphrase_save_gdrive_progress" >Saving to Google Drive.</string>
     <string name="about_contact_title" >Contact Info:\nFor any problems please contact ..</string>
-    <string name="about_contact_email" >help@certifico.io</string>
+    <string name="about_contact_email" >help@chertero.com</string>
     <string name="learn_more_visit_text" >To learn more visit:</string>
-    <string name="learn_more_visit_link" >www.certifico.io</string>
+    <string name="learn_more_visit_link" >www.chertero.com</string>
     <string name="sync_content_provider_label" >CertificoSync</string>
     <string name="sync_authenticator_label" >CertificoSyncAdapter</string>
     <string name="sync_account_type" >io.certifico</string>

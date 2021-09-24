@@ -3,8 +3,8 @@
     <string name="home_issuers">Chertero Wallet</string>
     <string name="home_settings_menu_item_title">Ajustes</string>
 
-    <string name="settings_privacy_policy_endpoint">https://sun.certifico.io/es/mobile-privacy/mobile-es.html</string>
-    <string name="about_passphrases_endpoint">https://sun.certifico.io/es/about-passphrase/passphrase-es.html</string>
+    <string name="settings_privacy_policy_endpoint">https://sun.chertero.com/es/mobile-privacy/mobile-es.html</string>
+    <string name="about_passphrases_endpoint">https://sun.chertero.com/es/about-passphrase/passphrase-es.html</string>
 
     <!-- Onboarding -->
 
@@ -241,9 +241,9 @@
     <string name="onboarding_passphrase_load_gdrive_credentials_progress" >Cargando credenciales.</string>
     <string name="onboarding_passphrase_save_gdrive_progress" >Guardando en Google Drive.</string>
     <string name="about_contact_title" >Contacto:\nSi tiene algún problema por favor comuníquese con ...</string>
-    <string name="about_contact_email" >help@certifico.io</string>
+    <string name="about_contact_email" >help@chertero.com</string>
     <string name="learn_more_visit_text" >Para aprender más, visite:</string>
-    <string name="learn_more_visit_link" >www.certifico.io</string>
+    <string name="learn_more_visit_link" >www.chertero.com</string>
     <string name="sync_content_provider_label" >CertificoSync</string>
     <string name="sync_authenticator_label" >CertificoSyncAdapter</string>
     <string name="sync_account_type" >io.certifico</string>

@@ -60,7 +60,7 @@ public class LearnMoreFragment extends LMFragment {
         });
 
         mBinding.visitLink.setOnClickListener(v -> {
-            String url = "https://www.certifico.io";
+            String url = "https://www.chertero.com";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);

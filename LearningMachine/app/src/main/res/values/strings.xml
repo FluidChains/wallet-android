@@ -2,8 +2,8 @@
     <string name="home_issuers">Chertero Wallet</string>
     <string name="home_settings_menu_item_title">Settings</string>
 
-    <string name="settings_privacy_policy_endpoint">https://sun.certifico.io/mobile.html</string>
-    <string name="about_passphrases_endpoint">https://sun.certifico.io/passphrase.html</string>
+    <string name="settings_privacy_policy_endpoint">https://sun.chertero.com/mobile.html</string>
+    <string name="about_passphrases_endpoint">https://sun.chertero.com/passphrase.html</string>
 
     <!-- Onboarding -->
 
@@ -196,11 +196,11 @@
 
     <!-- About -->
     <string name="about_contact_title" >Contact Info:\nFor any problems please contact ..</string>
-    <string name="about_contact_email" >help@certifico.io</string>
+    <string name="about_contact_email" >help@chertero.com</string>
 
     <!-- LearnMore -->
     <string name="learn_more_visit_text" >To learn more visit:</string>
-    <string name="learn_more_visit_link" >www.certifico.io</string>
+    <string name="learn_more_visit_link" >www.chertero.com</string>
 
     <!-- Add Issuer -->
     <string name="fragment_add_issuer_title">Add Issuer</string>
