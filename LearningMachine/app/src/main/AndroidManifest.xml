@@ -50,7 +50,7 @@
                     android:host="me.chertero.com"
                     android:scheme="https" />
                 <data
-                    android:host="me-dev.chertero.com"
+                    android:host="dev.chertero.com"
                     android:scheme="https" />
                 <data
                     android:host="mars.chertero.com"
