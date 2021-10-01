@@ -12,7 +12,7 @@ public class LMConstants {
 
     public static final String BASE_URL = "https://certificates.learningmachine.com";
 
-    public static final String VERSION_BASE_URL = "https://me-dev.chertero.com";
+    public static final String VERSION_BASE_URL = "https://dev.chertero.com";
 
     public static final String BLOCKCHAIN_SERVICE_URL = "https://blockchain.info/";
 
