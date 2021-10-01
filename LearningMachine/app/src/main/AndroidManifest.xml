@@ -47,7 +47,7 @@
                     android:host="mars.certifico.io"
                     android:scheme="https" />
                 <data
-                    android:host="me.chertero.com"
+                    android:host="app.chertero.com"
                     android:scheme="https" />
                 <data
                     android:host="dev.chertero.com"
