@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Certifico</string>
+    <string name="app_name">Chertero</string>
     <string name="seeds_file">certifico.seeds</string>
     <string name="fragment_issuer_info_url">URL</string>
     <string name="cert_metadata_boolean_true">True</string>
